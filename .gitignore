@@ -1,0 +1,5 @@
+# PHP related stuff
+vendor
+
+# IDE stuff
+.idea

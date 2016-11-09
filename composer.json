@@ -1,0 +1,16 @@
+{
+  "name": "movingimage/vmpro-api-client",
+  "description": "API client library for the VMPro public API",
+  "type": "library",
+  "license": "Proprietary",
+  "authors": [
+    {
+      "name": "Ruben Knol",
+      "email": "ruben.knol@movingimage.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": { "MovingImage\\VMProApiClient\\": "src/MovingImage/VMProApiClient" }
+  },
+}
