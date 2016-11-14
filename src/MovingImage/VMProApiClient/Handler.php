@@ -3,14 +3,11 @@
 namespace MovingImage\VMProApiClient;
 
 /**
- * Class ApiClient
+ * Class Handler
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
  * @package MovingImage\VMProApiClient
  */
-class ApiClient
+class Handler
 {
-    public function __construct()
-    {
-    }
 }
