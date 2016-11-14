@@ -3,10 +3,9 @@
 namespace MovingImage\VMProApiClient;
 
 /**
- * Class ApiClient
+ * Class ApiClient.
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
- * @package MovingImage\VMProApiClient
  */
 class ApiClient
 {
