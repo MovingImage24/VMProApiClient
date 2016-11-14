@@ -10,3 +10,4 @@ pipelines:
     - step:
         script: # Modify the commands below to build your repository.
           - composer install
+          - php ./vendor/bin/php-cs-fixer fix --diff --dry-run

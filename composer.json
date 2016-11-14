@@ -9,7 +9,9 @@
       "email": "ruben.knol@movingimage.com"
     }
   ],
-  "require": {},
+  "require": {
+    "friendsofphp/php-cs-fixer": "^1.12"
+  },
   "autoload": {
     "psr-4": { "MovingImage\\VMProApiClient\\": "src/MovingImage/VMProApiClient" }
   }
