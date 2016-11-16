@@ -7,7 +7,7 @@ use MovingImage\Client\VMPro\Entity\Channel;
 interface ApiClientInterface
 {
     /**
-     * Get all channels for a specific video manager
+     * Get all channels for a specific video manager.
      *
      * @param int $videoManagerId
      *

@@ -47,7 +47,7 @@ abstract class AbstractApiClient implements ApiClientInterface, LoggerAwareInter
      *
      * @param string $method
      * @param string $uri
-     * @param array $options
+     * @param array  $options
      *
      * @return mixed
      */
@@ -89,7 +89,7 @@ abstract class AbstractApiClient implements ApiClientInterface, LoggerAwareInter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getChannels($videoManagerId)
     {

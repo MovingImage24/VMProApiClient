@@ -114,4 +114,3 @@ class Guzzle5ApiClientFactory
         return $apiClient;
     }
 }
-

@@ -18,7 +18,8 @@ class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
      *
      * @param string $method
      * @param string $uri
-     * @param array $options
+     * @param array  $options
+     *
      * @return \GuzzleHttp\Message\ResponseInterface
      */
     protected function _doRequest($method, $uri, $options)
@@ -29,6 +30,7 @@ class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
         unset($options['videoManagerId']);
 
         $request = $this->httpClient->createRequest($method, $uri, $options);
+
         return $this->httpClient->send($request);
     }
 }

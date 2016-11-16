@@ -9,17 +9,33 @@ use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
+/**
+ * Class TokenSubscriber.
+ *
+ * @author Ruben Knol <ruben.knol@movingimage.com>
+ */
 class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    /**
+     * @var TokenManager
+     */
     private $tokenManager;
 
+    /**
+     * TokenSubscriber constructor.
+     *
+     * @param TokenManager $tokenManager
+     */
     public function __construct(TokenManager $tokenManager)
     {
         $this->tokenManager = $tokenManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEvents()
     {
         return [
@@ -41,7 +57,7 @@ class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
         $token = $this->tokenManager->getToken($videoManagerId);
 
         if ($token !== null) {
-            $request->setHeader('Authorization', 'Bearer ' . $token);
+            $request->setHeader('Authorization', 'Bearer '.$token);
         }
     }
 }

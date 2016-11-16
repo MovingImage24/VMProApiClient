@@ -13,17 +13,16 @@ class Guzzle6ApiClient extends AbstractApiClient implements ApiClientInterface
 {
     /**
      * Guzzle6 Client implementation for making HTTP requests with
-     * the appropriate options
+     * the appropriate options.
      *
      * @param string $method
      * @param string $uri
-     * @param array $options
+     * @param array  $options
+     *
      * @return mixed
      */
     protected function _doRequest($method, $uri, $options)
     {
-        $response = $this->httpClient->request($method, $uri, $options);
-
-        return $response;
+        return $this->httpClient->request($method, $uri, $options);
     }
 }

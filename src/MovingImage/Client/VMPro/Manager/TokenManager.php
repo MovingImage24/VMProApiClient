@@ -3,7 +3,6 @@
 namespace MovingImage\Client\VMPro\Manager;
 
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Exception;
@@ -63,6 +62,8 @@ class TokenManager implements LoggerAwareInterface
 
     /**
      * Create completely fresh Access + Refresh tokens.
+     *
+     * @TODO Implement proper error handling
      *
      * @return array
      */
