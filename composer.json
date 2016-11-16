@@ -10,9 +10,22 @@
     }
   ],
   "require": {
-    "friendsofphp/php-cs-fixer": "^1.12"
+    "friendsofphp/php-cs-fixer": "^1.12",
+    "guzzlehttp/guzzle": "^6.2",
+    "jms/serializer": "^1.4",
+    "monolog/monolog": "^1.21",
+    "namshi/jose": "~7.2",
+    "doctrine/collections": "~1.3"
   },
+  "require-dev": {
+    "phpunit/phpunit": "4.5",
+    "satooshi/php-coveralls": "^0.6.1"
+  },
+  "minimum-stability": "dev",
   "autoload": {
-    "psr-4": { "MovingImage\\VMProApiClient\\": "src/MovingImage/VMProApiClient" }
+    "psr-4": {
+      "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
+      "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits"
+    }
   }
 }
