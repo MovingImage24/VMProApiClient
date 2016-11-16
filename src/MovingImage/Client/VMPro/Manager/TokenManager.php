@@ -7,7 +7,6 @@ use GuzzleHttp\Exception\ClientException;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Exception;
-use MovingImage\Client\VMPro\Exception\ApiException;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
@@ -73,7 +72,7 @@ class TokenManager implements LoggerAwareInterface
         $logger->debug('Starting request to create fresh access & refresh tokens');
 
         try {
-            $response = $this->httpClient->request('POST', 'auth/login', [
+            $response = $this->httpClient->post('auth/login', [
                 'json' => [
                     'username' => $this->credentials->getUsername(),
                     'password' => $this->credentials->getPassword(),
@@ -100,14 +99,8 @@ class TokenManager implements LoggerAwareInterface
                     $data['validForVideoManager']
                 ),
             ];
-        } catch (ClientException $e) {
-            throw new ApiException(
-                'API Authentication has failed.',
-                $e->getCode(),
-                $e,
-                $e->getRequest(),
-                $e->getResponse()
-            );
+        } catch (\Exception $e) {
+            throw $e; // Just rethrow for now
         }
     }
 
