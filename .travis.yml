@@ -4,7 +4,6 @@ php:
   - '5.5'
   - '5.6'
   - '7.0'
-  - hhvm
 
 env:
   - GUZZLE_VERSION="~5.0"
@@ -16,3 +15,4 @@ install:
 
 script:
   - sh ./bin/check_code_style.sh
+  - ./vendor/bin/phpunit

@@ -29,5 +29,12 @@
       "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
       "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
+      "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits",
+      "MovingImage\\Test\\": "tests/MovingImage/Test"
+    }
   }
 }
