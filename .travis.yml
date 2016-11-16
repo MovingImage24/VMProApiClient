@@ -8,7 +8,7 @@ env:
 
 install:
   - composer install
-  - composer require guzzlephp/guzzle:${GUZZLE_VERSION}
+  - composer require guzzlehttp/guzzle:${GUZZLE_VERSION}
 
 script:
   - sh ./bin/check_code_style.sh
