@@ -1,0 +1,14 @@
+language: php
+php:
+  - '5.6'
+
+env:
+  - GUZZLE_VERSION="~5.0"
+  - GUZZLE_VERSION="~6.0"
+
+install:
+  - composer install
+  - composer require guzzlephp/guzzle:${GUZZLE_VERSION}
+
+script:
+  - sh ./bin/check_code_style.sh
