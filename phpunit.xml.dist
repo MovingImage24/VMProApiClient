@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="vendor/autoload.php" colors="true">
     <testsuites>
-        <testsuite name="MovingImage Video Manager Pro API Client test suite">
+        <testsuite name="MovingIMAGE Video Manager Pro API Client test suite">
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
