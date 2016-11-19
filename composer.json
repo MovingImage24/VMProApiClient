@@ -10,11 +10,12 @@
     }
   ],
   "require": {
-    "doctrine/collections": "*",
+    "doctrine/collections": "~1.3",
     "psr/log": "^1.0",
-    "jms/serializer": "*",
     "monolog/monolog": "*",
-    "namshi/jose": "^7.2"
+    "namshi/jose": "^7.2",
+    "doctrine/annotations": "1.2.*",
+    "jms/serializer": "*"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^1.12",
