@@ -2,6 +2,8 @@
 
 namespace MovingImage\Util\Logging\Traits;
 
+use Monolog\Handler\NullHandler;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -34,6 +36,15 @@ trait LoggerAwareTrait
      */
     protected function getLogger()
     {
+        if (!isset($this->logger)) {
+            // When no logger is injected, create a new one
+            // that doesn't do anything
+            $this->logger = new Logger('api-client');
+            $this->logger->setHandlers([
+                new NullHandler(),
+            ]);
+        }
+
         return $this->logger;
     }
 }

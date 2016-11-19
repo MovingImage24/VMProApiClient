@@ -1,5 +1,6 @@
 # PHP related stuff
 vendor
+coverage
 
 # IDE stuff
 .idea

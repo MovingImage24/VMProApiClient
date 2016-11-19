@@ -3,6 +3,7 @@
 namespace MovingImage\Test\Util\Logging;
 
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LoggerAwareTraitTest.
@@ -33,6 +34,12 @@ class LoggerAwareTraitTest extends \PHPUnit_Framework_TestCase
         $logger = new Logger('test');
         $this->traitObj->setLogger($logger);
 
+        $this->assertInstanceOf(LoggerInterface::class, $this->traitObj->getLogger());
         $this->assertEquals($logger, $this->traitObj->getLogger());
+    }
+
+    public function testGetLoggerWithoutInjecting()
+    {
+        $this->assertInstanceOf(LoggerInterface::class, $this->traitObj->getLogger());
     }
 }
