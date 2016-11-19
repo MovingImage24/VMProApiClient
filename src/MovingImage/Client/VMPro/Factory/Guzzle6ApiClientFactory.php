@@ -5,38 +5,30 @@ namespace MovingImage\Client\VMPro\Factory;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use JMS\Serializer\SerializerBuilder;
-use Monolog\Handler\NullHandler;
-use Monolog\Logger;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
-use MovingImage\Client\VMPro\Entity\ApiCredentials;
-use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class ApiClientFactory.
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
  */
-class Guzzle6ApiClientFactory
+class Guzzle6ApiClientFactory extends AbstractApiClientFactory
 {
     /**
-     * Instantiate a TokenManager with a set of API credentials.
+     * Use the Guzzle6-specific API client class.
      *
-     * @param string         $baseUri
-     * @param ApiCredentials $credentials
-     *
-     * @return TokenManager
+     * @return string
      */
-    protected function createTokenManager($baseUri, ApiCredentials $credentials)
+    protected function getApiClientClass()
     {
-        return new TokenManager(
-            new Client(['base_uri' => $baseUri]),
-            $credentials,
-            new TokenExtractor()
-        );
+        return Guzzle6ApiClient::class;
+    }
+
+    protected function getGuzzleBaseUriOptionKey()
+    {
+        return 'base_uri';
     }
 
     /**
@@ -46,7 +38,7 @@ class Guzzle6ApiClientFactory
      *
      * @return TokenMiddleware
      */
-    protected function createTokenMiddleware(TokenManager $tokenManager)
+    public function createTokenMiddleware(TokenManager $tokenManager)
     {
         return new TokenMiddleware($tokenManager);
     }
@@ -54,65 +46,23 @@ class Guzzle6ApiClientFactory
     /**
      * Method to instantiate a HTTP client.
      *
-     * @param string          $baseUri
-     * @param TokenMiddleware $tokenMiddleware
-     * @param array           $options
+     * @param string $baseUri
+     * @param array  $middlewares
+     * @param array  $options
      *
      * @return ClientInterface
      */
-    protected function createHttpClient($baseUri, TokenMiddleware $tokenMiddleware, array $options = [])
+    public function createHttpClient($baseUri, array $middlewares = [], array $options = [])
     {
         $stack = HandlerStack::create();
-        $stack->push($tokenMiddleware);
+
+        foreach ($middlewares as $middleware) {
+            $stack->push($middleware);
+        }
 
         return new Client(array_merge([
             'base_uri' => $baseUri,
             'handler' => $stack,
         ], $options));
-    }
-
-    /**
-     * Method to instantiate a serializer instance.
-     *
-     * @return \JMS\Serializer\Serializer
-     */
-    protected function createSerializer()
-    {
-        // Set up that JMS annotations can be loaded through autoloader
-        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
-
-        return SerializerBuilder::create()->build();
-    }
-
-    /**
-     * Factory method to create a new instance of the VMPro
-     * API Client.
-     *
-     * @param string          $baseUri
-     * @param ApiCredentials  $credentials
-     * @param array           $options
-     * @param LoggerInterface $logger
-     *
-     * @return Guzzle6ApiClient
-     */
-    public function create($baseUri, ApiCredentials $credentials, array $options = [], $logger = null)
-    {
-        if (is_null($logger)) {
-            $logger = new Logger('VMPro API Client');
-            $logger->pushHandler(new NullHandler());
-        }
-
-        $tokenManager = $this->createTokenManager($baseUri, $credentials);
-        $tokenManager->setLogger($logger);
-
-        $tokenMiddleware = $this->createTokenMiddleware($tokenManager);
-        $tokenMiddleware->setLogger($logger);
-
-        $httpClient = $this->createHttpClient($baseUri, $tokenMiddleware, $options);
-
-        $apiClient = new Guzzle6ApiClient($httpClient, $this->createSerializer());
-        $apiClient->setLogger($logger);
-
-        return $apiClient;
     }
 }

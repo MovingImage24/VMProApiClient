@@ -7,6 +7,8 @@ use Namshi\JOSE\SimpleJWS;
 /**
  * Class TokenExtractor.
  *
+ * @codeCoverageIgnore - Ignore this as it's just external dependency wrapper
+ *
  * @author Ruben Knol <ruben.knol@movingimage.com>
  */
 class TokenExtractor

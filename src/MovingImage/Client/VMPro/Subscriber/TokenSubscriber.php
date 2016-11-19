@@ -19,6 +19,11 @@ class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
     use LoggerAwareTrait;
 
     /**
+     * @const string
+     */
+    const AUTH_BEARER = 'Bearer %s';
+
+    /**
      * @var TokenManager
      */
     private $tokenManager;
@@ -57,7 +62,7 @@ class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
         $token = $this->tokenManager->getToken($videoManagerId);
 
         if ($token !== null) {
-            $request->setHeader('Authorization', 'Bearer '.$token);
+            $request->setHeader('Authorization', sprintf(self::AUTH_BEARER, $token));
         }
     }
 }

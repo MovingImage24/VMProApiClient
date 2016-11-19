@@ -14,7 +14,9 @@ use Psr\Log\LoggerAwareInterface;
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
  */
-abstract class AbstractApiClient implements ApiClientInterface, LoggerAwareInterface
+abstract class AbstractApiClient implements
+    ApiClientInterface,
+    LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -82,7 +84,11 @@ abstract class AbstractApiClient implements ApiClientInterface, LoggerAwareInter
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
             $logger->debug('Response JSON was:', [$response->getBody()]);
 
-            return $this->serializer->deserialize($response->getBody(), $serialisationClass, 'json');
+            if (!is_null($this->serializer)) {
+                return $this->serializer->deserialize($response->getBody(), $serialisationClass, 'json');
+            } else {
+                return json_decode($response->getBody(), true);
+            }
         } catch (\Exception $e) {
             throw $e; // Just rethrow for now
         }

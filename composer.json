@@ -10,24 +10,32 @@
     }
   ],
   "require": {
-    "friendsofphp/php-cs-fixer": "^1.12",
-    "jms/serializer": "^1.4",
-    "monolog/monolog": "^1.21",
-    "namshi/jose": "~7.2",
-    "doctrine/collections": "~1.3"
+    "doctrine/collections": "~1.3",
+    "psr/log": "^1.0",
+    "monolog/monolog": "*",
+    "namshi/jose": "^7.2",
+    "doctrine/annotations": "1.2.*",
+    "jms/serializer": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.5",
-    "satooshi/php-coveralls": "^0.6.1"
+    "friendsofphp/php-cs-fixer": "^1.12",
+    "phpunit/phpunit": "4.5"
   },
   "suggest": {
     "guzzlephp/guzzle": "Install either Guzzle ~5.0 or ~6.0 to use this library."
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
       "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
+      "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits",
+      "MovingImage\\Test\\": "tests/MovingImage/Test"
     }
   }
 }
