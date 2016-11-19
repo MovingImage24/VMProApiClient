@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "doctrine/collections": "~1.3",
+    "doctrine/collections": "*",
     "psr/log": "^1.0",
     "jms/serializer": "*",
     "monolog/monolog": "*",
