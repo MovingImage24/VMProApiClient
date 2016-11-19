@@ -14,54 +14,54 @@ composer require movingimage/vmpro-api-client
 
 ## Usage
 
-### With Guzzle6
+### With Guzzle 6
 
 To use the VMPro API Client with Guzzle 6, you can use the factory like this:
 
 ```
 <?php
 
+use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\ApiClientFactory;
-use MovingImage\Client\VMPro\Entity\ApiCredentials;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 
 require_once('./vendor/autoload.php');
 
-$logger = new Logger('test');
-$logger->pushHandler(new StreamHandler('php://stderr', Logger::INFO));
+$baseUri     = 'https://<api uri>';
+$credentials = new ApiCredentials('<username>', '<password>');
+$factory     = new ApiClientFactory();
 
-$creds = new ApiCredentials('ruben.knol@movingimage.com', 'Example123');
-$factory = new ApiClientFactory();
-$client = $factory->create('https://api-qa.video-cdn.net/v1/vms/', $creds, [], $logger);
+$tokenManager    = $factory->createTokenManager($baseUri, $credentials);
+$tokenMiddleware = $factory->createTokenMiddleware($tokenManager);
+$httpClient      = $factory->createHttpClient($baseUri, [$tokenMiddleware]);
 
-$channel = $client->getChannels(5);
-echo $channel->getName();
+$apiClient = $factory->create($httpClient, $factory->createSerializer());
+
+echo $apiClient->getChannels(5)->getName() . PHP_EOL;
 ```
 
-### With Guzzle5
+### With Guzzle 5
 
-To use the VMPro API Client with Guzzle 6, you can use the factory like this:
+To use the VMPro API Client with Guzzle 5, you can use the factory like this:
 
 ```
 <?php
 
-use MovingImage\Client\VMPro\Factory\Guzzle5ApiClientFactory as ApiClientFactory;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use MovingImage\Client\VMPro\Factory\Guzzle5ApiClientFactory as ApiClientFactory;
 
 require_once('./vendor/autoload.php');
 
-$logger = new Logger('test');
-$logger->pushHandler(new StreamHandler('php://stderr', Logger::INFO));
+$baseUri     = 'https://<api uri>';
+$credentials = new ApiCredentials('<username>', '<password>');
+$factory     = new ApiClientFactory();
 
-$creds = new ApiCredentials('<username>', '<password>');
-$factory = new ApiClientFactory();
-$client = $factory->create('https://api.video-cdn.net/v1/vms/', $creds, [], $logger);
+$tokenManager    = $factory->createTokenManager($baseUri, $credentials);
+$tokenSubscriber = $factory->createTokenSubscriber($tokenManager);
+$httpClient      = $factory->createHttpClient($baseUri, [$tokenSubscriber]);
 
-$channel = $client->getChannels(5);
-echo $channel->getName();
+$apiClient = $factory->create($httpClient, $factory->createSerializer());
+
+echo $apiClient->getChannels(5)->getName() . PHP_EOL;
 ```
 
 ## Maintainers
