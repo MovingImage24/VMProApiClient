@@ -1,9 +1,5 @@
 # VMPro PHP API Client
 
-## Requirements
-
-* Guzzle 5.* or 6.* - make sure you have these installed in your project already
-
 ## Installation
 
 To install the API client, run the following command:
@@ -18,7 +14,7 @@ composer require movingimage/vmpro-api-client
 
 To use the VMPro API Client with Guzzle 6, you can use the factory like this:
 
-```
+```php
 <?php
 
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
@@ -43,7 +39,7 @@ echo $apiClient->getChannels(5)->getName() . PHP_EOL;
 
 To use the VMPro API Client with Guzzle 5, you can use the factory like this:
 
-```
+```php
 <?php
 
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
