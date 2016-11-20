@@ -3,7 +3,8 @@ build:
         php: '5.5.25'
     tests:
         override:
-            command: 'phpunit --coverage-clover=test-results'
-            coverage:
-                file: 'test-results'
-                format: 'clover'
+            -
+                command: 'phpunit --coverage-clover=test-results'
+                coverage:
+                    file: 'test-results'
+                    format: 'clover'
