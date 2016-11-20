@@ -17,6 +17,14 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
     private $historyContainer = [];
     private $serializer;
 
+    private function createJsonStream($arr)
+    {
+        $str = json_encode($arr);
+        $stream = \GuzzleHttp\Psr7\stream_for($str);
+
+        return $stream;
+    }
+
     public function setUp()
     {
         if (version_compare(ClientInterface::VERSION, '6.0', '<')) {
@@ -26,7 +34,10 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
         \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 
         $mock = new MockHandler([
-            new Response(200, ['X-Foo' => 'Bar'])
+            new Response(200, ['X-Foo' => 'Bar'], $this->createJsonStream([
+                'id' => 5,
+                'name' => 'root_channel',
+            ])),
         ]);
         $history = Middleware::history($this->historyContainer);
 

@@ -54,7 +54,10 @@ class Guzzle5ApiClientTest extends \PHPUnit_Framework_TestCase
     public function testDoRequest()
     {
         $mock = new Mock([
-            new Response(200, ['X-Foo' => 'Bar']),
+            new Response(200, ['X-Foo' => 'Bar'], $this->createJsonStream([
+                'id' => 5,
+                'name' => 'root_channel',
+            ])),
         ]);
 
         $this->httpClient->getEmitter()->attach($mock);

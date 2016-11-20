@@ -7,7 +7,6 @@ use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 
 /**
