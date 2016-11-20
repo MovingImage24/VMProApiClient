@@ -1,6 +1,6 @@
 # VMPro PHP API Client
 
-[![Build Status](https://travis-ci.org/MovingImage24/VMProApiClient.svg?branch=master)](https://travis-ci.org/MovingImage24/VMProApiClient) [![Code Coverage](https://scrutinizer-ci.com/g/MovingImage24/VMProApiClient/badges/coverage.png?b=scrutinizer)](https://scrutinizer-ci.com/g/MovingImage24/VMProApiClient/?branch=scrutinizer)
+[![Build Status](https://travis-ci.org/MovingImage24/VMProApiClient.svg?branch=master)](https://travis-ci.org/MovingImage24/VMProApiClient) [![Code Coverage](https://scrutinizer-ci.com/g/MovingImage24/VMProApiClient/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/MovingImage24/VMProApiClient/?branch=master)
 
 ## Installation
 
