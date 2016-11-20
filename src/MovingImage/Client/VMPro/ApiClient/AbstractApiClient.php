@@ -84,11 +84,7 @@ abstract class AbstractApiClient implements
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
             $logger->debug('Response JSON was:', [$response->getBody()]);
 
-            if (!is_null($this->serializer)) {
-                return $this->serializer->deserialize($response->getBody(), $serialisationClass, 'json');
-            } else {
-                return json_decode($response->getBody(), true);
-            }
+            return $this->serializer->deserialize($response->getBody(), $serialisationClass, 'json');
         } catch (\Exception $e) {
             throw $e; // Just rethrow for now
         }

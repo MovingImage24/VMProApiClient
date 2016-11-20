@@ -10,7 +10,6 @@ env:
   - GUZZLE_VERSION="~6.0"
 
 install:
-  - composer config platform.php $TRAVIS_PHP_VERSION
   - composer install
   - composer require guzzlehttp/guzzle:${GUZZLE_VERSION}
 

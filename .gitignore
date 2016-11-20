@@ -1,6 +1,7 @@
 # PHP related stuff
 vendor
 coverage
+composer.lock
 
 # IDE stuff
 .idea
