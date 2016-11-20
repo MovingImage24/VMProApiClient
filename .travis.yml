@@ -11,6 +11,7 @@ env:
 
 install:
   - composer config platform.php $TRAVIS_PHP_VERSION
+  - cat composer.json
   - composer install
   - composer require guzzlehttp/guzzle:${GUZZLE_VERSION}
 
