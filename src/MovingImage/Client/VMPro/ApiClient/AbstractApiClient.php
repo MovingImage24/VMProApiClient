@@ -7,6 +7,7 @@ use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 
 /**
@@ -66,7 +67,7 @@ abstract class AbstractApiClient implements
      *
      * @return array|\JMS\Serializer\scalar|mixed|object
      */
-    protected function makeRequest($method, $uri, $options, $serialisationClass)
+    protected function makeRequest($method, $uri, $options, $serialisationClass = null)
     {
         $logger = $this->getLogger();
 
@@ -84,7 +85,11 @@ abstract class AbstractApiClient implements
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
             $logger->debug('Response JSON was:', [$response->getBody()]);
 
-            return $this->serializer->deserialize($response->getBody(), $serialisationClass, 'json');
+            if (!is_null($serialisationClass)) {
+                return $this->serializer->deserialize($response->getBody(), $serialisationClass, 'json');
+            } else {
+                return \json_decode($response->getBody());
+            }
         } catch (\Exception $e) {
             throw $e; // Just rethrow for now
         }
