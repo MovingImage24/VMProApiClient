@@ -1,5 +1,7 @@
 # VMPro PHP API Client
 
+[![Build Status](https://travis-ci.org/MovingImage24/VMProApiClient.svg?branch=master)](https://travis-ci.org/MovingImage24/VMProApiClient)
+
 ## Installation
 
 To install the API client, run the following command:
@@ -62,7 +64,7 @@ echo $apiClient->getChannels(5)->getName() . PHP_EOL;
 
 ## Maintainers
 
-* Ruben Knol <ruben.knol@movingimage.com>
+* Ruben Knol - ruben.knol@movingimage.com
 
 If you have questions, suggestions or problems, feel free to get in touch with the maintainers by e-mail.
 
