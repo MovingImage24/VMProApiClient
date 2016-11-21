@@ -12,11 +12,9 @@ env:
 install:
   - composer install
   - composer require guzzlehttp/guzzle:^${GUZZLE_VERSION}
+  - wget https://scrutinizer-ci.com/ocular.phar
 
 script:
   - sh ./bin/check_code_style.sh
-  - ./vendor/bin/phpunit --coverage-clover=coverage.clover
-
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - ./vendor/bin/phpunit --coverage-clover=./coverage.clover
+  - php ocular.phar code-coverage:upload --format=php-clover ./coverage.clover
