@@ -2,7 +2,14 @@
 
 namespace MovingImage\Test\Client\VMPro\ApiClient;
 
-class AbstractApiClientTest extends \PHPUnit_Framework_TestCase
+use MovingImage\TestCase\ApiClientTestCase;
+
+/**
+ * Class AbstractApiClientTest.
+ *
+ * @author Ruben Knol <ruben.knol@movingimage.com>
+ */
+class AbstractApiClientTest extends ApiClientTestCase
 {
     public function testThis()
     {
