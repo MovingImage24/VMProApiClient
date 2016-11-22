@@ -94,11 +94,11 @@ class CreateVideoTest extends ApiClientTestCase
     /**
      * Assert whether the right exception is thrown when a non-existing channel ID
      * is provided to the method.
+     *
+     * @expectedException \Exception
      */
     public function testCreateButChannelNotExist()
     {
-        $this->expectException(\Exception::class);
-
         $httpClient = $this->createMockGuzzleClient(404, [], [
             'message' => 'entity not found',
         ]);
