@@ -38,7 +38,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $channel = null,
         $group = null,
         array $keywords = [],
-        $autoPublish = true
+        $autoPublish = null
     ) {
         $response = $this->makeRequest('POST', '%videoManagerId%/videos', [
             'videoManagerId' => $videoManagerId,
@@ -48,7 +48,12 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             ),
         ]);
 
-        $videoLocation = $response->getHeader('location')[0];
+        // Guzzle 5+6 co-compatibility - Guzzle 6 for some reason
+        // wraps headers in arrays.
+        $videoLocation = is_array($response->getHeader('location'))
+            ? $response->getHeader('location')[0]
+            : $response->getHeader('location');
+
         $pieces = explode('/', $videoLocation);
 
         return $pieces[count($pieces) - 1];
@@ -63,6 +68,10 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             'videoManagerId' => $videoManagerId,
         ]);
 
-        return $response->getHeader('location')[0];
+        // Guzzle 5+6 co-compatibility - Guzzle 6 for some reason
+        // wraps headers in arrays.
+        return is_array($response->getHeader('location'))
+            ? $response->getHeader('location')[0]
+            : $response->getHeader('location');
     }
 }

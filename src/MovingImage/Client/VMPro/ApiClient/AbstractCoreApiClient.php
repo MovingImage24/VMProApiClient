@@ -4,6 +4,7 @@ namespace MovingImage\Client\VMPro\ApiClient;
 
 use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
+use MovingImage\Client\VMPro\Exception;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -123,10 +124,16 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      */
     protected function buildJsonParameters(array $required, array $optional)
     {
+        foreach ($required as $key => $value) {
+            if (empty($value)) {
+                throw new Exception(sprintf('Required parameter \'%s\' is missing..', $key));
+            }
+        }
+
         $json = $required;
 
         foreach ($optional as $key => $value) {
-            if (!empty($optional)) {
+            if (!empty($value) || $value === false) {
                 $json[$key] = $value;
             }
         }

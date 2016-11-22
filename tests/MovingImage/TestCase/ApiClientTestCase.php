@@ -134,4 +134,18 @@ class ApiClientTestCase extends \PHPUnit_Framework_TestCase
     {
         return $this->historyStack;
     }
+
+    /**
+     * Get last performed request's Request object.
+     *
+     * @return object
+     */
+    protected function getLastRequest()
+    {
+        if (version_compare(ClientInterface::VERSION, '6.0', '<')) {
+            return $this->getHistoryStack()->getLastRequest();
+        } else {
+            return $this->getHistoryStack()[0]['request'];
+        }
+    }
 }
