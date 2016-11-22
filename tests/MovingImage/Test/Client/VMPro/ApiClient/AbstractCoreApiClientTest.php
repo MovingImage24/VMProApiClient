@@ -43,11 +43,11 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     /**
      * Assert whether an exception is thrown when a required parameter
      * has an empty value.
+     *
+     * @expectedException \Exception
      */
     public function testBuildJsonParametersFailedMissingRequiredParams()
     {
-        $this->expectException(Exception::class);
-
         $this->client->buildJsonParameters([
             'test' => '',
         ], []);

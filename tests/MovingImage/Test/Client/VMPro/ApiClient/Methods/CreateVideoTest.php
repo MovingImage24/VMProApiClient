@@ -49,11 +49,11 @@ class CreateVideoTest extends ApiClientTestCase
     /**
      * Assert whether the appropriate exception is thrown when the required
      * parameter 'fileName' is missing.
+     *
+     * @expectedException Exception
      */
     public function testMissingRequiredParameters()
     {
-        $this->expectException(Exception::class);
-
         $httpClient = $this->createMockGuzzleClient(200, [
             'Location' => 'http://videomanagerpro.com/video/kljadsfe390_ioASDJr',
         ]);
