@@ -9,7 +9,7 @@ class GetChannelsTest extends ApiClientTestCase
 {
     /**
      * Assert whether a specific JSON response gets properly
-     * de-serialized into an object of the right type
+     * de-serialized into an object of the right type.
      */
     public function testGetChannelsBasic()
     {
