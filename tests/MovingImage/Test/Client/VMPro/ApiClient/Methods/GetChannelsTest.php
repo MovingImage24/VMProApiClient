@@ -15,7 +15,7 @@ class GetChannelsTest extends ApiClientTestCase
     {
         $httpClient = $this->createMockGuzzleClient(200, [], [
             'id' => 5,
-            'name' => 'root_channel'
+            'name' => 'root_channel',
         ]);
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
