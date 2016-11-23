@@ -65,7 +65,6 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * @param string $method
      * @param string $uri
      * @param array  $options
-     * @param object $serialisationClass
      *
      * @return object|ResponseInterface
      */
