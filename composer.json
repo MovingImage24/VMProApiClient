@@ -2,7 +2,7 @@
   "name": "movingimage/vmpro-api-client",
   "description": "API client library for the VMPro public API",
   "type": "library",
-  "license": "Proprietary",
+  "license": "BSD 3-Clause License",
   "authors": [
     {
       "name": "Ruben Knol",

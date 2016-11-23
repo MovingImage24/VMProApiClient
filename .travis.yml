@@ -1,19 +1,22 @@
 language: php
-php:
-  - '5.5'
-  - '5.6'
-  - '7.0'
 
-env:
-  - GUZZLE_VERSION="5.0"
-  - GUZZLE_VERSION="6.0"
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.6
+      env: GUZZLE_VERSION="^5.0"
+    - php: 5.6
+      env: GUZZLE_VERSION="^6.0"
+    - php: 5.5
+    - php: 5.6
+    - php: 7.0
 
 install:
   - composer install
-  - composer require guzzlehttp/guzzle:^${GUZZLE_VERSION}
-  - wget https://scrutinizer-ci.com/ocular.phar
+  - if [ "$GUZZLE_VERSION" != "" ]; then composer require "guzzlehttp/guzzle:${GUZZLE_VERSION}"; fi;
+  - if [ "$GUZZLE_VERSION" != "" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi;
 
 script:
-  - sh ./bin/check_code_style.sh
+  - if [ "$GUZZLE_VERSION" = "^5.0" ]; then sh ./bin/check_code_style.sh; fi;
   - ./vendor/bin/phpunit --coverage-clover=./coverage.clover
-  - php ocular.phar code-coverage:upload --format=php-clover ./coverage.clover
+  - if [ "$GUZZLE_VERSION" != "" ]; then php ocular.phar code-coverage:upload --format=php-clover ./coverage.clover; fi;
