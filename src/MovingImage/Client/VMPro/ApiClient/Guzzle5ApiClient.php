@@ -26,8 +26,8 @@ class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
     {
         // For Guzzle5 we cannot have any options that are not pre-defined,
         // so instead we put it in the config array
-        $options['config']['videoManagerId'] = $options['videoManagerId'];
-        unset($options['videoManagerId']);
+        $options['config'][self::OPT_VIDEO_MANAGER_ID] = $options[self::OPT_VIDEO_MANAGER_ID];
+        unset($options[self::OPT_VIDEO_MANAGER_ID]);
 
         $request = $this->httpClient->createRequest($method, $uri, $options);
 

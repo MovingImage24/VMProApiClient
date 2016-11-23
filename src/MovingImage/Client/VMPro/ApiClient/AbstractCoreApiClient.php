@@ -19,6 +19,11 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     /**
+     * @const string
+     */
+    const OPT_VIDEO_MANAGER_ID = 'videoManagerId';
+
+    /**
      * @var ClientInterface The Guzzle HTTP client
      */
     protected $httpClient;
@@ -69,10 +74,10 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
         $logger = $this->getLogger();
 
         try {
-            // Automagically replace '%videoManagerId%' with the appropriate
-            // value if it' present in the options
-            if (strpos($uri, '%videoManagerId%') !== false && isset($options['videoManagerId'])) {
-                $uri = str_replace('%videoManagerId%', $options['videoManagerId'], $uri);
+            // Automagically pre-pend videoManagerId if the option is present in the
+            // options for sending the request
+            if (isset($options[self::OPT_VIDEO_MANAGER_ID])) {
+                $uri = sprintf('%d/%s', $options[self::OPT_VIDEO_MANAGER_ID], $uri);
             }
 
             $logger->info(sprintf('Making API %s request to %s', $method, $uri), [$uri]);
