@@ -2,6 +2,7 @@
 vendor
 coverage
 composer.lock
+test.php
 
 # IDE stuff
 .idea
