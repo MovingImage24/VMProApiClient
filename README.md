@@ -12,9 +12,7 @@ composer require movingimage/vmpro-api-client
 
 ## Usage
 
-### With Guzzle 6
-
-To use the VMPro API Client with Guzzle 6, you can use the factory like this:
+To use the VMPro API Client, you can use the factory like this:
 
 ```php
 <?php
@@ -28,39 +26,12 @@ $baseUri     = 'https://<api uri>';
 $credentials = new ApiCredentials('<username>', '<password>');
 $factory     = new ApiClientFactory();
 
-$tokenManager    = $factory->createTokenManager($baseUri, $credentials);
-$tokenMiddleware = $factory->createTokenMiddleware($tokenManager);
-$httpClient      = $factory->createHttpClient($baseUri, [$tokenMiddleware]);
-
-$apiClient = $factory->create($httpClient, $factory->createSerializer());
+$apiClient = $factory->createSimple($baseUri, $credentials);
 
 echo $apiClient->getChannels(5)->getName() . PHP_EOL;
 ```
 
-### With Guzzle 5
-
-To use the VMPro API Client with Guzzle 5, you can use the factory like this:
-
-```php
-<?php
-
-use MovingImage\Client\VMPro\Entity\ApiCredentials;
-use MovingImage\Client\VMPro\Factory\Guzzle5ApiClientFactory as ApiClientFactory;
-
-require_once('./vendor/autoload.php');
-
-$baseUri     = 'https://<api uri>';
-$credentials = new ApiCredentials('<username>', '<password>');
-$factory     = new ApiClientFactory();
-
-$tokenManager    = $factory->createTokenManager($baseUri, $credentials);
-$tokenSubscriber = $factory->createTokenSubscriber($tokenManager);
-$httpClient      = $factory->createHttpClient($baseUri, [$tokenSubscriber]);
-
-$apiClient = $factory->create($httpClient, $factory->createSerializer());
-
-echo $apiClient->getChannels(5)->getName() . PHP_EOL;
-```
+If you use Guzzle 5, make sure to use `MovingImage\Client\VMPro\ApiClientFactory\Guzzle5ApiClientFactory` instead of `ApiClientFactory`.
 
 ## Maintainers
 

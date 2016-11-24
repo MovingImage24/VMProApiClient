@@ -5,6 +5,7 @@ namespace MovingImage\Client\VMPro\Factory;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use MovingImage\Client\VMPro\ApiClient\Guzzle5ApiClient;
+use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Subscriber\TokenSubscriber;
 
@@ -59,5 +60,17 @@ class Guzzle5ApiClientFactory extends AbstractApiClientFactory
                 'subscribers' => $subscribers,
             ],
         ], $options));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createSimple($baseUri, ApiCredentials $credentials)
+    {
+        $tokenManager = $this->createTokenManager($baseUri, $credentials);
+        $tokenSubscriber = $this->createTokenSubscriber($tokenManager);
+        $httpClient = $this->createHttpClient($baseUri, [$tokenSubscriber]);
+
+        return $this->create($httpClient, $this->createSerializer());
     }
 }

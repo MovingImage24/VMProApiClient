@@ -83,4 +83,14 @@ abstract class AbstractApiClientFactory
 
         return $apiClient;
     }
+
+    /**
+     * Abstraction to more simpler instantiate an API client.
+     *
+     * @param string         $baseUri
+     * @param ApiCredentials $credentials
+     *
+     * @return mixed
+     */
+    abstract public function createSimple($baseUri, ApiCredentials $credentials);
 }
