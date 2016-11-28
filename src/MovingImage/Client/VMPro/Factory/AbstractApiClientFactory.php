@@ -8,11 +8,11 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
-use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
+use MovingImage\Client\VMPro\Interfaces\ApiClientFactoryInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use Psr\Log\LoggerInterface;
 
-abstract class AbstractApiClientFactory
+abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
 {
     /**
      * Get the API client class within Guzzle-client specific factories.
@@ -30,12 +30,7 @@ abstract class AbstractApiClientFactory
     abstract protected function getGuzzleBaseUriOptionKey();
 
     /**
-     * Instantiate a TokenManager with a set of API credentials.
-     *
-     * @param string         $baseUri
-     * @param ApiCredentials $credentials
-     *
-     * @return TokenManager
+     * {@inheritdoc}
      */
     public function createTokenManager($baseUri, ApiCredentials $credentials)
     {
@@ -47,9 +42,7 @@ abstract class AbstractApiClientFactory
     }
 
     /**
-     * Method to instantiate a serializer instance.
-     *
-     * @return \JMS\Serializer\Serializer
+     * {@inheritdoc}
      */
     public function createSerializer()
     {
@@ -60,19 +53,12 @@ abstract class AbstractApiClientFactory
     }
 
     /**
-     * Factory method to create a new instance of the VMPro
-     * API Client.
-     *
-     * @param ClientInterface      $httpClient
-     * @param Serializer           $serializer
-     * @param LoggerInterface|null $logger
-     *
-     * @return ApiClientInterface
+     * {@inheritdoc}
      */
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        $logger = null
+        LoggerInterface $logger = null
     ) {
         $cls = $this->getApiClientClass();
         $apiClient = new $cls($httpClient, $serializer);
@@ -85,12 +71,7 @@ abstract class AbstractApiClientFactory
     }
 
     /**
-     * Abstraction to more simpler instantiate an API client.
-     *
-     * @param string         $baseUri
-     * @param ApiCredentials $credentials
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     abstract public function createSimple($baseUri, ApiCredentials $credentials);
 }

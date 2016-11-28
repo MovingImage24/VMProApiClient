@@ -14,7 +14,7 @@ interface ApiClientInterface
     /**
      * @const Version indicator to determine compatibility.
      */
-    const VERSION = '0.1';
+    const VERSION = '0.2';
 
     /**
      * Get all channels for a specific video manager.
