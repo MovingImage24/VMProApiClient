@@ -59,4 +59,31 @@ interface ApiClientInterface
      * @return string The video's upload URL
      */
     public function getVideoUploadUrl($videoManagerId, $videoId);
+
+    /**
+     * Update a video with new values
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param string $title
+     * @param string $description
+     */
+    public function updateVideo($videoManagerId, $videoId, $title, $description);
+
+    /**
+     * Add a video to one or more channels
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param string $channelId
+     */
+    public function addVideoToChannel($videoManagerId, $videoId, $channelId);
+
+    /**
+     * Add/remove/update custom metadata fields to a video
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param array  $metadata
+     */
+    public function setCustomMetaData($videoManagerId, $videoId, $metadata);
 }

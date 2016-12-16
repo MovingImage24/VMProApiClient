@@ -74,4 +74,36 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             ? $response->getHeader('location')[0]
             : $response->getHeader('location');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateVideo($videoManagerId, $videoId, $title, $description)
+    {
+        $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => $this->buildJsonParameters([], compact('title', 'description')),
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addVideoToChannel($videoManagerId, $videoId, $channelId)
+    {
+        $this->makeRequest('POST', sprintf('channels/%s/videos/%s', $channelId, $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCustomMetaData($videoManagerId, $videoId, $metadata)
+    {
+        $this->makeRequest('PATCH', sprintf('videos/%s/metadata', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => $metadata
+        ]);
+    }
 }
