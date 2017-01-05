@@ -31,7 +31,7 @@ class VideosRequestParameters
 {
     private $container = [];
 
-    function __get($name)
+    public function __get($name)
     {
         if (isset($this->container[$name])) {
             return $this->container[$name];
@@ -49,11 +49,13 @@ class VideosRequestParameters
     public function __set($name, $value)
     {
         $this->container[$name] = $value;
+
         return $this;
     }
 
     /**
      * @param string $order
+     *
      * @return VideosRequestParameters
      */
     public function setOrder($order)
@@ -70,21 +72,25 @@ class VideosRequestParameters
 
     /**
      * @param bool $includeCustomMetadata
+     *
      * @return VideosRequestParameters
      */
     public function setIncludeCustomMetadata($includeCustomMetadata)
     {
         $this->container['includeCustomMetadata'] = boolval($includeCustomMetadata);
+
         return $this;
     }
 
     /**
      * @param bool $includeKeywords
+     *
      * @return VideosRequestParameters
      */
     public function setIncludeKeywords($includeKeywords)
     {
         $this->container['includeKeywords'] = boolval($includeKeywords);
+
         return $this;
     }
 

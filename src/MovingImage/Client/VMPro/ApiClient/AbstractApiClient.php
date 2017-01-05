@@ -126,7 +126,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     {
         $this->makeRequest('PATCH', sprintf('videos/%s/metadata', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => $metadata
+            'json' => $metadata,
         ]);
     }
 }
