@@ -3,11 +3,13 @@
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 
 /**
  * Interface ApiClientInterface.
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
+ * @author Omid Rad <omid.rad@movingimage.com>
  */
 interface ApiClientInterface
 {
@@ -49,6 +51,16 @@ interface ApiClientInterface
         array $keywords = [],
         $autoPublish = true
     );
+
+    /**
+     * Get list of videos.
+     *
+     * @param int $videoManagerId
+     * @param VideosRequestParameters $parameters
+     *
+     * @return string The video's upload URL
+     */
+    public function getVideos($videoManagerId, VideosRequestParameters $parameters = null);
 
     /**
      * Get the upload URL for a specific video.
