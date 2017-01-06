@@ -1,6 +1,6 @@
 <?php
 
-namespace MovingImage\Util;
+namespace MovingImage\VMProApiClient\Util;
 
 /**
  * AccessorTrait for general purposes.
@@ -21,10 +21,7 @@ trait AccessorTrait
     {
         // are we getting or setting?
         if (preg_match('~^(set|get|is)([A-Z])(.*)$~', $methodName, $matches)) {
-            $property = strtolower($matches[2]) . $matches[3];
-            if (!property_exists($this, $property)) {
-                throw new \InvalidArgumentException('Property ' . $property . ' is not exist');
-            }
+            $property = strtolower($matches[2]).$matches[3];
             switch ($matches[1]) {
                 case 'set':
                     $this->checkArguments($args, 1, 1, $methodName);
@@ -36,7 +33,7 @@ trait AccessorTrait
 
                     return $this->get($property);
                 case 'default':
-                    throw new \BadMethodCallException('Method ' . $methodName . ' is not exist');
+                    throw new \BadMethodCallException("Method $methodName is not exist");
             }
         }
 
@@ -73,16 +70,16 @@ trait AccessorTrait
     /**
      * Check if args are valid or not.
      *
-     * @param array   $args       List of arguments
-     * @param integer $min        integer Minimum valid params
-     * @param integer $max        Maximum valid params
-     * @param string  $methodName Method name
+     * @param array  $args       List of arguments
+     * @param int    $min        integer Minimum valid params
+     * @param int    $max        Maximum valid params
+     * @param string $methodName Method name
      */
     protected function checkArguments(array $args, $min, $max, $methodName)
     {
         $argc = count($args);
         if ($argc < $min || $argc > $max) {
-            throw new \BadMethodCallException('Method ' . $methodName . ' is not exist');
+            throw new \BadMethodCallException("Method $methodName is not exist");
         }
     }
 
