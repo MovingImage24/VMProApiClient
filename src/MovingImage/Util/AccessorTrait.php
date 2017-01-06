@@ -65,6 +65,15 @@ trait AccessorTrait
         return $this;
     }
 
+    /**
+     * Check if args are valid or not.
+     *
+     *
+     * @param array   $args       List of arguments
+     * @param integer $min        integer Minimum valid params
+     * @param integer $max        Maximum valid params
+     * @param string  $methodName Method name
+     */
     protected function checkArguments(array $args, $min, $max, $methodName) {
         $argc = count($args);
         if ($argc < $min || $argc > $max) {
