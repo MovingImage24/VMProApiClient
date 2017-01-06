@@ -1,6 +1,6 @@
 <?php
 
-namespace MovingImage\Util;
+namespace MovingImage\VMProApiClient\Util;
 
 /**
  * AccessorTrait for general purposes.
