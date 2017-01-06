@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
 
@@ -10,6 +11,7 @@ use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
  * Class AbstractApiClient.
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
+ * @author Omid Rad <omid.rad@movingimage.com>
  */
 abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiClientInterface
 {
@@ -62,6 +64,27 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
+    public function getVideos($videoManagerId, VideosRequestParameters $parameters = null)
+    {
+        if ($parameters) {
+            $parameters = $parameters->getContainer();
+            $parameters[self::OPT_VIDEO_MANAGER_ID] = $videoManagerId;
+        } else {
+            $parameters = [];
+        }
+
+        $response = $this->makeRequest('GET', 'videos', $parameters);
+
+        // Guzzle 5+6 co-compatibility - Guzzle 6 for some reason
+        // wraps headers in arrays.
+        return is_array($response->getHeader('location'))
+            ? $response->getHeader('location')[0]
+            : $response->getHeader('location');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getVideoUploadUrl($videoManagerId, $videoId)
     {
         $response = $this->makeRequest('GET', sprintf('videos/%s/url', $videoId), [
@@ -103,7 +126,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     {
         $this->makeRequest('PATCH', sprintf('videos/%s/metadata', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => $metadata
+            'json' => $metadata,
         ]);
     }
 }

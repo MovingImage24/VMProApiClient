@@ -3,11 +3,13 @@
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 
 /**
  * Interface ApiClientInterface.
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
+ * @author Omid Rad <omid.rad@movingimage.com>
  */
 interface ApiClientInterface
 {
@@ -51,6 +53,16 @@ interface ApiClientInterface
     );
 
     /**
+     * Get list of videos.
+     *
+     * @param int                     $videoManagerId
+     * @param VideosRequestParameters $parameters
+     *
+     * @return string The video's upload URL
+     */
+    public function getVideos($videoManagerId, VideosRequestParameters $parameters = null);
+
+    /**
      * Get the upload URL for a specific video.
      *
      * @param int    $videoManagerId
@@ -61,7 +73,7 @@ interface ApiClientInterface
     public function getVideoUploadUrl($videoManagerId, $videoId);
 
     /**
-     * Update a video with new values
+     * Update a video with new values.
      *
      * @param int    $videoManagerId
      * @param string $videoId
@@ -71,7 +83,8 @@ interface ApiClientInterface
     public function updateVideo($videoManagerId, $videoId, $title, $description);
 
     /**
-     * Add a video to one or more channels
+     * Add a video to one or more channels.
+     *
      * @param int    $videoManagerId
      * @param string $videoId
      * @param string $channelId
@@ -79,7 +92,7 @@ interface ApiClientInterface
     public function addVideoToChannel($videoManagerId, $videoId, $channelId);
 
     /**
-     * Add/remove/update custom metadata fields to a video
+     * Add/remove/update custom metadata fields to a video.
      *
      * @param int    $videoManagerId
      * @param string $videoId

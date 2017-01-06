@@ -50,7 +50,7 @@ class CreateVideoTest extends ApiClientTestCase
      * Assert whether the appropriate exception is thrown when the required
      * parameter 'fileName' is missing.
      *
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testMissingRequiredParameters()
     {
