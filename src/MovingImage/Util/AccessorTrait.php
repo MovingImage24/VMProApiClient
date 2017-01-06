@@ -2,6 +2,11 @@
 
 namespace MovingImage\Util;
 
+/**
+ * AccessorTrait for general purposes.
+ *
+ * @author Omid Rad <omid.rad@movingimage.com>
+ */
 trait AccessorTrait
 {
     private $container = [];
