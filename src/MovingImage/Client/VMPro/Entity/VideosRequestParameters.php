@@ -2,6 +2,8 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
+use MovingImage\Util\AccessorTrait;
+
 /**
  * Class VideosRequestParameters.
  *
@@ -29,29 +31,7 @@ namespace MovingImage\Client\VMPro\Entity;
  */
 class VideosRequestParameters
 {
-    private $container = [];
-
-    public function __get($name)
-    {
-        if (isset($this->container[$name])) {
-            return $this->container[$name];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param $name  string Key
-     * @param $value string Value
-     *
-     * @return VideosRequestParameters
-     */
-    public function __set($name, $value)
-    {
-        $this->container[$name] = $value;
-
-        return $this;
-    }
+    use AccessorTrait;
 
     /**
      * @param string $order
@@ -92,13 +72,5 @@ class VideosRequestParameters
         $this->container['includeKeywords'] = boolval($includeKeywords);
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getContainer()
-    {
-        return $this->container;
     }
 }
