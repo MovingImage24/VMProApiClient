@@ -57,7 +57,7 @@ class VideosRequestParameters
      */
     public function setIncludeCustomMetadata($includeCustomMetadata)
     {
-        $this->container['includeCustomMetadata'] = boolval($includeCustomMetadata);
+        $this->container['include_custom_metadata'] = boolval($includeCustomMetadata);
 
         return $this;
     }
@@ -69,7 +69,7 @@ class VideosRequestParameters
      */
     public function setIncludeKeywords($includeKeywords)
     {
-        $this->container['includeKeywords'] = boolval($includeKeywords);
+        $this->container['include_keywords'] = boolval($includeKeywords);
 
         return $this;
     }
