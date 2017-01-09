@@ -9,8 +9,8 @@ namespace MovingImage\VMProApiClient\Util;
  */
 trait AccessorTrait
 {
-    private static $snakeCase = 0;
-    private static $camelCase = 1;
+    public static $typeSnakeCase = 0;
+    public static $typeCamelCase = 1;
 
     /**
      * @var int Set default type to snake case
@@ -31,7 +31,7 @@ trait AccessorTrait
         if (preg_match('~^(set|get|is)([A-Z])(.*)$~', $methodName, $matches)) {
             $property = strtolower($matches[2]).$matches[3];
 
-            if ($this->type === self::$snakeCase) {
+            if ($this->type === self::$typeSnakeCase) {
                 $property = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $property));
             }
 
@@ -102,5 +102,25 @@ trait AccessorTrait
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int $type
+     *
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }
