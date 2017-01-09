@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
@@ -66,20 +67,18 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      */
     public function getVideos($videoManagerId, VideosRequestParameters $parameters = null)
     {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
         if ($parameters) {
-            $parameters = $parameters->getContainer();
-            $parameters[self::OPT_VIDEO_MANAGER_ID] = $videoManagerId;
-        } else {
-            $parameters = [];
+            $options['query'] = $parameters->getContainer();
         }
 
-        $response = $this->makeRequest('GET', 'videos', $parameters);
+        $response = $this->makeRequest('GET', 'videos', $options);
+        $response = json_encode(json_decode($response->getBody()->getContents(), true)['videos']);
 
-        // Guzzle 5+6 co-compatibility - Guzzle 6 for some reason
-        // wraps headers in arrays.
-        return is_array($response->getHeader('location'))
-            ? $response->getHeader('location')[0]
-            : $response->getHeader('location');
+        return $this->deserialize($response, 'ArrayCollection<'.Video::class.'>');
     }
 
     /**

@@ -81,6 +81,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 
             $logger->info(sprintf('Making API %s request to %s', $method, $uri), [$uri]);
 
+            /** @var ResponseInterface $response */
             $response = $this->_doRequest($method, $uri, $options);
 
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
