@@ -5,7 +5,6 @@ namespace MovingImage\Client\VMPro\Manager;
 use GuzzleHttp\ClientInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
-use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
