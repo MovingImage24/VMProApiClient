@@ -115,7 +115,7 @@ class TokenManager implements LoggerAwareInterface
     protected function createAccessTokenFromRefreshToken(Token $refreshToken, $videoManagerId)
     {
         $logger = $this->getLogger();
-        $logger->debug('Starting request to create fresh access & refresh tokens');
+        $logger->debug('Starting request to create fresh access token from refresh token');
 
         try {
             $response = $this->httpClient->post(sprintf('auth/refresh/%d', $videoManagerId), [
