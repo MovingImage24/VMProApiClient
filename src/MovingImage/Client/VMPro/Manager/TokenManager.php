@@ -96,7 +96,7 @@ class TokenManager implements LoggerAwareInterface
                 'refreshToken' => new Token(
                     $data['refreshToken'],
                     $this->tokenExtractor->extract($data['refreshToken']),
-                    $data['validForVideoManager']
+                    null
                 ),
             ];
         } catch (\Exception $e) {
