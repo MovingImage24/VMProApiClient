@@ -71,37 +71,33 @@ class TokenManager implements LoggerAwareInterface
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access & refresh tokens');
 
-        try {
-            $response = $this->httpClient->post('auth/login', [
-                'json' => [
-                    'username' => $this->credentials->getUsername(),
-                    'password' => $this->credentials->getPassword(),
-                ],
-                'headers' => [
-                    'accept: application/json',
-                    'cache-control: no-cache',
-                    'content-type: application/json',
-                ],
-            ]);
+        $response = $this->httpClient->post('auth/login', [
+            'json' => [
+                'username' => $this->credentials->getUsername(),
+                'password' => $this->credentials->getPassword(),
+            ],
+            'headers' => [
+                'accept: application/json',
+                'cache-control: no-cache',
+                'content-type: application/json',
+            ],
+        ]);
 
-            $data = \json_decode($response->getBody(), true);
-            $logger->debug('Successfully retrieved new access & refresh tokens', $data);
+        $data = \json_decode($response->getBody(), true);
+        $logger->debug('Successfully retrieved new access & refresh tokens', $data);
 
-            return [
-                'accessToken' => new Token(
-                    $data['accessToken'],
-                    $this->tokenExtractor->extract($data['accessToken']),
-                    $data['validForVideoManager']
-                ),
-                'refreshToken' => new Token(
-                    $data['refreshToken'],
-                    $this->tokenExtractor->extract($data['refreshToken']),
-                    null
-                ),
-            ];
-        } catch (\Exception $e) {
-            throw $e; // Just rethrow for now
-        }
+        return [
+            'accessToken' => new Token(
+                $data['accessToken'],
+                $this->tokenExtractor->extract($data['accessToken']),
+                $data['validForVideoManager']
+            ),
+            'refreshToken' => new Token(
+                $data['refreshToken'],
+                $this->tokenExtractor->extract($data['refreshToken']),
+                null
+            ),
+        ];
     }
 
     /**
@@ -117,29 +113,25 @@ class TokenManager implements LoggerAwareInterface
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access token from refresh token');
 
-        try {
-            $response = $this->httpClient->post(sprintf('auth/refresh/%d', $videoManagerId), [
-                'json' => [
-                    'refreshToken' => $refreshToken->getTokenString(),
-                ],
-                'headers' => [
-                    'accept: application/json',
-                    'cache-control: no-cache',
-                    'content-type: application/json',
-                ],
-            ]);
+        $response = $this->httpClient->post(sprintf('auth/refresh/%d', $videoManagerId), [
+            'json' => [
+                'refreshToken' => $refreshToken->getTokenString(),
+            ],
+            'headers' => [
+                'accept: application/json',
+                'cache-control: no-cache',
+                'content-type: application/json',
+            ],
+        ]);
 
-            $data = \json_decode($response->getBody(), true);
-            $logger->debug('Successfully retrieved new access token', $data);
+        $data = \json_decode($response->getBody(), true);
+        $logger->debug('Successfully retrieved new access token', $data);
 
-            return new Token(
-                $data['accessToken'],
-                $this->tokenExtractor->extract($data['accessToken']),
-                $videoManagerId
-            );
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return new Token(
+            $data['accessToken'],
+            $this->tokenExtractor->extract($data['accessToken']),
+            $videoManagerId
+        );
     }
 
     /**
