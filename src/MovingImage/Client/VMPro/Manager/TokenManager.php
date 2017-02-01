@@ -5,7 +5,6 @@ namespace MovingImage\Client\VMPro\Manager;
 use GuzzleHttp\ClientInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
-use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
@@ -72,50 +71,67 @@ class TokenManager implements LoggerAwareInterface
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access & refresh tokens');
 
-        try {
-            $response = $this->httpClient->post('auth/login', [
-                'json' => [
-                    'username' => $this->credentials->getUsername(),
-                    'password' => $this->credentials->getPassword(),
-                ],
-                'headers' => [
-                    'accept: application/json',
-                    'cache-control: no-cache',
-                    'content-type: application/json',
-                ],
-            ]);
+        $response = $this->httpClient->post('auth/login', [
+            'json' => [
+                'username' => $this->credentials->getUsername(),
+                'password' => $this->credentials->getPassword(),
+            ],
+            'headers' => [
+                'accept: application/json',
+                'cache-control: no-cache',
+                'content-type: application/json',
+            ],
+        ]);
 
-            $data = \json_decode($response->getBody(), true);
-            $logger->debug('Successfully retrieved new access & refresh tokens', $data);
+        $data = \json_decode($response->getBody(), true);
+        $logger->debug('Successfully retrieved new access & refresh tokens', $data);
 
-            return [
-                'accessToken' => new Token(
-                    $data['accessToken'],
-                    $this->tokenExtractor->extract($data['accessToken']),
-                    $data['validForVideoManager']
-                ),
-                'refreshToken' => new Token(
-                    $data['refreshToken'],
-                    $this->tokenExtractor->extract($data['refreshToken']),
-                    $data['validForVideoManager']
-                ),
-            ];
-        } catch (\Exception $e) {
-            throw $e; // Just rethrow for now
-        }
+        return [
+            'accessToken' => new Token(
+                $data['accessToken'],
+                $this->tokenExtractor->extract($data['accessToken']),
+                $data['validForVideoManager']
+            ),
+            'refreshToken' => new Token(
+                $data['refreshToken'],
+                $this->tokenExtractor->extract($data['refreshToken']),
+                null
+            ),
+        ];
     }
 
     /**
      * Create a new access token for a video manager using a refresh token.
      *
-     * @TODO Implement this..
-     *
      * @param Token $refreshToken
      * @param int   $videoManagerId
+     *
+     * @return Token
      */
     protected function createAccessTokenFromRefreshToken(Token $refreshToken, $videoManagerId)
     {
-        throw new Exception('Using refresh tokens is currently not implemented..');
+        $logger = $this->getLogger();
+        $logger->debug('Starting request to create fresh access token from refresh token');
+
+        $response = $this->httpClient->post(sprintf('auth/refresh/%d', $videoManagerId), [
+            'json' => [
+                'refreshToken' => $refreshToken->getTokenString(),
+            ],
+            'headers' => [
+                'accept: application/json',
+                'cache-control: no-cache',
+                'content-type: application/json',
+            ],
+        ]);
+
+        $data = \json_decode($response->getBody(), true);
+        $logger->debug('Successfully retrieved new access token', $data);
+
+        return new Token(
+            $data['accessToken'],
+            $this->tokenExtractor->extract($data['accessToken']),
+            $videoManagerId
+        );
     }
 
     /**
