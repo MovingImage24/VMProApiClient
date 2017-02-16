@@ -99,4 +99,16 @@ interface ApiClientInterface
      * @param array  $metadata
      */
     public function setCustomMetaData($videoManagerId, $videoId, $metadata);
+
+    /**
+     * Retrieve an embed code for a specific player definition + video ID.
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param string $playerDefinitionId
+     * @param string $embedType
+     *
+     * @return string
+     */
+    public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html');
 }
