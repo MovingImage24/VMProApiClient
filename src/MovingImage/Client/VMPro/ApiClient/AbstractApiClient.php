@@ -128,4 +128,21 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             'json' => $metadata,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html')
+    {
+        $response = $this->makeRequest('GET',
+            sprintf('videos/%s/embed-codes?player_definition_id=%s&embed_type=%s',
+                $videoId, $playerDefinitionId, $embedType), [
+                self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            ]
+        );
+
+        $data = \json_decode($response->getBody(), true);
+
+        return $data['embedCode'];
+    }
 }
