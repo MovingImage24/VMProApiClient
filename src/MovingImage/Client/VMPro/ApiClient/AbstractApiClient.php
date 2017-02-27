@@ -152,7 +152,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     public function deleteVideo($videoManagerId, $videoId)
     {
         $this->makeRequest('DELETE', sprintf('videos/%s', $videoId), [
-            self::OPT_VIDEO_MANAGER_ID => $videoManagerId
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
 }
