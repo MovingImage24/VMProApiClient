@@ -111,4 +111,12 @@ interface ApiClientInterface
      * @return string
      */
     public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html');
+
+    /**
+     * Delete a video.
+     *
+     * @param $videoManagerId
+     * @param $videoId
+     */
+    public function deleteVideo($videoManagerId, $videoId);
 }

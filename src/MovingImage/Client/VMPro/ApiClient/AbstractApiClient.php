@@ -145,4 +145,14 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         return $data['embedCode'];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteVideo($videoManagerId, $videoId)
+    {
+        $this->makeRequest('DELETE', sprintf('videos/%s', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId
+        ]);
+    }
 }
