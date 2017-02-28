@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 
 /**
@@ -71,6 +72,16 @@ interface ApiClientInterface
      * @return string The video's upload URL
      */
     public function getVideoUploadUrl($videoManagerId, $videoId);
+
+    /**
+     * Get download-URLs including file size of the specified video
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     *
+     * @return VideoDownloadUrl[] The video download URLs
+     */
+    public function getVideoDownloadUrls($videoManagerId, $videoId);
 
     /**
      * Update a video with new values.

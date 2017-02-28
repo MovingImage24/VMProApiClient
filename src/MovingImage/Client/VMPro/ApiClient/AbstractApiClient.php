@@ -4,6 +4,7 @@ namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\Video;
+use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
@@ -95,6 +96,19 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return is_array($response->getHeader('location'))
             ? $response->getHeader('location')[0]
             : $response->getHeader('location');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVideoDownloadUrls($videoManagerId, $videoId)
+    {
+        $response = $this->makeRequest('GET', sprintf('videos/%s/download-urls', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+        $response = $response->getBody()->getContents();
+
+        return $this->deserialize($response, 'ArrayCollection<'.VideoDownloadUrl::class.'>');
     }
 
     /**
