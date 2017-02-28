@@ -99,22 +99,6 @@ class Video
     private $stills;
 
     /**
-     * @return mixed
-     */
-    public function getPublished()
-    {
-        return $this->published;
-    }
-
-    /**
-     * @param mixed $published
-     */
-    public function setPublished($published)
-    {
-        $this->published = $published;
-    }
-
-    /**
      * @Type("boolean")
      */
     private $published;
@@ -415,6 +399,26 @@ class Video
     public function setStills($stills)
     {
         $this->stills = $stills;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param mixed $published
+     *
+     * @return Video
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
 
         return $this;
     }

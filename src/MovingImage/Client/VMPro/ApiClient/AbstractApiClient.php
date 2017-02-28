@@ -169,6 +169,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
                 'query' => $metadata,
             ]
         );
+
         return $this->deserialize($response->getBody()->getContents(), Video::class);
     }
 }
