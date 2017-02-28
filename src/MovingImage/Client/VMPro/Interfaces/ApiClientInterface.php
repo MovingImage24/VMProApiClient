@@ -119,4 +119,13 @@ interface ApiClientInterface
      * @param $videoId
      */
     public function deleteVideo($videoManagerId, $videoId);
+
+    /**
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param array  $metadata
+     *
+     * @return Video
+     */
+    public function getVideo($videoManagerId, $videoId, $metadata);
 }

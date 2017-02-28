@@ -155,4 +155,20 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVideo($videoManagerId, $videoId, $metadata = array())
+    {
+        $response = $this->makeRequest(
+            'GET',
+            sprintf('videos/%s', $videoId),
+            [
+                self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+                'query' => $metadata,
+            ]
+        );
+        return $this->deserialize($response->getBody()->getContents(), Video::class);
+    }
 }
