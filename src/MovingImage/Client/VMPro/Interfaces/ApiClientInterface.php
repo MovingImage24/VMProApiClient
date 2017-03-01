@@ -73,6 +73,16 @@ interface ApiClientInterface
     public function getVideoUploadUrl($videoManagerId, $videoId);
 
     /**
+     * Get the download URL for a specific video.
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     *
+     * @return \MovingImage\Client\VMPro\Entity\VideoDownloadInfo[]
+     */
+    public function getVideoDownloadUrl($videoManagerId, $videoId);
+
+    /**
      * Update a video with new values.
      *
      * @param int    $videoManagerId
