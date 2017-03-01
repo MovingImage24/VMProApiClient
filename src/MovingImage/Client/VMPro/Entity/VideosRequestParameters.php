@@ -9,35 +9,25 @@ use MovingImage\VMProApiClient\Util\AccessorTrait;
  *
  * @method int getChannelId()
  * @method VideosRequestParameters setChannelId(int $channelId)
- *
  * @method int getOffset()
  * @method VideosRequestParameters setOffset(int $offset)
- *
  * @method int getLimit()
  * @method VideosRequestParameters setLimit(int $limit)
- *
  * @method string getOrder()
- *
  * @method string getOrderProperty()
  * @method VideosRequestParameters setOrderProperty(string $orderProperty)
- *
  * @method string getSearchTerm()
  * @method VideosRequestParameters setSearchTerm(string $searchTerm)
- *
  * @method bool isIncludeCustomMetadata()
- * @method VideosRequestParameters setIncludeCustomMetadata(boolean $includeCustomMetadata)
- *
+ * @method VideosRequestParameters setIncludeCustomMetadata(bool $includeCustomMetadata)
  * @method string getCustomMetadataField()
  * @method VideosRequestParameters setCustomMetadataField(int $customMetadataField)
- *
  * @method string getSearchInField()
  * @method VideosRequestParameters setSearchInField(string $searchInField)
- *
  * @method string getPublicationState()
  * @method VideosRequestParameters setPublicationState(string $publicationState)
- *
  * @method bool isIncludeKeywords()
- * @method VideosRequestParameters setIncludeKeywords(boolean $includeKeywords)
+ * @method VideosRequestParameters setIncludeKeywords(bool $includeKeywords)
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */

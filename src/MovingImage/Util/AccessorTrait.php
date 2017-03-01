@@ -93,8 +93,7 @@ trait AccessorTrait
     public function set($property, $value)
     {
         // we need to convert booleans into string, because these are query parameters
-        if(is_bool($value))
-        {
+        if (is_bool($value)) {
             $value = $value
                 ? 'true'
                 : 'false';

@@ -7,20 +7,16 @@ use MovingImage\VMProApiClient\Util\AccessorTrait;
 /**
  * Class VideosRequestParameters.
  *
- * @method boolean isIncludeCustomMetadata()
- * @method VideoRequestParameters setIncludeCustomMetadata(boolean $includeCustomMetadata)
- *
+ * @method bool isIncludeCustomMetadata()
+ * @method VideoRequestParameters setIncludeCustomMetadata(bool $includeCustomMetadata)
  * @method string getCustomMetadataField()
  * @method VideoRequestParameters setCustomMetadataField(string $customMetadataField)
- *
- * @method boolean isIncludeKeywords()
- * @method VideoRequestParameters setIncludeKeywords(boolean $includeKeywords)
- *
+ * @method bool isIncludeKeywords()
+ * @method VideoRequestParameters setIncludeKeywords(bool $includeKeywords)
  * @method int getRelatedVideosChannelId()
  * @method VideoRequestParameters setRelatedVideosChannelId(int $relatedVideosChannelId)
- *
- * @method boolean isIgnorePublicationState()
- * @method VideoRequestParameters setIgnorePublicationState(boolean $ignorePublicationState)
+ * @method bool isIgnorePublicationState()
+ * @method VideoRequestParameters setIgnorePublicationState(bool $ignorePublicationState)
  *
  * @author Robert Szeker <robert.szeker@movingimage.com>
  */
