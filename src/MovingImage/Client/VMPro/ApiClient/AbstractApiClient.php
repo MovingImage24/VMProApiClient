@@ -4,6 +4,7 @@ namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\Video;
+use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
@@ -159,15 +160,20 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
-    public function getVideo($videoManagerId, $videoId, $metadata = array())
+    public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null)
     {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        if ($parameters) {
+            $options['query'] = $parameters->getContainer();
+        }
+
         $response = $this->makeRequest(
             'GET',
             sprintf('videos/%s', $videoId),
-            [
-                self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-                'query' => $metadata,
-            ]
+            $options
         );
 
         return $this->deserialize($response->getBody()->getContents(), Video::class);

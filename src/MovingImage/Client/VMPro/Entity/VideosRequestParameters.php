@@ -9,23 +9,35 @@ use MovingImage\VMProApiClient\Util\AccessorTrait;
  *
  * @method int getChannelId()
  * @method VideosRequestParameters setChannelId(int $channelId)
+ *
  * @method int getOffset()
  * @method VideosRequestParameters setOffset(int $offset)
+ *
  * @method int getLimit()
  * @method VideosRequestParameters setLimit(int $limit)
+ *
  * @method string getOrder()
+ *
  * @method string getOrderProperty()
- * @method VideosRequestParameters setOrderProperty(int $orderProperty)
+ * @method VideosRequestParameters setOrderProperty(string $orderProperty)
+ *
  * @method string getSearchTerm()
- * @method VideosRequestParameters setSearchTerm(int $searchTerm)
+ * @method VideosRequestParameters setSearchTerm(string $searchTerm)
+ *
  * @method bool isIncludeCustomMetadata()
+ * @method VideosRequestParameters setIncludeCustomMetadata(boolean $includeCustomMetadata)
+ *
  * @method string getCustomMetadataField()
  * @method VideosRequestParameters setCustomMetadataField(int $customMetadataField)
+ *
  * @method string getSearchInField()
- * @method VideosRequestParameters setSearchInField(int $searchInField)
+ * @method VideosRequestParameters setSearchInField(string $searchInField)
+ *
  * @method string getPublicationState()
- * @method VideosRequestParameters setPublicationState(int $publicationState)
+ * @method VideosRequestParameters setPublicationState(string $publicationState)
+ *
  * @method bool isIncludeKeywords()
+ * @method VideosRequestParameters setIncludeKeywords(boolean $includeKeywords)
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */
@@ -46,30 +58,6 @@ class VideosRequestParameters
         if (in_array($order, $pool)) {
             $this->container['order'] = $order;
         }
-
-        return $this;
-    }
-
-    /**
-     * @param bool $includeCustomMetadata
-     *
-     * @return VideosRequestParameters
-     */
-    public function setIncludeCustomMetadata($includeCustomMetadata)
-    {
-        $this->container['include_custom_metadata'] = boolval($includeCustomMetadata);
-
-        return $this;
-    }
-
-    /**
-     * @param bool $includeKeywords
-     *
-     * @return VideosRequestParameters
-     */
-    public function setIncludeKeywords($includeKeywords)
-    {
-        $this->container['include_keywords'] = boolval($includeKeywords);
 
         return $this;
     }

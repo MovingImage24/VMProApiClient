@@ -3,7 +3,9 @@
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
+use MovingImage\Client\VMPro\Entity\Video;
 
 /**
  * Interface ApiClientInterface.
@@ -115,17 +117,17 @@ interface ApiClientInterface
     /**
      * Delete a video.
      *
-     * @param $videoManagerId
-     * @param $videoId
+     * @param int    $videoManagerId
+     * @param string $videoId
      */
     public function deleteVideo($videoManagerId, $videoId);
 
     /**
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param array  $metadata
+     * @param int                    $videoManagerId
+     * @param string                 $videoId
+     * @param VideoRequestParameters $parameters
      *
      * @return Video
      */
-    public function getVideo($videoManagerId, $videoId, $metadata);
+    public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null);
 }
