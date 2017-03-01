@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Class Video.
@@ -38,16 +39,19 @@ class Video
 
     /**
      * @Type("integer")
+     * @SerializedName("createdDate")
      */
     private $createdDate;
 
     /**
      * @Type("integer")
+     * @SerializedName("modifiedDate")
      */
     private $modifiedDate;
 
     /**
      * @Type("integer")
+     * @SerializedName("uploadDate")
      */
     private $uploadDate;
 
@@ -68,6 +72,7 @@ class Video
 
     /**
      * @Type("boolean")
+     * @SerializedName("allFormatsAvailable")
      */
     private $allFormatsAvailable;
 
@@ -75,8 +80,9 @@ class Video
      * @TODO replace it with array collection
      *
      * @Type("array")
+     * @SerializedName("customMetadata")
      */
-    private $customMetaData;
+    private $customMetadata;
 
     /**
      * @TODO replace it with array collection
@@ -91,6 +97,11 @@ class Video
      * @Type("array")
      */
     private $stills;
+
+    /**
+     * @Type("boolean")
+     */
+    private $published;
 
     /**
      * @param string $id
@@ -335,19 +346,19 @@ class Video
     /**
      * @return array
      */
-    public function getCustomMetaData()
+    public function getCustomMetadata()
     {
-        return $this->customMetaData;
+        return $this->customMetadata;
     }
 
     /**
-     * @param array $customMetaData
+     * @param array $customMetadata
      *
      * @return Video
      */
-    public function setCustomMetaData($customMetaData)
+    public function setCustomMetadata($customMetadata)
     {
-        $this->customMetaData = $customMetaData;
+        $this->customMetadata = $customMetadata;
 
         return $this;
     }
@@ -388,6 +399,26 @@ class Video
     public function setStills($stills)
     {
         $this->stills = $stills;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param mixed $published
+     *
+     * @return Video
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
 
         return $this;
     }
