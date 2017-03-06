@@ -41,6 +41,9 @@ trait AccessorTrait
 
                     return $this->set($property, $args[0]);
                 case 'is':
+                    $this->checkArguments($args, 0, 0, $methodName);
+
+                    return $this->is($property);
                 case 'get':
                     $this->checkArguments($args, 0, 0, $methodName);
 
@@ -68,6 +71,20 @@ trait AccessorTrait
     }
 
     /**
+     * @param $property
+     *
+     * @return bool|null
+     */
+    public function is($property)
+    {
+        if (isset($this->container[$property])) {
+            return $this->container[$property] === 'true';
+        }
+
+        return null;
+    }
+
+    /**
      * @param $property string Key
      * @param $value    string Value
      *
@@ -75,6 +92,13 @@ trait AccessorTrait
      */
     public function set($property, $value)
     {
+        // we need to convert booleans into string, because these are query parameters
+        if (is_bool($value)) {
+            $value = $value
+                ? 'true'
+                : 'false';
+        }
+
         $this->container[$property] = $value;
 
         return $this;
