@@ -16,7 +16,8 @@
     "monolog/monolog": "^1.0",
     "namshi/jose": "^6.0 || ^7.0",
     "jms/serializer": "^1.0",
-    "guzzlehttp/guzzle": "^5.0 || ^6.0"
+    "guzzlehttp/guzzle": "^5.0 || ^6.0",
+    "movingimage/video-manager-meta": "^1.2"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^1.12",
@@ -25,16 +26,12 @@
   "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
-      "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
-      "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits",
-      "MovingImage\\VMProApiClient\\Util\\": "src/MovingImage/Util"
+      "MovingImage\\Client\\VMPro\\": "lib"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "MovingImage\\Client\\VMPro\\": "src/MovingImage/Client/VMPro",
-      "MovingImage\\Util\\Logging\\Traits\\": "src/MovingImage/Util/Logging/Traits",
-      "MovingImage\\VMProApiClient\\Util\\": "src/MovingImage/Util",
+      "MovingImage\\Client\\VMPro\\": "lib",
       "MovingImage\\Test\\": "tests/MovingImage/Test",
       "MovingImage\\TestCase\\": "tests/MovingImage/TestCase"
     }

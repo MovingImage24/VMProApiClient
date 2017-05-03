@@ -2,7 +2,7 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use MovingImage\VMProApiClient\Util\AccessorTrait;
+use MovingImage\Client\VMPro\Util\AccessorTrait;
 
 /**
  * Class VideosRequestParameters.

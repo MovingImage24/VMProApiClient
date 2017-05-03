@@ -6,7 +6,7 @@ use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\RequestEvents;
 use GuzzleHttp\Event\SubscriberInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
-use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
 /**

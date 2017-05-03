@@ -6,7 +6,7 @@ use GuzzleHttp\ClientInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
-use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
 /**

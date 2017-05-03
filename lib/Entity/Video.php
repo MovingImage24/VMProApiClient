@@ -4,13 +4,14 @@ namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use MovingImage\Meta\Interfaces\VideoInterface;
 
 /**
  * Class Video.
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */
-class Video
+class Video implements VideoInterface
 {
     /**
      * @Type("string")
@@ -421,5 +422,23 @@ class Video
         $this->published = $published;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPublished()
+    {
+        return $this->getPublished();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatus()
+    {
+        return $this->isPublished()
+            ? VideoInterface::STATUS_PUBLISHED
+            : VideoInterface::STATUS_NOT_PUBLISHED;
     }
 }
