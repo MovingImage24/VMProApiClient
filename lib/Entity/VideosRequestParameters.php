@@ -28,6 +28,7 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
  * @method VideosRequestParameters setPublicationState(string $publicationState)
  * @method bool isIncludeKeywords()
  * @method VideosRequestParameters setIncludeKeywords(bool $includeKeywords)
+ * @method VideosRequestParameters setIncludeChannelAssignments(bool $includeChannels)
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */

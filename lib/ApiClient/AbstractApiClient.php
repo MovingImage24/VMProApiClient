@@ -145,7 +145,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         $data = \json_decode($response->getBody(), true);
         $embedCode = new EmbedCode();
-        $embedCode->setCode($data);
+        $embedCode->setCode($data['embedCode']);
 
         return $embedCode;
     }

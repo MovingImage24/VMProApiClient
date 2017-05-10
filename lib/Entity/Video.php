@@ -105,6 +105,11 @@ class Video implements VideoInterface
     private $published;
 
     /**
+     * @Type("array")
+     */
+    private $channels;
+
+    /**
      * @param string $id
      *
      * @return Video
@@ -440,5 +445,21 @@ class Video implements VideoInterface
         return $this->isPublished()
             ? VideoInterface::STATUS_PUBLISHED
             : VideoInterface::STATUS_NOT_PUBLISHED;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChannels()
+    {
+        return $this->channels;
+    }
+
+    /**
+     * @param mixed $channels
+     */
+    public function setChannels($channels)
+    {
+        $this->channels = $channels;
     }
 }
