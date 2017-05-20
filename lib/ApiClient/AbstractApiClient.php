@@ -3,11 +3,12 @@
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
-use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 
 /**
  * Class AbstractApiClient.
@@ -143,8 +144,10 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         );
 
         $data = \json_decode($response->getBody(), true);
+        $embedCode = new EmbedCode();
+        $embedCode->setCode($data['embedCode']);
 
-        return $data['embedCode'];
+        return $embedCode;
     }
 
     /**

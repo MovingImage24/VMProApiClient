@@ -1,6 +1,6 @@
 <?php
 
-namespace MovingImage\Util\Logging\Traits;
+namespace MovingImage\Client\VMPro\Util\Logging\Traits;
 
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;

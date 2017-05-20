@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Entity\Video;
@@ -110,7 +111,7 @@ interface ApiClientInterface
      * @param string $playerDefinitionId
      * @param string $embedType
      *
-     * @return string
+     * @return EmbedCode
      */
     public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html');
 

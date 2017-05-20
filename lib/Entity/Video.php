@@ -4,13 +4,14 @@ namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use MovingImage\Meta\Interfaces\VideoInterface;
 
 /**
  * Class Video.
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */
-class Video
+class Video implements VideoInterface
 {
     /**
      * @Type("string")
@@ -102,6 +103,11 @@ class Video
      * @Type("boolean")
      */
     private $published;
+
+    /**
+     * @Type("array")
+     */
+    private $channels;
 
     /**
      * @param string $id
@@ -204,11 +210,14 @@ class Video
     }
 
     /**
-     * @return int
+     * @return \DateTime
      */
     public function getCreatedDate()
     {
-        return $this->createdDate;
+        $date = new \DateTime();
+        $date->setTimestamp($this->createdDate);
+
+        return $date;
     }
 
     /**
@@ -421,5 +430,39 @@ class Video
         $this->published = $published;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPublished()
+    {
+        return $this->getPublished();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatus()
+    {
+        return $this->isPublished()
+            ? VideoInterface::STATUS_PUBLISHED
+            : VideoInterface::STATUS_NOT_PUBLISHED;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChannels()
+    {
+        return $this->channels;
+    }
+
+    /**
+     * @param mixed $channels
+     */
+    public function setChannels($channels)
+    {
+        $this->channels = $channels;
     }
 }

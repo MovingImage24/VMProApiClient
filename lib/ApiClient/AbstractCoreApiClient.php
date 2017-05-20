@@ -5,7 +5,7 @@ namespace MovingImage\Client\VMPro\ApiClient;
 use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Exception;
-use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 

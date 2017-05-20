@@ -3,7 +3,7 @@
 namespace MovingImage\Client\VMPro\Middleware;
 
 use MovingImage\Client\VMPro\Manager\TokenManager;
-use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerAwareInterface;
 

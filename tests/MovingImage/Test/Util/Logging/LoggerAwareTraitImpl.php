@@ -2,7 +2,7 @@
 
 namespace MovingImage\Test\Util\Logging;
 
-use MovingImage\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 
 /**
  * Class LoggerAwareTraitImpl.
