@@ -215,7 +215,7 @@ class Video implements VideoInterface
     public function getCreatedDate()
     {
         $date = new \DateTime();
-        $date->setTimestamp($this->createdDate);
+        $date->setTimestamp(substr($this->createdDate, 0, 10));
 
         return $date;
     }
