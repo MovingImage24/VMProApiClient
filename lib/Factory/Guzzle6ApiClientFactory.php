@@ -5,6 +5,7 @@ namespace MovingImage\Client\VMPro\Factory;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
+use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
@@ -24,7 +25,7 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
      */
     protected function getApiClientClass()
     {
-        return Guzzle6ApiClient::class;
+        return ApiClient::class;
     }
 
     protected function getGuzzleBaseUriOptionKey()
