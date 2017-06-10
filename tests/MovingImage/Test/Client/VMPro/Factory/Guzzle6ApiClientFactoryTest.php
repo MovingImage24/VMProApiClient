@@ -4,7 +4,7 @@ namespace MovingImage\Test\Client\VMPro\Factory;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
+use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Factory\Guzzle6ApiClientFactory;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
@@ -57,7 +57,7 @@ class Guzzle6ApiClientFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetApiClientClass()
     {
         $method = $this->getMethod('getApiClientClass');
-        $this->assertEquals(Guzzle6ApiClient::class, $method->invoke($this->factory));
+        $this->assertEquals(ApiClient::class, $method->invoke($this->factory));
     }
 
     /**
