@@ -131,4 +131,12 @@ interface ApiClientInterface
      * @return Video
      */
     public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null);
+
+    /**
+     * @param                              $videoManagerId
+     * @param VideosRequestParameters|null $parameters
+     *
+     * @return mixed
+     */
+    public function getCount($videoManagerId, VideosRequestParameters $parameters = null);
 }

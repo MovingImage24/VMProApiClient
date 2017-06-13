@@ -86,6 +86,23 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
+    public function getCount($videoManagerId, VideosRequestParameters $parameters = null)
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        if ($parameters) {
+            $options['query'] = $parameters->getContainer();
+        }
+
+        $response = $this->makeRequest('GET', 'videos', $options);
+        return json_decode($response->getBody()->getContents(), true)['total'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getVideoUploadUrl($videoManagerId, $videoId)
     {
         $response = $this->makeRequest('GET', sprintf('videos/%s/url', $videoId), [
