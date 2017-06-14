@@ -97,6 +97,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         }
 
         $response = $this->makeRequest('GET', 'videos', $options);
+
         return json_decode($response->getBody()->getContents(), true)['total'];
     }
 

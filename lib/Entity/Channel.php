@@ -83,8 +83,7 @@ class Channel
     {
         foreach ($this->getChildren() as $child) {
             $child->parent = $this;
-            if (!$child->getChildren()->isEmpty())
-            {
+            if (!$child->getChildren()->isEmpty()) {
                 $child->setParentOnChildren();
             }
         }
