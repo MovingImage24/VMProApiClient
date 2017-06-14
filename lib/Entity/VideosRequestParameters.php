@@ -29,6 +29,8 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
  * @method bool isIncludeKeywords()
  * @method VideosRequestParameters setIncludeKeywords(bool $includeKeywords)
  * @method VideosRequestParameters setIncludeChannelAssignments(bool $includeChannels)
+ * @method bool isIncludeSubChannels()
+ * @method VideosRequestParameters setIncludeSubChannels(bool $includeSubChannels)
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */
