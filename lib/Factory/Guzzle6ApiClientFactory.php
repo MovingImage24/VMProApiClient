@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use MovingImage\Client\VMPro\ApiClient;
-use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
