@@ -32,6 +32,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         $rootChannel = $this->deserialize($response->getBody(), Channel::class);
         $rootChannel->setChildren($this->sortChannels($rootChannel->getChildren()));
+
         return $rootChannel;
     }
 
@@ -44,13 +45,13 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      */
     protected function sortChannels(ArrayCollection $channels)
     {
-        $channels->map(function($channel) {
+        $channels->map(function ($channel) {
             $channel->setChildren($this->sortChannels($channel->getChildren()));
         });
 
         $iterator = $channels->getIterator();
-        $iterator->uasort(function($a, $b) {
-            return ($a->getName() > $b->getName());
+        $iterator->uasort(function ($a, $b) {
+            return $a->getName() > $b->getName();
         });
 
         return new ArrayCollection(iterator_to_array($iterator));
