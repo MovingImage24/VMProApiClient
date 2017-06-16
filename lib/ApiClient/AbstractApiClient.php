@@ -2,6 +2,7 @@
 
 namespace MovingImage\Client\VMPro\ApiClient;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Video;
@@ -29,7 +30,30 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
 
-        return $this->deserialize($response->getBody(), Channel::class);
+        $rootChannel = $this->deserialize($response->getBody(), Channel::class);
+        $rootChannel->setChildren($this->sortChannels($rootChannel->getChildren()));
+        return $rootChannel;
+    }
+
+    /**
+     * Since the VMPro API doesn't sort any more the returned channels, we have to do it on our side.
+     *
+     * @param ArrayCollection $channels
+     *
+     * @return ArrayCollection
+     */
+    protected function sortChannels(ArrayCollection $channels)
+    {
+        $channels->map(function($channel) {
+            $channel->setChildren($this->sortChannels($channel->getChildren()));
+        });
+
+        $iterator = $channels->getIterator();
+        $iterator->uasort(function($a, $b) {
+            return ($a->getName() > $b->getName());
+        });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     /**
