@@ -2,6 +2,7 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Type;
 
 /**
@@ -89,8 +90,15 @@ class Channel
         }
     }
 
+    /**
+     * @return ArrayCollection<Channel>
+     */
     public function getChildren()
     {
+        if (is_null($this->children)) {
+            return new ArrayCollection();
+        }
+
         return $this->children;
     }
 
