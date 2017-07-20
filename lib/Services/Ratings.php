@@ -89,11 +89,7 @@ class Ratings
      */
     private function getRatingAverage($videoId)
     {
-        $customMetaData = $this->getVideo($videoId)->getCustomMetadata();
-
-        return array_key_exists($this->metadataFieldAverage, $customMetaData)
-            ? (float) $customMetaData[$this->metadataFieldAverage]
-            : 0;
+        return $this->getCustomMetaDataField($videoId, $this->metadataFieldAverage);
     }
 
     /**
@@ -105,10 +101,23 @@ class Ratings
      */
     private function getRatingCount($videoId)
     {
+        return $this->getCustomMetaDataField($videoId, $this->metadataFieldCount);
+    }
+
+    /**
+     * Returns a meta data field of a video always as a number.
+     *
+     * @param $videoId
+     * @param $customMetaDataField
+     *
+     * @return float|int
+     */
+    private function getCustomMetaDataField($videoId, $customMetaDataField)
+    {
         $customMetaData = $this->getVideo($videoId)->getCustomMetadata();
 
-        return array_key_exists($this->metadataFieldCount, $customMetaData)
-            ? (float) $customMetaData[$this->metadataFieldCount]
+        return array_key_exists($customMetaDataField, $customMetaData)
+            ? (float) $customMetaData[$customMetaDataField]
             : 0;
     }
 
@@ -123,8 +132,7 @@ class Ratings
         $this->client->setCustomMetaData($this->vmId, $videoId, $customMetaData);
 
         // also store custom meta data fields locally, if video is fetched again by function $this->getVideo($videoId)
-        $video = $this->getVideo($videoId);
-        $video->setCustomMetadata($customMetaData);
+        $this->getVideo($videoId)->setCustomMetadata($customMetaData);
     }
 
     /**

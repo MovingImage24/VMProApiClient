@@ -170,8 +170,8 @@ class RatingsTest extends TestCase
         // test if empty meta data field returns '0'
         $this->assertEquals(0, $this->callMethod($ratings, 'getRatingAverage', [$videoId]));
 
-        // store meta data field
-        $average = 78;
+        // store meta data field as float
+        $average = 78.2355;
         $customMetaData = [self::RATING_AVERAGE_KEY => $average];
         $this->callMethod($ratings, 'storeCustomMetaData', [$customMetaData, $videoId]);
 
