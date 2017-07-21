@@ -7,7 +7,7 @@ use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Services\Ratings;
-use MovingImage\Client\VMPro\Util\PrivateMethodCaller;
+use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
 use PHPUnit\Framework\TestCase;
 
 /**

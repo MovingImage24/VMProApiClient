@@ -85,7 +85,7 @@ class Ratings
      *
      * @param string $videoId
      *
-     * @return int
+     * @return float|int
      */
     private function getRatingAverage($videoId)
     {
@@ -97,7 +97,7 @@ class Ratings
      *
      * @param string $videoId
      *
-     * @return int
+     * @return float|int
      */
     private function getRatingCount($videoId)
     {

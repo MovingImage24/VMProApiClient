@@ -1,6 +1,6 @@
 <?php
 
-namespace MovingImage\Client\VMPro\Util;
+namespace MovingImage\VMPro\TestUtil;
 
 /**
  * Trait PrivateMethodCaller.
