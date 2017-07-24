@@ -87,7 +87,7 @@ class Ratings
      *
      * @return float|int
      */
-    private function getRatingAverage($videoId)
+    public function getRatingAverage($videoId)
     {
         return $this->getCustomMetaDataField($videoId, $this->metadataFieldAverage);
     }
