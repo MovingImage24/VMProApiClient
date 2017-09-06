@@ -6,6 +6,7 @@ use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,16 +39,20 @@ interface ApiClientFactoryInterface
      * Factory method to create a new instance of the VMPro
      * API Client.
      *
-     * @param ClientInterface      $httpClient
-     * @param Serializer           $serializer
-     * @param LoggerInterface|null $logger
+     * @param ClientInterface        $httpClient
+     * @param Serializer             $serializer
+     * @param LoggerInterface|null   $logger
+     * @param CacheItemPoolInterface $cacheItemPool
+     * @param mixed                  $cacheTtl
      *
      * @return ApiClientInterface
      */
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        LoggerInterface $logger = null
+        LoggerInterface $logger = null,
+        CacheItemPoolInterface $cacheItemPool = null,
+        $cacheTtl = null
     );
 
     /**

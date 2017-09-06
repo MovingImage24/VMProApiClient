@@ -8,8 +8,10 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
+use Psr\Http\Message\ResponseInterface;
 
 class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,5 +61,43 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $this->historyContainer);
         $this->assertEquals('GET', $this->historyContainer[0]['request']->getMethod());
         $this->assertEquals('5/channels', $this->historyContainer[0]['request']->getUri());
+    }
+
+    /**
+     * Tests both serializeResponse and unserializeResponse methods.
+     */
+    public function testSerializeResponse()
+    {
+        $status = 200;
+        $headers = ['Content-Type' => ['application/json']];
+        $body = 'test';
+        $response = new Response(200, $headers, $body);
+
+        $httpClient = $this->createMock(ClientInterface::class);
+        $serializer = $this->createMock(Serializer::class);
+        $client = new Guzzle6ApiClient($httpClient, $serializer);
+
+        $rc = new \ReflectionClass($client);
+        $serializeMethod = $rc->getMethod('serializeResponse');
+        $serializeMethod->setAccessible(true);
+        $serialized = $serializeMethod->invoke($client, $response);
+
+        //after serializing, original response must not be modified!
+        $this->assertSame($status, $response->getStatusCode());
+        $this->assertSame($headers, $response->getHeaders());
+        $this->assertSame($body, $response->getBody()->getContents());
+
+        $this->assertInternalType('string', $serialized);
+
+        $unserializeMethod = $rc->getMethod('unserializeResponse');
+        $unserializeMethod->setAccessible(true);
+        /** @var ResponseInterface $unserialized */
+        $unserialized = $unserializeMethod->invoke($client, $serialized);
+
+        $this->assertInstanceOf(ResponseInterface::class, $unserialized);
+
+        $this->assertSame($status, $unserialized->getStatusCode());
+        $this->assertSame($headers, $unserialized->getHeaders());
+        $this->assertSame($body, $unserialized->getBody()->getContents());
     }
 }

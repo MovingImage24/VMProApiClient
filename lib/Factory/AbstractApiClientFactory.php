@@ -10,6 +10,7 @@ use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Interfaces\ApiClientFactoryInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
@@ -58,10 +59,12 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        LoggerInterface $logger = null
+        LoggerInterface $logger = null,
+        CacheItemPoolInterface $cacheItemPool = null,
+        $cacheTtl = null
     ) {
         $cls = $this->getApiClientClass();
-        $apiClient = new $cls($httpClient, $serializer);
+        $apiClient = new $cls($httpClient, $serializer, $cacheItemPool, $cacheTtl);
 
         if (!is_null($logger)) {
             $apiClient->setLogger($logger);
