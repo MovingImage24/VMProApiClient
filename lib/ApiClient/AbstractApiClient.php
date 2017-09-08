@@ -179,12 +179,18 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      */
     public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html')
     {
-        $response = $this->makeRequest('GET',
-            sprintf('videos/%s/embed-codes?player_definition_id=%s&embed_type=%s',
-                $videoId, $playerDefinitionId, $embedType), [
-                self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            ]
+        $url = sprintf(
+            'videos/%s/embed-codes?player_definition_id=%s&embed_type=%s',
+            $videoId,
+            $playerDefinitionId,
+            $embedType
         );
+
+        if ($this->cacheTtl) {
+            $url = sprintf('%s&token_lifetime_in_seconds=%s', $url, $this->cacheTtl);
+        }
+
+        $response = $this->makeRequest('GET', $url, [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]);
 
         $data = \json_decode($response->getBody(), true);
         $embedCode = new EmbedCode();

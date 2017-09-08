@@ -2,8 +2,12 @@
 
 namespace MovingImage\Client\VMPro\ApiClient;
 
+use GuzzleHttp\Message\Response;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
+use GuzzleHttp\Message\ResponseInterface;
+use MovingImage\Client\VMPro\Exception;
+use GuzzleHttp\Stream\Stream;
 
 /**
  * Class Guzzle5ApiClient.
@@ -32,5 +36,46 @@ class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
         $request = $this->httpClient->createRequest($method, $uri, $options);
 
         return $this->httpClient->send($request);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param ResponseInterface $response
+     *
+     * @return string
+     */
+    protected function serializeResponse($response)
+    {
+        /** @var ResponseInterface $response */
+        $serialized = serialize([
+            $response->getStatusCode(),
+            $response->getHeaders(),
+            $response->getBody()->getContents(),
+        ]);
+
+        //subsequent calls need to access the stream from the beginning
+        $response->getBody()->seek(0);
+
+        return $serialized;
+    }
+
+    /**
+     * Unserializes the serialized response into a ResponseInterface instance.
+     *
+     * @param string $serialized
+     *
+     * @return ResponseInterface
+     *
+     * @throws Exception
+     */
+    protected function unserializeResponse($serialized)
+    {
+        $array = unserialize($serialized);
+        if (!is_array($array) || count($array) !== 3) {
+            throw new Exception(sprintf('Error unserializing response: %s', $serialized));
+        }
+
+        return new Response($array[0], $array[1], Stream::factory($array[2]));
     }
 }

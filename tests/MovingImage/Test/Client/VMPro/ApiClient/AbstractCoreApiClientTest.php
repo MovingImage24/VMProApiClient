@@ -3,8 +3,13 @@
 namespace MovingImage\Test\Client\VMPro\ApiClient;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\SerializerBuilder;
-use MovingImage\Client\VMPro\Exception;
+use JMS\Serializer\Serializer;
+use Psr\Cache\CacheItemInterface;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class AbstractCoreApiClientTest.
@@ -73,5 +78,81 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayNotHasKey('should_not_either', $res);
 
         $this->assertEquals('test', $res['should']);
+    }
+
+    /**
+     * Asserts that makeRequest method will return the cached response
+     * if it exists in cache.
+     */
+    public function testCachedResponse()
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+        $serializer = $this->createMock(Serializer::class);
+        $cachePool = $this->createMock(CacheItemPoolInterface::class);
+        $cacheItem = $this->createMock(CacheItemInterface::class);
+        $statusCode = 200;
+        $headers = ['Content-Type' => ['application/json']];
+        $body = 'test';
+        $cachedResponse = new Response($statusCode, $headers, $body);
+
+        $cacheItem->method('get')->willReturn($cachedResponse);
+        $cacheItem->method('isHit')->willReturn(true);
+        $cachePool->method('getItem')->willReturn($cacheItem);
+        $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
+
+        $rc = new \ReflectionClass($client);
+        $method = $rc->getMethod('makeRequest');
+        $method->setAccessible(true);
+
+        /** @var ResponseInterface $response */
+        $response = $method->invoke($client, 'GET', 'http://example.org', []);
+
+        $this->assertSame($statusCode, $response->getStatusCode());
+        $this->assertSame($headers, $response->getHeaders());
+        $this->assertSame($body, $response->getBody()->getContents());
+        $response->getBody()->rewind();
+    }
+
+    /**
+     * Asserts that makeRequest will return the response when it is not cached.
+     */
+    public function testUncachedResponse()
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+        $serializer = $this->createMock(Serializer::class);
+        $cachePool = $this->createMock(CacheItemPoolInterface::class);
+        $cacheItem = $this->createMock(CacheItemInterface::class);
+        $expectedResponse = new Response();
+        $cacheItem->method('isHit')->willReturn(false);
+        $cachePool->method('getItem')->willReturn($cacheItem);
+        $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
+        $client->setResponse($expectedResponse);
+
+        $rc = new \ReflectionClass($client);
+        $method = $rc->getMethod('makeRequest');
+        $method->setAccessible(true);
+
+        $response = $method->invoke($client, 'GET', 'http://example.org', []);
+        $this->assertSame($expectedResponse, $response);
+    }
+
+    /**
+     * Asserts that makeRequest will return a response when no cache implementation is provided.
+     */
+    public function testNullCache()
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+        $serializer = $this->createMock(Serializer::class);
+        $expectedResponse = new Response();
+        $client = new AbstractApiClientImpl($httpClient, $serializer);
+        $client->setResponse($expectedResponse);
+
+        $rc = new \ReflectionClass($client);
+        $method = $rc->getMethod('makeRequest');
+        $method->setAccessible(true);
+
+        $response = $method->invoke($client, 'GET', 'http://example.org', []);
+
+        $this->assertSame($expectedResponse, $response);
     }
 }
