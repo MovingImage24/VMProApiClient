@@ -397,6 +397,12 @@ class Video implements VideoInterface
      */
     public function getStills()
     {
+        //sorting preview's images from smallest to biggest
+        usort($this->stills, function (array $item1, array $item2) {
+            if (isset($item1['dimension']['height']) && isset($item2['dimension']['height'])) {
+                return $item1['dimension']['height'] > $item2['dimension']['height'];
+            }
+        });
         return $this->stills;
     }
 
