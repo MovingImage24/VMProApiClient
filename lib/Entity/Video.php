@@ -403,6 +403,7 @@ class Video implements VideoInterface
                 return $item1['dimension']['height'] > $item2['dimension']['height'];
             }
         });
+
         return $this->stills;
     }
 
