@@ -402,6 +402,7 @@ class Video implements VideoInterface
             if (isset($item1['dimension']['height'], $item2['dimension']['height'])) {
                 return $item1['dimension']['height'] > $item2['dimension']['height'];
             }
+
             return -1;
         });
 
