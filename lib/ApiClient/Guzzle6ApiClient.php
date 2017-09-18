@@ -5,6 +5,7 @@ namespace MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
+use MovingImage\Client\VMPro\Exception;
 
 /**
  * Class Guzzle6ApiClient.
