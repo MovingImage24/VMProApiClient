@@ -10,7 +10,6 @@ use MovingImage\Meta\Interfaces\AttachmentInterface;
 
 /**
  * Class Attachment.
- *
  */
 class Attachment implements AttachmentInterface
 {
