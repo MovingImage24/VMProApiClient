@@ -2,7 +2,7 @@
 
 namespace MovingImage\Client\VMPro\Interfaces;
 
-use MovingImage\Client\VM6\Entity\Attachment;
+use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
