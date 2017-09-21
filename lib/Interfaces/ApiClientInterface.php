@@ -2,6 +2,7 @@
 
 namespace MovingImage\Client\VMPro\Interfaces;
 
+use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
@@ -139,4 +140,12 @@ interface ApiClientInterface
      * @return mixed
      */
     public function getCount($videoManagerId, VideosRequestParameters $parameters = null);
+
+    /**
+     * @param int    $videoManagerId
+     * @param string $videoId
+     *
+     * @return Attachment[]
+     */
+    public function getAttachments($videoManagerId, $videoId);
 }

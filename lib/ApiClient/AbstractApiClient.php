@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Video;
+use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
@@ -229,5 +230,19 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         );
 
         return $this->deserialize($response->getBody()->getContents(), Video::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttachments($videoManagerId, $videoId)
+    {
+        $response = $this->makeRequest(
+            'GET',
+            sprintf('videos/%s/attachments', $videoId),
+            [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
+        );
+
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Attachment::class.'>');
     }
 }
