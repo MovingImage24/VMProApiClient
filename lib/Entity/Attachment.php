@@ -118,7 +118,7 @@ class Attachment implements AttachmentInterface
      */
     public function deserializeFromJson(JsonDeserializationVisitor $visitor, array $data, DeserializationContext $context)
     {
-        if (isset($data['data']['id']['dsds'])) {
+        if (isset($data['data']['id'])) {
             $this->id = $data['data']['id'];
         }
 
