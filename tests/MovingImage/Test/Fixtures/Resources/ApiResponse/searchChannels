@@ -1,0 +1,419 @@
+{
+  "total": 62,
+  "result": [
+    {
+      "videoManagerId": 319,
+      "id": 33981,
+      "parentId": 4450,
+      "description": null,
+      "name": "00_Office",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33982,
+      "parentId": 4450,
+      "description": null,
+      "name": "10_Production Printing",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33983,
+      "parentId": 4450,
+      "description": null,
+      "name": "20_Software",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33984,
+      "parentId": 4450,
+      "description": null,
+      "name": "30_Software",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33986,
+      "parentId": 33981,
+      "description": null,
+      "name": "00_Multifunction systems (color)",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33988,
+      "parentId": 33981,
+      "description": null,
+      "name": "02_Printer (color)",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33990,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3851FS",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33992,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3850FS",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33993,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3351",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33995,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3110",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33996,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3100P",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33997,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C754",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33998,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C754e",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34005,
+      "parentId": 33996,
+      "description": null,
+      "name": "02_General use",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34007,
+      "parentId": 33996,
+      "description": null,
+      "name": "04_Scanning & faxing",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34010,
+      "parentId": 33983,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34011,
+      "parentId": 33984,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34017,
+      "parentId": 33994,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34018,
+      "parentId": 33993,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34021,
+      "parentId": 33990,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34022,
+      "parentId": 34002,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34023,
+      "parentId": 34000,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 35798,
+      "parentId": 4450,
+      "description": null,
+      "name": "50_Testing Channel",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 35858,
+      "parentId": 33989,
+      "description": null,
+      "name": "bizhub 226",
+      "customMetadata": {
+        "productID": "226",
+        "region": [
+          "asia",
+          "europe"
+        ],
+        "released": true
+      }
+    },
+    {
+      "videoManagerId": 319,
+      "id": 35859,
+      "parentId": 35858,
+      "description": null,
+      "name": "10_Introduction",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36622,
+      "parentId": 33988,
+      "description": null,
+      "name": "bizhub C658/C558/C458",
+      "customMetadata": {
+        "productID": "c658",
+        "region": [
+          "usa",
+          "europe"
+        ],
+        "released": true
+      }
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36623,
+      "parentId": 36622,
+      "description": null,
+      "name": "10_Introduction",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36624,
+      "parentId": 36622,
+      "description": null,
+      "name": "20_System overview",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36625,
+      "parentId": 36622,
+      "description": null,
+      "name": "30_General information",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36630,
+      "parentId": 36622,
+      "description": null,
+      "name": "40_Copying",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36636,
+      "parentId": 36622,
+      "description": null,
+      "name": "60_User boxes",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 36637,
+      "parentId": 36622,
+      "description": null,
+      "name": "70_Printing",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 4450,
+      "parentId": 4396,
+      "description": null,
+      "name": "iTraining",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33985,
+      "parentId": 4450,
+      "description": null,
+      "name": "40_Workplace Hub",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33987,
+      "parentId": 33981,
+      "description": null,
+      "name": "01_Multifunction systems (black/white)",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33989,
+      "parentId": 33981,
+      "description": null,
+      "name": "03_Printer (black/white)",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33991,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3850",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33994,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C3350",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 33999,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C658",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34000,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C654",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34001,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C654e",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34002,
+      "parentId": 33986,
+      "description": null,
+      "name": "bizhub C652",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34003,
+      "parentId": 33996,
+      "description": null,
+      "name": "00_Introduction",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34004,
+      "parentId": 33996,
+      "description": null,
+      "name": "01_System overview",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34006,
+      "parentId": 33996,
+      "description": null,
+      "name": "03_Copying",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34008,
+      "parentId": 33996,
+      "description": null,
+      "name": "05_Printing",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34009,
+      "parentId": 33982,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34012,
+      "parentId": 33985,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34016,
+      "parentId": 33995,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    },
+    {
+      "videoManagerId": 319,
+      "id": 34019,
+      "parentId": 33991,
+      "description": null,
+      "name": "Placeholder",
+      "customMetadata": {}
+    }
+  ]
+}
