@@ -3,6 +3,8 @@
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use MovingImage\Client\VMPro\Collection\ChannelCollection;
+use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Video;
@@ -10,7 +12,9 @@ use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
+use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
+use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
 
 /**
  * Class AbstractApiClient.
@@ -21,6 +25,8 @@ use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiClientInterface
 {
     use LoggerAwareTrait;
+    use SearchEndpointTrait;
+    use ChannelTrait;
 
     /**
      * {@inheritdoc}
@@ -244,5 +250,44 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         );
 
         return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Attachment::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null)
+    {
+        $options = $this->getRequestOptionsForSearchVideosEndpoint($videoManagerId, $parameters);
+        $response = $this->makeRequest('POST', 'search', ['json' => $options]);
+        $response = $this->normalizeSearchVideosResponse($response->getBody()->getContents());
+
+        $collection = $this->deserialize($response, VideoCollection::class);
+
+        return $collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function searchChannels($videoManagerId)
+    {
+        $requestOptions = [
+            'documentType' => 'channel',
+            'videoManagerIds' => [$videoManagerId],
+            'query' => $this->createElasticSearchQuery([
+                'videoManagerId' => $videoManagerId,
+            ]),
+        ];
+
+        $response = $this->makeRequest('POST', 'search', ['json' => $requestOptions]);
+        $response = $this->normalizeSearchChannelsResponse($response->getBody()->getContents());
+        /** @var ChannelCollection $collection */
+        $collection = $this->deserialize($response, ChannelCollection::class);
+
+        //builds parent/children relations on all channels
+        $channels = $this->setChannelRelations($collection->getChannels());
+        $collection->setChannels($channels);
+
+        return $collection;
     }
 }

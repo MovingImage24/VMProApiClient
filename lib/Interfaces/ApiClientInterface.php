@@ -2,12 +2,15 @@
 
 namespace MovingImage\Client\VMPro\Interfaces;
 
+use MovingImage\Client\VMPro\Collection\ChannelCollection;
+use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Entity\Video;
+use MovingImage\Meta\Interfaces\VideoInterface;
 
 /**
  * Interface ApiClientInterface.
@@ -62,7 +65,7 @@ interface ApiClientInterface
      * @param int                     $videoManagerId
      * @param VideosRequestParameters $parameters
      *
-     * @return string The video's upload URL
+     * @return VideoInterface[] Collection of videos
      */
     public function getVideos($videoManagerId, VideosRequestParameters $parameters = null);
 
@@ -148,4 +151,31 @@ interface ApiClientInterface
      * @return Attachment[]
      */
     public function getAttachments($videoManagerId, $videoId);
+
+    /**
+     * Get list of videos using the search endpoint.
+     * This method is a temporary solution and therefore you should not rely on it.
+     * It will be removed in the future.
+     *
+     * @deprecated
+     *
+     * @param int                     $videoManagerId
+     * @param VideosRequestParameters $parameters
+     *
+     * @return VideoCollection
+     */
+    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null);
+
+    /**
+     * Get channels using the search endpoint.
+     * This method is a temporary solution and therefore you should not rely on it.
+     * It will be removed in the future.
+     *
+     * @deprecated
+     *
+     * @param int $videoManagerId
+     *
+     * @return ChannelCollection
+     */
+    public function searchChannels($videoManagerId);
 }

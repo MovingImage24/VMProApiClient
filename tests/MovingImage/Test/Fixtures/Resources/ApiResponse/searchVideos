@@ -1,0 +1,235 @@
+{
+  "total": 10,
+  "result": [
+    {
+      "videoManagerId": 319,
+      "id": "1wGJbtN7QPwkAkd8_VcgKH",
+      "description": "",
+      "title": "Bienvenue",
+      "uploadFileName": "RB_logo3_1080p.mov",
+      "duration": 4120,
+      "createdDate": "2017-09-07T13:20:19Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {
+        "language": [
+          "fr"
+        ]
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "2jH6hxLxC2ZdPj9QicaMDR",
+      "description": "",
+      "title": "10 Test Video Uploaded By MovingIMAGE.mp4",
+      "uploadFileName": "10 Test Video Uploaded By MovingIMAGE.mp4",
+      "duration": 5066,
+      "createdDate": "2017-10-05T15:57:20Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {},
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "E1zt4WKxS1iaiCapUPESt4",
+      "description": "",
+      "title": "Willkommen",
+      "uploadFileName": "RB_logo3_1080p.mov",
+      "duration": 4120,
+      "createdDate": "2017-09-07T13:19:58Z",
+      "published": false,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {
+        "language": [
+          "de"
+        ]
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "ESFMWW-CoyXxp7nDLjsVR6",
+      "description": "",
+      "title": "Welcome",
+      "uploadFileName": "RB_logo3_1080p.mov",
+      "duration": 4120,
+      "createdDate": "2017-09-07T12:50:02Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {
+        "language": [
+          "en",
+          "es",
+          "bg",
+          "ch",
+          "da",
+          "fi",
+          "ja"
+        ]
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "1CD28Qf9GdpVSzKyARzzN8",
+      "description": "",
+      "title": "3 Test Video Uploaded By MovingIMAGE.mp4",
+      "uploadFileName": "3 Test Video Uploaded By MovingIMAGE.mp4",
+      "duration": 30071,
+      "createdDate": "2017-10-17T14:23:58Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {},
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "1V6uEgE5G1y3K2y-1FgAoF",
+      "description": "",
+      "title": "Sicherheitsvorschriften",
+      "uploadFileName": "RB_logo3_1080p.mov",
+      "duration": 4120,
+      "createdDate": "2017-09-07T13:20:08Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {
+        "language": [
+          "de"
+        ]
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "1huvAWdWVQY9a9oXWaWndg",
+      "description": "",
+      "title": "Safety instructions",
+      "uploadFileName": "RB_logo3_1080p.mov",
+      "duration": 4120,
+      "createdDate": "2017-09-07T13:19:47Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {
+        "language": [
+          "en",
+          "bg",
+          "ch",
+          "fi"
+        ]
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "Aqu1xrUtsBAmDWdr_J2bBU",
+      "description": "",
+      "title": "1 Test Video Uploaded By MovingIMAGE.mp4",
+      "uploadFileName": "1 Test Video Uploaded By MovingIMAGE.mp4",
+      "duration": 20186,
+      "createdDate": "2017-10-12T12:24:07Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {},
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "BWKHkaXEaDzJnPzTuVex7T",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "title": "Consignes de sécurité",
+      "uploadFileName": "RB_logo3_1080p.mov",
+      "duration": 4120,
+      "createdDate": "2017-09-07T13:20:29Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [
+        "keyword 3",
+        "keyword 1",
+        "keyword 2"
+      ],
+      "customMetadata": {
+        "language": [
+          "fr"
+        ]
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396,
+        34004
+      ]
+    },
+    {
+      "videoManagerId": 319,
+      "id": "E9vyH6FPkRhVNsCeHzxbA1",
+      "description": "",
+      "title": "2 Test Video Uploaded By MovingIMAGE.mp4",
+      "uploadFileName": "2 Test Video Uploaded By MovingIMAGE.mp4",
+      "duration": 30063,
+      "createdDate": "2017-10-12T13:36:01Z",
+      "published": true,
+      "downloadable": false,
+      "keywords": [],
+      "customMetadata": {
+        "language": []
+      },
+      "chapters": [],
+      "overlays": [],
+      "channels": [
+        34003,
+        4396
+      ]
+    }
+  ]
+}
