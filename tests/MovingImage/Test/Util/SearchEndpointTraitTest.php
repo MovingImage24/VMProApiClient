@@ -206,6 +206,7 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
         return [
             [[]],
             [['channelId' => 100]],
+            [['id' => 'Aqu1xrUtsBAmDWdr_J2bBU']],
             [['order' => 'desc', 'orderProperty' => 'name']],
             [['limit' => 10, 'offset' => 20]],
             [['publicationState' => false]],
