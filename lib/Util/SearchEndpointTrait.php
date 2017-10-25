@@ -150,6 +150,7 @@ trait SearchEndpointTrait
             $queryParams = [
                 'channels' => $parameters->getChannelId(),
                 'published' => $parameters->getPublicationState(),
+                'id' => $parameters->getVideoId(),
                 $parameters->getSearchInField() => $parameters->getSearchTerm(),
             ];
 

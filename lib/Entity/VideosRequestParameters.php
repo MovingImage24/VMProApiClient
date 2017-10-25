@@ -7,6 +7,8 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
 /**
  * Class VideosRequestParameters.
  *
+ * @method int getVideoId()
+ * @method VideosRequestParameters setVideoId(int $videoId)
  * @method int getChannelId()
  * @method VideosRequestParameters setChannelId(int $channelId)
  * @method int getOffset()
