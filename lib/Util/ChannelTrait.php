@@ -32,6 +32,11 @@ trait ChannelTrait
                 $parent = $indexedChannels[$parentId];
                 $channel->setParent($parent);
                 $parent->addChild($channel);
+            } else {
+                //search endpoint returns a parent ID even for the root channel (!?!)
+                //but it doesn't include that parent channel in the response
+                //this is why we set the parentId to null when we detect that the channel is missing from response
+                $channel->setParentId(null);
             }
         }
 
