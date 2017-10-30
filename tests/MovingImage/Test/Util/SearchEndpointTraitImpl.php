@@ -11,6 +11,7 @@ class SearchEndpointTraitImpl
         normalizeSearchChannelsResponse as public;
         normalizeSearchVideosResponse as public;
         getRequestOptionsForSearchVideosEndpoint as public;
+        getRequestOptionsForSearchChannelsEndpoint as public;
         getTotalCountFromSearchVideosResponse as public;
     }
 }
