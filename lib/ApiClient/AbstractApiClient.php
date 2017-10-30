@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Channel;
+use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\Attachment;
@@ -269,17 +270,10 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
-    public function searchChannels($videoManagerId)
+    public function searchChannels($videoManagerId, ChannelsRequestParameters $parameters = null)
     {
-        $requestOptions = [
-            'documentType' => 'channel',
-            'videoManagerIds' => [$videoManagerId],
-            'query' => $this->createElasticSearchQuery([
-                'videoManagerId' => $videoManagerId,
-            ]),
-        ];
-
-        $response = $this->makeRequest('POST', 'search', ['json' => $requestOptions]);
+        $options = $this->getRequestOptionsForSearchChannelsEndpoint($videoManagerId, $parameters);
+        $response = $this->makeRequest('POST', 'search', ['json' => $options]);
         $response = $this->normalizeSearchChannelsResponse($response->getBody()->getContents());
         /** @var ChannelCollection $collection */
         $collection = $this->deserialize($response, ChannelCollection::class);

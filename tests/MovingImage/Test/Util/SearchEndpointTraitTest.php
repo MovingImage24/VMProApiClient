@@ -2,6 +2,7 @@
 
 namespace MovingImage\Test\Util;
 
+use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
@@ -216,6 +217,84 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array $params
+     * @covers \SearchEndpointTrait::testGetRequestOptionsForSearchChannelsEndpoint
+     * @dataProvider dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint
+     */
+    public function testGetRequestOptionsForSearchChannelsEndpoint(array $params)
+    {
+        $params = $this->createChannelsRequestParameters($params);
+        $vmId = 42;
+        $expectedFetchSources = [
+            'id',
+            'videoManagerId',
+            'parentId',
+            'name',
+            'description',
+            'customMetadata',
+        ];
+
+        $options = $this->traitObj->getRequestOptionsForSearchChannelsEndpoint($vmId, $params);
+
+        $this->assertArrayHasKey('documentType', $options);
+        $this->assertSame('channel', $options['documentType']);
+        $this->assertArrayHasKey('videoManagerIds', $options);
+        $this->assertSame([$vmId], $options['videoManagerIds']);
+        $this->assertArrayHasKey('fetchSources', $options);
+        $this->assertSame($expectedFetchSources, $options['fetchSources']);
+
+        if ($params->getLimit()) {
+            $this->assertArrayHasKey('size', $options);
+            $this->assertSame($params->getLimit(), $options['size']);
+        }
+
+        if ($params->getOffset()) {
+            $this->assertArrayHasKey('from', $options);
+            $this->assertSame($params->getOffset(), $options['from']);
+        }
+
+        if ($params->getOrderProperty()) {
+            $this->assertArrayHasKey('orderBy', $options);
+            $this->assertSame($params->getOrderProperty(), $options['orderBy']);
+        }
+
+        if ($params->getOrder()) {
+            $this->assertArrayHasKey('order', $options);
+            $this->assertSame($params->getOrder(), $options['order']);
+        }
+
+        $query = [
+            'videoManagerId' => $vmId,
+        ];
+
+        if ($params->getSearchInField() && $params->getSearchTerm()) {
+            $query[$params->getSearchInField()] = $params->getSearchTerm();
+        }
+
+        //this method is tested separately
+        $query = $this->traitObj->createElasticSearchQuery($query);
+
+        $this->assertArrayHasKey('query', $options);
+        $this->assertSame($query, $options['query']);
+    }
+
+    /**
+     * Data provider for testGetRequestOptionsForSearchChannelsEndpoint.
+     *
+     * @return array
+     */
+    public function dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint()
+    {
+        return [
+            [[]],
+            [['id' => '100']],
+            [['order' => 'desc', 'orderProperty' => 'name']],
+            [['limit' => 10, 'offset' => 20]],
+            [['searchTerm' => 'search', 'searchInField' => 'name']],
+        ];
+    }
+
+    /**
      * @covers \SearchEndpointTrait::getTotalCountFromSearchVideosResponse()
      */
     public function testGetTotalCountFromSearchVideosResponse()
@@ -247,6 +326,24 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     private function createVideosRequestParameters(array $arrayParams)
     {
         $parameters = new VideosRequestParameters();
+        foreach ($arrayParams as $param => $value) {
+            $setter = 'set'.ucfirst($param);
+            call_user_func([$parameters, $setter], $value);
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * Creates a ChannelsRequestParameters object from the provided array.
+     *
+     * @param array $arrayParams
+     *
+     * @return ChannelsRequestParameters
+     */
+    private function createChannelsRequestParameters(array $arrayParams)
+    {
+        $parameters = new ChannelsRequestParameters();
         foreach ($arrayParams as $param => $value) {
             $setter = 'set'.ucfirst($param);
             call_user_func([$parameters, $setter], $value);

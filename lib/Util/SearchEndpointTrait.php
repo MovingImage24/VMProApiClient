@@ -2,6 +2,7 @@
 
 namespace MovingImage\Client\VMPro\Util;
 
+use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
 
@@ -162,6 +163,51 @@ trait SearchEndpointTrait
                 'query' => $this->createElasticSearchQuery($queryParams),
             ];
         }
+
+        return $options;
+    }
+
+    /**
+     * @param int                            $videoManagerId
+     * @param ChannelsRequestParameters|null $parameters
+     *
+     * @return array
+     */
+    private function getRequestOptionsForSearchChannelsEndpoint(
+        $videoManagerId,
+        ChannelsRequestParameters $parameters = null
+    ) {
+        $options = [
+            'documentType' => 'channel',
+            'videoManagerIds' => [$videoManagerId],
+            'fetchSources' => [
+                'id',
+                'videoManagerId',
+                'parentId',
+                'name',
+                'description',
+                'customMetadata',
+            ],
+        ];
+
+        $queryParams = [
+            'videoManagerId' => $videoManagerId,
+        ];
+
+        if ($parameters) {
+            $queryParams += [
+                $parameters->getSearchInField() => $parameters->getSearchTerm(),
+            ];
+
+            $options += [
+                'size' => $parameters->getLimit(),
+                'from' => $parameters->getOffset(),
+                'orderBy' => $parameters->getOrderProperty(),
+                'order' => $parameters->getOrder(),
+            ];
+        }
+
+        $options['query'] = $this->createElasticSearchQuery($queryParams);
 
         return $options;
     }
