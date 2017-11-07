@@ -168,8 +168,7 @@ class Ratings
      */
     private function filterCustomMetaData($customMetaData)
     {
-        foreach($customMetaData as $key => $data)
-        {
+        foreach ($customMetaData as $key => $data) {
             if (!in_array($key, [$this->metadataFieldCount, $this->metadataFieldAverage])) {
                 unset($customMetaData[$key]);
             }
