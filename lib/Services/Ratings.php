@@ -129,7 +129,15 @@ class Ratings
      */
     private function storeCustomMetaData($customMetaData, $videoId)
     {
-        $this->client->setCustomMetaData($this->vmId, $videoId, $customMetaData);
+        // only update custom meta data fields related to rating
+        $this->client->setCustomMetaData(
+            $this->vmId,
+            $videoId,
+            [
+                $this->metadataFieldAverage => $customMetaData[$this->metadataFieldAverage],
+                $this->metadataFieldCount => $customMetaData[$this->metadataFieldCount],
+            ]
+        );
 
         // also store custom meta data fields locally, if video is fetched again by function $this->getVideo($videoId)
         $this->getVideo($videoId)->setCustomMetadata($customMetaData);
