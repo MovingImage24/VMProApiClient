@@ -129,7 +129,12 @@ class Ratings
      */
     private function storeCustomMetaData($customMetaData, $videoId)
     {
-        $this->client->setCustomMetaData($this->vmId, $videoId, $customMetaData);
+        // only update custom meta data fields related to rating
+        $this->client->setCustomMetaData(
+            $this->vmId,
+            $videoId,
+            $this->filterCustomMetaData($customMetaData)
+        );
 
         // also store custom meta data fields locally, if video is fetched again by function $this->getVideo($videoId)
         $this->getVideo($videoId)->setCustomMetadata($customMetaData);
@@ -152,5 +157,23 @@ class Ratings
         }
 
         return $this->videos[$videoId];
+    }
+
+    /**
+     * Returns custom meta data fields which are related to rating.
+     *
+     * @param array $customMetaData
+     *
+     * @return array
+     */
+    private function filterCustomMetaData($customMetaData)
+    {
+        foreach ($customMetaData as $key => $data) {
+            if (!in_array($key, [$this->metadataFieldCount, $this->metadataFieldAverage])) {
+                unset($customMetaData[$key]);
+            }
+        }
+
+        return $customMetaData;
     }
 }

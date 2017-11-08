@@ -66,6 +66,7 @@ class RatingsTest extends TestCase
 
     /**
      * Test if storing custom meta data triggers api client and if it has been saved locally.
+     * Tests also if only related custom meta data fields are saved.
      *
      * @covers \Ratings::storeCustomMetaData()
      */
@@ -85,15 +86,19 @@ class RatingsTest extends TestCase
             ->method('getVideo')
             ->willReturn($video);
 
-        $customMetaData = ['key' => 'value'];
+        $unrelatedCustomMetaDataFields = ['key' => 'value'];
+        $relatedCustomMetaDataFields = [self::RATING_COUNT_KEY => 33, self::RATING_AVERAGE_KEY => 3];
 
+        $customMetaData = array_merge($unrelatedCustomMetaDataFields, $relatedCustomMetaDataFields);
+
+        // test if custom meta data fields only related to rating are stored via api
         $client
             ->expects($this->once())
             ->method('setCustomMetaData')
             ->with(
                 $vmId,
                 $videoId,
-                $customMetaData
+                $relatedCustomMetaDataFields
             );
 
         $ratings = new Ratings($client, $vmId, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
