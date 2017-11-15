@@ -6,6 +6,7 @@ use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
+use MovingImage\Meta\Enums\PublicationState;
 
 class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
 {
@@ -182,8 +183,13 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
             'channels' => $params->getChannelId(),
         ];
 
-        if ($params->getPublicationState() !== null) {
-            $query['published'] = $params->getPublicationState();
+        switch ($params->getPublicationState()) {
+            case PublicationState::PUBLISHED:
+                $query['published'] = 'true';
+                break;
+            case PublicationState::NOT_PUBLISHED:
+                $query['published'] = 'false';
+                break;
         }
 
         if ($params->getSearchInField() && $params->getSearchTerm()) {
@@ -210,8 +216,9 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
             [['id' => 'Aqu1xrUtsBAmDWdr_J2bBU']],
             [['order' => 'desc', 'orderProperty' => 'name']],
             [['limit' => 10, 'offset' => 20]],
-            [['publicationState' => false]],
-            [['publicationState' => true]],
+            [['publicationState' => 'not_published']],
+            [['publicationState' => 'published']],
+            [['publicationState' => 'all']],
             [['searchTerm' => 'search', 'searchInField' => 'name']],
         ];
     }

@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\Entity;
 
 use MovingImage\Client\VMPro\Util\AccessorTrait;
+use MovingImage\Meta\Enums\PublicationState;
 
 /**
  * Class VideosRequestParameters.
@@ -27,7 +28,6 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
  * @method string getSearchInField()
  * @method VideosRequestParameters setSearchInField(string $searchInField)
  * @method string getPublicationState()
- * @method VideosRequestParameters setPublicationState(string $publicationState)
  * @method bool isIncludeKeywords()
  * @method VideosRequestParameters setIncludeKeywords(bool $includeKeywords)
  * @method VideosRequestParameters setIncludeChannelAssignments(bool $includeChannels)
@@ -52,6 +52,20 @@ class VideosRequestParameters
         // Silently ignore wrong values
         if (in_array($order, $pool)) {
             $this->container['order'] = $order;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $publicationState
+     *
+     * @return VideosRequestParameters
+     */
+    public function setPublicationState($publicationState)
+    {
+        if (in_array($publicationState, PublicationState::getValues())) {
+            $this->container['publication_state'] = $publicationState;
         }
 
         return $this;

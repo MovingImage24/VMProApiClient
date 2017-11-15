@@ -5,6 +5,7 @@ namespace MovingImage\Client\VMPro\Util;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
+use MovingImage\Meta\Enums\PublicationState;
 
 /**
  * Helper methods for dealing with search endpoint.
@@ -150,10 +151,19 @@ trait SearchEndpointTrait
         if ($parameters) {
             $queryParams = [
                 'channels' => $parameters->getChannelId(),
-                'published' => $parameters->getPublicationState(),
                 'id' => $parameters->getVideoId(),
                 $parameters->getSearchInField() => $parameters->getSearchTerm(),
             ];
+
+            switch ($parameters->getPublicationState()) {
+                case PublicationState::PUBLISHED:
+                    $queryParams['published'] = 'true';
+                    break;
+                case PublicationState::NOT_PUBLISHED:
+                    $queryParams['published'] = 'false';
+                    break;
+                //case 'all': do nothing
+            }
 
             $options += [
                 'size' => $parameters->getLimit(),
