@@ -3,7 +3,7 @@
 namespace MovingImage\Client\VMPro\Collection;
 
 use JMS\Serializer\Annotation as JMS;
-use MovingImage\Client\VMPro\Interfaces\ChannelInterface;
+use MovingImage\Meta\Interfaces\ChannelInterface;
 
 class ChannelCollection
 {

@@ -5,7 +5,7 @@ namespace MovingImage\Client\VMPro\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
-use MovingImage\Client\VMPro\Interfaces\ChannelInterface;
+use MovingImage\Meta\Interfaces\ChannelInterface;
 
 /**
  * Class Channel.
