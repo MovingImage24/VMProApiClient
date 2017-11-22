@@ -5,31 +5,55 @@ namespace MovingImage\Client\VMPro\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use MovingImage\Client\VMPro\Interfaces\ChannelInterface;
 
 /**
  * Class Channel.
  *
  * @author Ruben Knol <ruben.knol@movingimage.com>
  */
-class Channel
+class Channel implements ChannelInterface
 {
     /**
      * @Type("integer")
+     *
+     * @var int
      */
     private $id;
 
     /**
      * @Type("string")
+     *
+     * @var string
      */
     private $name;
 
     /**
+     * @Type("string")
+     *
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @Type("array")
+     * @SerializedName("customMetadata")
+     *
+     * @var array
+     */
+    private $customMetadata = [];
+
+    /**
      * @Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
+     *
+     * @var ChannelInterface[]
      */
     private $children;
 
     /**
      * @Type("MovingImage\Client\VMPro\Entity\Channel")
+     *
+     * @var ChannelInterface
      */
     private $parent = null;
 
@@ -40,7 +64,7 @@ class Channel
     private $parentId = null;
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -48,9 +72,7 @@ class Channel
     }
 
     /**
-     * @param string $name
-     *
-     * @return Channel
+     * {@inheritdoc}
      */
     public function setName($name)
     {
@@ -60,7 +82,43 @@ class Channel
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomMetadata()
+    {
+        return $this->customMetadata;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCustomMetadata($customMetadata)
+    {
+        $this->customMetadata = $customMetadata;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -68,9 +126,7 @@ class Channel
     }
 
     /**
-     * @param int $id
-     *
-     * @return Channel
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -80,7 +136,7 @@ class Channel
     }
 
     /**
-     * @return Channel
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -88,11 +144,9 @@ class Channel
     }
 
     /**
-     * @param Channel $parent
-     *
-     * @return Channel
+     * {@inheritdoc}
      */
-    public function setParent(Channel $parent)
+    public function setParent(ChannelInterface $parent)
     {
         $this->parent = $parent;
         $this->setParentId($parent->getId());
@@ -132,7 +186,7 @@ class Channel
     }
 
     /**
-     * @return ArrayCollection<Channel>
+     * {@inheritdoc}
      */
     public function getChildren()
     {
@@ -156,13 +210,21 @@ class Channel
     }
 
     /**
-     * @param Channel $child
-     *
-     * @return Channel
+     * {@inheritdoc}
      */
-    public function addChild(Channel $child)
+    public function addChild(ChannelInterface $child)
     {
         $this->getChildren()->add($child);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeChild(ChannelInterface $channel)
+    {
+        $this->getChildren()->removeElement($channel);
 
         return $this;
     }
