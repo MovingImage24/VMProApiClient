@@ -7,6 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Serializer;
+use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -18,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
 {
+    use PrivateMethodCaller;
+
     /**
      * @var AbstractApiClientImpl
      */
@@ -100,12 +103,8 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $cachePool->method('getItem')->willReturn($cacheItem);
         $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
 
-        $rc = new \ReflectionClass($client);
-        $method = $rc->getMethod('makeRequest');
-        $method->setAccessible(true);
-
         /** @var ResponseInterface $response */
-        $response = $method->invoke($client, 'GET', 'http://example.org', []);
+        $response = $this->callMethod($client, 'makeRequest', ['GET', 'http://example.org', []]);
 
         $this->assertSame($statusCode, $response->getStatusCode());
         $this->assertSame($headers, $response->getHeaders());
@@ -128,11 +127,9 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
         $client->setResponse($expectedResponse);
 
-        $rc = new \ReflectionClass($client);
-        $method = $rc->getMethod('makeRequest');
-        $method->setAccessible(true);
+        /** @var ResponseInterface $response */
+        $response = $this->callMethod($client, 'makeRequest', ['GET', 'http://example.org', []]);
 
-        $response = $method->invoke($client, 'GET', 'http://example.org', []);
         $this->assertSame($expectedResponse, $response);
     }
 
@@ -147,12 +144,40 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $client = new AbstractApiClientImpl($httpClient, $serializer);
         $client->setResponse($expectedResponse);
 
-        $rc = new \ReflectionClass($client);
-        $method = $rc->getMethod('makeRequest');
-        $method->setAccessible(true);
-
-        $response = $method->invoke($client, 'GET', 'http://example.org', []);
+        /** @var ResponseInterface $response */
+        $response = $this->callMethod($client, 'makeRequest', ['GET', 'http://example.org', []]);
 
         $this->assertSame($expectedResponse, $response);
+    }
+
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param int    $responseCode
+     * @covers \AbstractApiClient::isCacheable()
+     * @dataProvider dataProviderForTestIsCacheable
+     */
+    public function testIsCachable($method, $uri, $responseCode, $expectedResult)
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+        $serializer = $this->createMock(Serializer::class);
+        $client = new AbstractApiClientImpl($httpClient, $serializer);
+        $response = new Response($responseCode);
+        $isCacheable = $this->callMethod($client, 'isCacheable', [$method, $uri, [], $response]);
+        $this->assertSame($expectedResult, $isCacheable);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForTestIsCacheable()
+    {
+        return [
+            ['GET', 'videos', 200, true],
+            ['GET', 'videos', 404, false],
+            ['POST', 'videos', 200, false],
+            ['POST', 'search', 200, true],
+            ['POST', 'search', 500, false],
+        ];
     }
 }
