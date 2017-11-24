@@ -28,6 +28,11 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     const OPT_VIDEO_MANAGER_ID = 'videoManagerId';
 
     /**
+     * List of endpoints that may be cached, even though they use POST.
+     */
+    const CACHEABLE_POST_ENDPOINTS = ['search'];
+
+    /**
      * @var ClientInterface The Guzzle HTTP client
      */
     protected $httpClient;
@@ -142,7 +147,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
             $response = $this->_doRequest($method, $uri, $options);
             $this->stopwatch->stop($stopwatchEvent);
 
-            if ($this->isCachable($method, $uri, $options, $response)) {
+            if ($this->isCacheable($method, $uri, $options, $response)) {
                 $cacheItem->set($this->serializeResponse($response));
                 $cacheItem->expiresAfter($this->cacheTtl);
                 $this->cacheItemPool->save($cacheItem);
@@ -234,12 +239,28 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *
      * @return bool
      */
-    private function isCachable($method, $uri, array $options, $response)
+    private function isCacheable($method, $uri, array $options, $response)
     {
         /** @var ResponseInterface $statusCode */
         $statusCode = $response->getStatusCode();
 
-        return $method === 'GET' && $statusCode >= 200 && $statusCode < 300;
+        //cache only 2** responses
+        if ($statusCode < 200 || $statusCode >= 300) {
+            return false;
+        }
+
+        //GET is always safe to cache
+        if ($method === 'GET') {
+            return true;
+        }
+
+        //POST may be cached for certain endpoints only (forgive us Roy Fielding)
+        if ($method === 'POST') {
+            return in_array($uri, self::CACHEABLE_POST_ENDPOINTS);
+        }
+
+        //assume not cacheable in all other cases
+        return false;
     }
 
     /**
