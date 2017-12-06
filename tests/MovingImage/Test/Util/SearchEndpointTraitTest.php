@@ -137,18 +137,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     {
         $params = $this->createVideosRequestParameters($params);
         $vmId = 42;
-        $expectedFetchSources = [
-            'id',
-            'title',
-            'description',
-            'createdDate',
-            'duration',
-            'published',
-            'customMetadata',
-            'keywords',
-            'channels',
-            'downloadable',
-        ];
 
         $options = $this->traitObj->getRequestOptionsForSearchVideosEndpoint($vmId, $params);
 
@@ -156,8 +144,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('video', $options['documentType']);
         $this->assertArrayHasKey('videoManagerIds', $options);
         $this->assertSame([$vmId], $options['videoManagerIds']);
-        $this->assertArrayHasKey('fetchSources', $options);
-        $this->assertSame($expectedFetchSources, $options['fetchSources']);
 
         if ($params->getLimit()) {
             $this->assertArrayHasKey('size', $options);
@@ -232,14 +218,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     {
         $params = $this->createChannelsRequestParameters($params);
         $vmId = 42;
-        $expectedFetchSources = [
-            'id',
-            'videoManagerId',
-            'parentId',
-            'name',
-            'description',
-            'customMetadata',
-        ];
 
         $options = $this->traitObj->getRequestOptionsForSearchChannelsEndpoint($vmId, $params);
 
@@ -247,8 +225,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('channel', $options['documentType']);
         $this->assertArrayHasKey('videoManagerIds', $options);
         $this->assertSame([$vmId], $options['videoManagerIds']);
-        $this->assertArrayHasKey('fetchSources', $options);
-        $this->assertSame($expectedFetchSources, $options['fetchSources']);
 
         if ($params->getLimit()) {
             $this->assertArrayHasKey('size', $options);

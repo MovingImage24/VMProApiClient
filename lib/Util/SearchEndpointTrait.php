@@ -134,18 +134,6 @@ trait SearchEndpointTrait
         $options = [
             'documentType' => 'video',
             'videoManagerIds' => [$videoManagerId],
-            'fetchSources' => [
-                'id',
-                'title',
-                'description',
-                'createdDate',
-                'duration',
-                'published',
-                'customMetadata',
-                'keywords',
-                'channels',
-                'downloadable',
-            ],
         ];
 
         if ($parameters) {
@@ -172,6 +160,10 @@ trait SearchEndpointTrait
                 'order' => $parameters->getOrder(),
                 'query' => $this->createElasticSearchQuery($queryParams),
             ];
+
+            if ($parameters->getMetadataSetKey()) {
+                $options['metaDataSetKey'] = $parameters->getMetadataSetKey();
+            }
         }
 
         return $options;
@@ -190,14 +182,6 @@ trait SearchEndpointTrait
         $options = [
             'documentType' => 'channel',
             'videoManagerIds' => [$videoManagerId],
-            'fetchSources' => [
-                'id',
-                'videoManagerId',
-                'parentId',
-                'name',
-                'description',
-                'customMetadata',
-            ],
         ];
 
         $queryParams = [
