@@ -33,6 +33,8 @@ use MovingImage\Meta\Enums\PublicationState;
  * @method VideosRequestParameters setIncludeChannelAssignments(bool $includeChannels)
  * @method bool isIncludeSubChannels()
  * @method VideosRequestParameters setIncludeSubChannels(bool $includeSubChannels)
+ * @method VideosRequestParameters setMetadataSetKey(string $metadataSetKey)
+ * @method string getMetadataSetKey()
  *
  * @author Omid Rad <omid.rad@movingimage.com>
  */
