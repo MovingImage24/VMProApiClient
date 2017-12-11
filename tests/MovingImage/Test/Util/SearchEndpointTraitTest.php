@@ -144,49 +144,55 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('video', $options['documentType']);
         $this->assertArrayHasKey('videoManagerIds', $options);
         $this->assertSame([$vmId], $options['videoManagerIds']);
-
-        if ($params->getLimit()) {
-            $this->assertArrayHasKey('size', $options);
-            $this->assertSame($params->getLimit(), $options['size']);
-        }
-
-        if ($params->getOffset()) {
-            $this->assertArrayHasKey('from', $options);
-            $this->assertSame($params->getOffset(), $options['from']);
-        }
-
-        if ($params->getOrderProperty()) {
-            $this->assertArrayHasKey('orderBy', $options);
-            $this->assertSame($params->getOrderProperty(), $options['orderBy']);
-        }
-
-        if ($params->getOrder()) {
-            $this->assertArrayHasKey('order', $options);
-            $this->assertSame($params->getOrder(), $options['order']);
-        }
-
-        $query = [
-            'channels' => $params->getChannelId(),
-        ];
-
-        switch ($params->getPublicationState()) {
-            case PublicationState::PUBLISHED:
-                $query['published'] = 'true';
-                break;
-            case PublicationState::NOT_PUBLISHED:
-                $query['published'] = 'false';
-                break;
-        }
-
-        if ($params->getSearchInField() && $params->getSearchTerm()) {
-            $query[$params->getSearchInField()] = $params->getSearchTerm();
-        }
-
-        //this method is tested separately
-        $query = $this->traitObj->createElasticSearchQuery($query);
-
         $this->assertArrayHasKey('query', $options);
-        $this->assertSame($query, $options['query']);
+
+        if ($params) {
+            if ($params->getLimit()) {
+                $this->assertArrayHasKey('size', $options);
+                $this->assertSame($params->getLimit(), $options['size']);
+            }
+
+            if ($params->getOffset()) {
+                $this->assertArrayHasKey('from', $options);
+                $this->assertSame($params->getOffset(), $options['from']);
+            }
+
+            if ($params->getOrderProperty()) {
+                $this->assertArrayHasKey('orderBy', $options);
+                $this->assertSame($params->getOrderProperty(), $options['orderBy']);
+            }
+
+            if ($params->getOrder()) {
+                $this->assertArrayHasKey('order', $options);
+                $this->assertSame($params->getOrder(), $options['order']);
+            }
+
+            if ($params->getMetadataSetKey()) {
+                $this->assertArrayHasKey('metaDataSetKey', $options);
+                $this->assertSame($params->getMetadataSetKey(), $options['metaDataSetKey']);
+            }
+
+            $query = [
+                'channels' => $params->getChannelId(),
+            ];
+
+            switch ($params->getPublicationState()) {
+                case PublicationState::PUBLISHED:
+                    $query['published'] = 'true';
+                    break;
+                case PublicationState::NOT_PUBLISHED:
+                    $query['published'] = 'false';
+                    break;
+            }
+
+            if ($params->getSearchInField() && $params->getSearchTerm()) {
+                $query[$params->getSearchInField()] = $params->getSearchTerm();
+            }
+
+            //this method is tested separately
+            $query = $this->traitObj->createElasticSearchQuery($query);
+            $this->assertSame($query, $options['query']);
+        }
     }
 
     /**
@@ -206,6 +212,7 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
             [['publicationState' => 'published']],
             [['publicationState' => 'all']],
             [['searchTerm' => 'search', 'searchInField' => 'name']],
+            [['metadataSetKey' => 'de']],
         ];
     }
 
@@ -219,6 +226,10 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
         $params = $this->createChannelsRequestParameters($params);
         $vmId = 42;
 
+        $query = [
+            'videoManagerId' => $vmId,
+        ];
+
         $options = $this->traitObj->getRequestOptionsForSearchChannelsEndpoint($vmId, $params);
 
         $this->assertArrayHasKey('documentType', $options);
@@ -226,32 +237,35 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('videoManagerIds', $options);
         $this->assertSame([$vmId], $options['videoManagerIds']);
 
-        if ($params->getLimit()) {
-            $this->assertArrayHasKey('size', $options);
-            $this->assertSame($params->getLimit(), $options['size']);
-        }
+        if ($params) {
+            if ($params->getLimit()) {
+                $this->assertArrayHasKey('size', $options);
+                $this->assertSame($params->getLimit(), $options['size']);
+            }
 
-        if ($params->getOffset()) {
-            $this->assertArrayHasKey('from', $options);
-            $this->assertSame($params->getOffset(), $options['from']);
-        }
+            if ($params->getOffset()) {
+                $this->assertArrayHasKey('from', $options);
+                $this->assertSame($params->getOffset(), $options['from']);
+            }
 
-        if ($params->getOrderProperty()) {
-            $this->assertArrayHasKey('orderBy', $options);
-            $this->assertSame($params->getOrderProperty(), $options['orderBy']);
-        }
+            if ($params->getOrderProperty()) {
+                $this->assertArrayHasKey('orderBy', $options);
+                $this->assertSame($params->getOrderProperty(), $options['orderBy']);
+            }
 
-        if ($params->getOrder()) {
-            $this->assertArrayHasKey('order', $options);
-            $this->assertSame($params->getOrder(), $options['order']);
-        }
+            if ($params->getOrder()) {
+                $this->assertArrayHasKey('order', $options);
+                $this->assertSame($params->getOrder(), $options['order']);
+            }
 
-        $query = [
-            'videoManagerId' => $vmId,
-        ];
+            if ($params->getSearchInField() && $params->getSearchTerm()) {
+                $query[$params->getSearchInField()] = $params->getSearchTerm();
+            }
 
-        if ($params->getSearchInField() && $params->getSearchTerm()) {
-            $query[$params->getSearchInField()] = $params->getSearchTerm();
+            if ($params->getMetadataSetKey()) {
+                $this->assertArrayHasKey('metaDataSetKey', $options);
+                $this->assertSame($params->getMetadataSetKey(), $options['metaDataSetKey']);
+            }
         }
 
         //this method is tested separately
@@ -274,6 +288,7 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
             [['order' => 'desc', 'orderProperty' => 'name']],
             [['limit' => 10, 'offset' => 20]],
             [['searchTerm' => 'search', 'searchInField' => 'name']],
+            [['metadataSetKey' => 'de']],
         ];
     }
 
@@ -308,6 +323,10 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
      */
     private function createVideosRequestParameters(array $arrayParams)
     {
+        if (empty($arrayParams)) {
+            return null;
+        }
+
         $parameters = new VideosRequestParameters();
         foreach ($arrayParams as $param => $value) {
             $setter = 'set'.ucfirst($param);
@@ -326,6 +345,10 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
      */
     private function createChannelsRequestParameters(array $arrayParams)
     {
+        if (empty($arrayParams)) {
+            return null;
+        }
+
         $parameters = new ChannelsRequestParameters();
         foreach ($arrayParams as $param => $value) {
             $setter = 'set'.ucfirst($param);

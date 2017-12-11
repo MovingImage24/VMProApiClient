@@ -16,6 +16,8 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
  * @method ChannelsRequestParameters setSearchTerm(string $searchTerm)
  * @method string getSearchInField()
  * @method ChannelsRequestParameters setSearchInField(string $searchInField)
+ * @method ChannelsRequestParameters setMetadataSetKey(string $metadataSetKey)
+ * @method string getMetadataSetKey()
  */
 class ChannelsRequestParameters
 {

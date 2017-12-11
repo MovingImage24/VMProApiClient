@@ -136,8 +136,10 @@ trait SearchEndpointTrait
             'videoManagerIds' => [$videoManagerId],
         ];
 
+        $queryParams = [];
+
         if ($parameters) {
-            $queryParams = [
+            $queryParams += [
                 'channels' => $parameters->getChannelId(),
                 'id' => $parameters->getVideoId(),
                 $parameters->getSearchInField() => $parameters->getSearchTerm(),
@@ -158,13 +160,14 @@ trait SearchEndpointTrait
                 'from' => $parameters->getOffset(),
                 'orderBy' => $parameters->getOrderProperty(),
                 'order' => $parameters->getOrder(),
-                'query' => $this->createElasticSearchQuery($queryParams),
             ];
 
             if ($parameters->getMetadataSetKey()) {
                 $options['metaDataSetKey'] = $parameters->getMetadataSetKey();
             }
         }
+
+        $options['query'] = $this->createElasticSearchQuery($queryParams);
 
         return $options;
     }
@@ -199,6 +202,10 @@ trait SearchEndpointTrait
                 'orderBy' => $parameters->getOrderProperty(),
                 'order' => $parameters->getOrder(),
             ];
+
+            if ($parameters->getMetadataSetKey()) {
+                $options['metaDataSetKey'] = $parameters->getMetadataSetKey();
+            }
         }
 
         $options['query'] = $this->createElasticSearchQuery($queryParams);
