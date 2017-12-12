@@ -110,6 +110,12 @@ class Video implements VideoInterface
     private $channels;
 
     /**
+     * @Type("string")
+     * @SerializedName("uploadFileName")
+     */
+    private $uploadFileName;
+
+    /**
      * @param string $id
      *
      * @return Video
@@ -473,5 +479,25 @@ class Video implements VideoInterface
     public function setChannels($channels)
     {
         $this->channels = $channels;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploadFileName()
+    {
+        return $this->uploadFileName;
+    }
+
+    /**
+     * @param mixed $uploadFileName
+     *
+     * @return Video
+     */
+    public function setUploadFileName($uploadFileName)
+    {
+        $this->uploadFileName = $uploadFileName;
+
+        return $this;
     }
 }
