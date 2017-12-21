@@ -160,7 +160,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
 
-        $response = json_decode($response->getBody()->getContents());
+        $response = $response->getBody()->getContents();
 
         return $this->deserialize($response, 'ArrayCollection<'.VideoDownloadUrl::class.'>');
     }
