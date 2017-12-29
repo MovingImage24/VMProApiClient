@@ -11,7 +11,7 @@ use MovingImage\Meta\Interfaces\VideoManagerInterface;
 class VideoManager implements VideoManagerInterface
 {
     /**
-     * @Type("string")
+     * @Type("integer")
      */
     private $id;
 
@@ -21,7 +21,7 @@ class VideoManager implements VideoManagerInterface
     private $name;
 
     /**
-     * @return string
+     * @return int
      */
     public function getId()
     {
@@ -29,7 +29,7 @@ class VideoManager implements VideoManagerInterface
     }
 
     /**
-     * @param $id
+     * @param $id integer
      *
      * @return VideoManager
      */
@@ -49,7 +49,7 @@ class VideoManager implements VideoManagerInterface
     }
 
     /**
-     * @param $name
+     * @param $name string
      *
      * @return VideoManager
      */
