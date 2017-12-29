@@ -66,7 +66,7 @@ trait SearchEndpointTrait
                     $video[$prop] = (new \DateTime($value))->getTimestamp();
                 }
 
-                if ($prop === 'channels') {
+                if ('channels' === $prop) {
                     foreach ($value as $channelIndex => $channelId) {
                         $video[$prop][$channelIndex] = [
                             'id' => $channelId,

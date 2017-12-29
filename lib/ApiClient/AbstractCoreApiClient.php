@@ -207,7 +207,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
         $json = $required;
 
         foreach ($optional as $key => $value) {
-            if (!empty($value) || $value === false) {
+            if (!empty($value) || false === $value) {
                 $json[$key] = $value;
             }
         }
@@ -250,12 +250,12 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
         }
 
         //GET is always safe to cache
-        if ($method === 'GET') {
+        if ('GET' === $method) {
             return true;
         }
 
         //POST may be cached for certain endpoints only (forgive us Roy Fielding)
-        if ($method === 'POST') {
+        if ('POST' === $method) {
             return in_array($uri, self::CACHEABLE_POST_ENDPOINTS);
         }
 
