@@ -74,7 +74,7 @@ class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
     protected function unserializeResponse($serialized)
     {
         $array = unserialize($serialized);
-        if (!is_array($array) || count($array) !== 3) {
+        if (!is_array($array) || 3 !== count($array)) {
             throw new Exception(sprintf('Error unserializing response: %s', $serialized));
         }
 

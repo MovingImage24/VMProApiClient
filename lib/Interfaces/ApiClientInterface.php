@@ -8,6 +8,7 @@ use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
+use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Entity\Video;
@@ -180,4 +181,11 @@ interface ApiClientInterface
      * @return ChannelCollection
      */
     public function searchChannels($videoManagerId, ChannelsRequestParameters $parameters = null);
+
+    /**
+     * Get video managers.
+     *
+     * @return VideoManager[]
+     */
+    public function getVideoManagers();
 }

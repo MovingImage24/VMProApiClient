@@ -78,7 +78,7 @@ trait AccessorTrait
     public function is($property)
     {
         if (isset($this->container[$property])) {
-            return $this->container[$property] === 'true';
+            return 'true' === $this->container[$property];
         }
 
         return null;

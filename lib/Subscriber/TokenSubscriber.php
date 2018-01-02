@@ -61,7 +61,7 @@ class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
         $videoManagerId = isset($options['videoManagerId']) ? $options['videoManagerId'] : null;
         $token = $this->tokenManager->getToken($videoManagerId);
 
-        if ($token !== null) {
+        if (null !== $token) {
             $request->setHeader('Authorization', sprintf(self::AUTH_BEARER, $token));
         }
     }

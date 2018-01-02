@@ -10,6 +10,7 @@ use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\Attachment;
+use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
@@ -283,5 +284,15 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $collection->setChannels($channels);
 
         return $collection;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVideoManagers()
+    {
+        $response = $this->makeRequest('GET', '', []);
+
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.VideoManager::class.'>');
     }
 }
