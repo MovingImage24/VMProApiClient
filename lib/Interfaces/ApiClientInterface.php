@@ -156,7 +156,7 @@ interface ApiClientInterface
     public function getAttachments($videoManagerId, $videoId);
 
     /**
-     *  Get video keywords
+     *  Get video keywords.
      *
      * @param int    $videoManagerId
      * @param string $videoId
@@ -166,7 +166,7 @@ interface ApiClientInterface
     public function getKeywords($videoManagerId, $videoId);
 
     /**
-     * Update video keywords
+     * Update video keywords.
      *
      * @param int    $videoManagerId
      * @param string $videoId
@@ -175,7 +175,7 @@ interface ApiClientInterface
     public function updateKeywords($videoManagerId, $videoId, $keywords);
 
     /**
-     * Delete keyword from video by keyword id
+     * Delete keyword from video by keyword id.
      *
      * @param int    $videoManagerId
      * @param string $videoId
