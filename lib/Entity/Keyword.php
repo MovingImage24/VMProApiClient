@@ -5,7 +5,7 @@ namespace MovingImage\Client\VMPro\Entity;
 use MovingImage\Meta\Interfaces\KeywordInterface;
 
 /**
- * Class Keyword
+ * Class Keyword.
  */
 class Keyword implements KeywordInterface
 {
