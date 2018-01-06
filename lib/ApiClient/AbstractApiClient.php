@@ -8,6 +8,7 @@ use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
+use MovingImage\Client\VMPro\Entity\Keyword;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\VideoManager;
@@ -252,6 +253,49 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         );
 
         return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Attachment::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeywords($videoManagerId, $videoId)
+    {
+        $response = $this->makeRequest(
+            'GET',
+            sprintf('videos/%s/keywords', $videoId),
+            [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
+        );
+
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Keyword::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateKeywords($videoManagerId, $videoId, $keywords)
+    {
+        //remove all keywords
+        foreach ($this->getKeywords($videoManagerId, $videoId) as $keyword) {
+            $this->deleteKeyword($videoManagerId, $videoId, $keyword->getId());
+        }
+
+        //add new
+        foreach ($keywords as $keyword) {
+            $this->makeRequest('POST', sprintf('videos/%s/keywords', $videoId), [
+                self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+                'json' => ['text' => $keyword],
+            ]);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteKeyword($videoManagerId, $videoId, $keywordId)
+    {
+        $this->makeRequest('DELETE', sprintf('videos/%s/keywords/%s', $videoId, $keywordId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
     }
 
     /**
