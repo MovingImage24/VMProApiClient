@@ -8,6 +8,7 @@ use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
+use MovingImage\Client\VMPro\Entity\Keyword;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
@@ -153,6 +154,28 @@ interface ApiClientInterface
      * @return Attachment[]
      */
     public function getAttachments($videoManagerId, $videoId);
+
+    /**
+     * @param int    $videoManagerId
+     * @param string $videoId
+     *
+     * @return Keyword[]
+     */
+    public function getKeywords($videoManagerId, $videoId);
+
+    /**
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param array  $keywords
+     */
+    public function updateKeywords($videoManagerId, $videoId, $keywords);
+
+    /**
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param int    $keywordId
+     */
+    public function deleteKeyword($videoManagerId, $videoId, $keywordId);
 
     /**
      * Get list of videos using the search endpoint.
