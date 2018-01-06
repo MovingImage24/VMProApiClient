@@ -2,6 +2,7 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
+use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\KeywordInterface;
 
 /**
