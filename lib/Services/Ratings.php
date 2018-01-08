@@ -48,6 +48,7 @@ class Ratings
      *
      * @param string $videoId
      * @param int    $rating
+     *
      * @throws \InvalidArgumentException
      */
     public function addRating($videoId, $rating)
@@ -72,6 +73,7 @@ class Ratings
      * @param string $videoId
      * @param int    $rating
      * @param int    $oldRating
+     *
      * @throws \InvalidArgumentException
      */
     public function modifyRating($videoId, $rating, $oldRating)
@@ -186,9 +188,10 @@ class Ratings
 
     /**
      * Checks the rating value if it is in range from 1 to 5.
-     * Throws an exception of not.
+     * Throws an exception if not.
      *
      * @param int $rating
+     *
      * @throws \InvalidArgumentException
      */
     private function validateRating($rating)

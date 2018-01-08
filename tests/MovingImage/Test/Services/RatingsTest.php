@@ -203,7 +203,6 @@ class RatingsTest extends TestCase
         $this->assertEquals(3, $this->callMethod($this->ratings, 'getRatingAverage', [$this->videoId]));
     }
 
-
     /**
      * @param int $rating
      * @dataProvider invalidRatingProvider
@@ -232,7 +231,7 @@ class RatingsTest extends TestCase
             [0],
             [6],
             [0.9],
-            [5.1]
+            [5.1],
         ];
     }
 }
