@@ -22,13 +22,20 @@ class RatingsTest extends TestCase
     const RATING_AVERAGE_KEY = 'rating_value_key';
     const RATING_COUNT_KEY = 'rating_count_key';
 
-    public function testConstructor()
+    /** @var Ratings */
+    private $ratings;
+
+    public function setUp()
     {
         $httpClient = new Client();
         $serializer = SerializerBuilder::create()->build();
 
-        $rating = new Ratings(new ApiClient($httpClient, $serializer), 1, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-        $this->assertEquals(Ratings::class, get_class($rating));
+        $this->ratings = new Ratings(new ApiClient($httpClient, $serializer), 1, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
+    }
+
+    public function testConstructor()
+    {
+        $this->assertEquals(Ratings::class, get_class($this->ratings));
     }
 
     /**
@@ -260,5 +267,38 @@ class RatingsTest extends TestCase
         // test new rating
         $this->assertEquals($count, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
         $this->assertEquals(3, $this->callMethod($ratings, 'getRatingAverage', [$videoId]));
+    }
+
+
+    /**
+     * @param int $rating
+     * @dataProvider invalidRatingProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage rating value is not in expected range
+     */
+    public function testAddInvalidRating($rating)
+    {
+        $this->ratings->addRating(123, $rating);
+    }
+
+    /**
+     * @param int $rating
+     * @dataProvider invalidRatingProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage rating value is not in expected range
+     */
+    public function testModifyInvalidRating($rating)
+    {
+        $this->ratings->modifyRating(123, $rating, 3);
+    }
+
+    public function invalidRatingProvider()
+    {
+        return [
+            [0],
+            [6],
+            [0.9],
+            [5.1]
+        ];
     }
 }
