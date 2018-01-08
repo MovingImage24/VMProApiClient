@@ -3,6 +3,7 @@ vendor
 coverage
 composer.lock
 test.php
+.php_cs.cache
 
 # IDE stuff
 .idea
