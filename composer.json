@@ -33,6 +33,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "MovingImage\\Client\\VMPro\\": "lib",
       "MovingImage\\Test\\": "tests/MovingImage/Test",
       "MovingImage\\TestCase\\": "tests/MovingImage/TestCase",
       "MovingImage\\VMPro\\TestUtil\\": "tests/MovingImage/Util"

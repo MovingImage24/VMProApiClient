@@ -2,8 +2,6 @@
 
 namespace MovingImage\Test\Services;
 
-use GuzzleHttp\Client;
-use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Services\Ratings;
@@ -22,13 +20,40 @@ class RatingsTest extends TestCase
     const RATING_AVERAGE_KEY = 'rating_value_key';
     const RATING_COUNT_KEY = 'rating_count_key';
 
+    /** @var Ratings */
+    private $ratings;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    private $client;
+
+    /** @var int */
+    private $vmId = 123456;
+
+    /** @var Video */
+    private $video;
+
+    /** @var int */
+    private $videoId = 123;
+
+    public function setUp()
+    {
+        $this->video = new Video();
+        $this->video
+            ->setId($this->videoId)
+            ->setCustomMetadata([]);
+
+        $this->client = $this->createMock(ApiClient::class);
+
+        $this->client
+            ->method('getVideo')
+            ->willReturn($this->video);
+
+        $this->ratings = new Ratings($this->client, $this->vmId, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
+    }
+
     public function testConstructor()
     {
-        $httpClient = new Client();
-        $serializer = SerializerBuilder::create()->build();
-
-        $rating = new Ratings(new ApiClient($httpClient, $serializer), 1, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-        $this->assertEquals(Ratings::class, get_class($rating));
+        $this->assertEquals(Ratings::class, get_class($this->ratings));
     }
 
     /**
@@ -38,30 +63,13 @@ class RatingsTest extends TestCase
      */
     public function testGetVideoFromClient()
     {
-        $count = 2;
-        $average = 3;
-        $videoId = 123;
-
-        $video = new Video();
-        $video
-            ->setId($videoId)
-            ->setCustomMetadata(
-                [
-                    self::RATING_AVERAGE_KEY => $average,
-                    self::RATING_COUNT_KEY => $count,
-                ]
-            );
-
-        $client = $this->createMock(ApiClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('getVideo')
-            ->willReturn($video);
+            ->willReturn($this->video);
 
-        $ratings = new Ratings($client, 123, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-
-        $this->assertEquals($video, $this->callMethod($ratings, 'getVideo', [$videoId]));
-        $this->assertEquals($video, $this->callMethod($ratings, 'getVideo', [$videoId]));
+        $this->assertEquals($this->video, $this->callMethod($this->ratings, 'getVideo', [$this->videoId]));
+        $this->assertEquals($this->video, $this->callMethod($this->ratings, 'getVideo', [$this->videoId]));
     }
 
     /**
@@ -72,48 +80,31 @@ class RatingsTest extends TestCase
      */
     public function testStoreCustomMetaData()
     {
-        $videoId = 123;
-        $vmId = 12345;
-
-        $video = new Video();
-        $video
-            ->setId($videoId)
-            ->setCustomMetadata([]);
-
-        $client = $this->createMock(ApiClient::class);
-        $client
-            ->expects($this->once())
-            ->method('getVideo')
-            ->willReturn($video);
-
         $unrelatedCustomMetaDataFields = ['key' => 'value'];
         $relatedCustomMetaDataFields = [self::RATING_COUNT_KEY => 33, self::RATING_AVERAGE_KEY => 3];
 
         $customMetaData = array_merge($unrelatedCustomMetaDataFields, $relatedCustomMetaDataFields);
 
-        // test if custom meta data fields only related to rating are stored via api
-        $client
+        $this->client
             ->expects($this->once())
             ->method('setCustomMetaData')
             ->with(
-                $vmId,
-                $videoId,
+                $this->vmId,
+                $this->videoId,
                 $relatedCustomMetaDataFields
             );
 
-        $ratings = new Ratings($client, $vmId, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-
         // test if custom meta data is still empty
-        $this->assertEmpty($this->callMethod($ratings, 'getVideo', [$videoId])->getCustomMetaData());
+        $this->assertEmpty($this->callMethod($this->ratings, 'getVideo', [$this->videoId])->getCustomMetaData());
 
         // store custom meta data
-        $this->callMethod($ratings, 'storeCustomMetaData', [
+        $this->callMethod($this->ratings, 'storeCustomMetaData', [
             $customMetaData,
-            $videoId,
+            $this->videoId,
         ]);
 
         // test if custom meta data has been set
-        $this->assertEquals($customMetaData, $this->callMethod($ratings, 'getVideo', [$videoId])->getCustomMetaData());
+        $this->assertEquals($customMetaData, $this->callMethod($this->ratings, 'getVideo', [$this->videoId])->getCustomMetaData());
     }
 
     /**
@@ -123,31 +114,16 @@ class RatingsTest extends TestCase
      */
     public function testGetRatingCount()
     {
-        $videoId = 123;
-
-        $video = new Video();
-        $video
-            ->setId($videoId)
-            ->setCustomMetadata([]);
-
-        $client = $this->createMock(ApiClient::class);
-        $client
-            ->expects($this->once())
-            ->method('getVideo')
-            ->willReturn($video);
-
-        $ratings = new Ratings($client, 12345, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-
         // test if empty meta data field returns '0'
-        $this->assertEquals(0, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
+        $this->assertEquals(0, $this->callMethod($this->ratings, 'getRatingCount', [$this->videoId]));
 
         // store meta data field
         $count = 67;
         $customMetaData = [self::RATING_COUNT_KEY => $count];
-        $this->callMethod($ratings, 'storeCustomMetaData', [$customMetaData, $videoId]);
+        $this->callMethod($this->ratings, 'storeCustomMetaData', [$customMetaData, $this->videoId]);
 
         // check if rating count has been changed
-        $this->assertEquals($count, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
+        $this->assertEquals($count, $this->callMethod($this->ratings, 'getRatingCount', [$this->videoId]));
     }
 
     /**
@@ -157,31 +133,16 @@ class RatingsTest extends TestCase
      */
     public function testGetRatingAverage()
     {
-        $videoId = 123;
-
-        $video = new Video();
-        $video
-            ->setId($videoId)
-            ->setCustomMetadata([]);
-
-        $client = $this->createMock(ApiClient::class);
-        $client
-            ->expects($this->once())
-            ->method('getVideo')
-            ->willReturn($video);
-
-        $ratings = new Ratings($client, 12345, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-
         // test if empty meta data field returns '0'
-        $this->assertEquals(0, $ratings->getRatingAverage($videoId));
+        $this->assertEquals(0, $this->ratings->getRatingAverage($this->videoId));
 
         // store meta data field as float
         $average = 78.2355;
         $customMetaData = [self::RATING_AVERAGE_KEY => $average];
-        $this->callMethod($ratings, 'storeCustomMetaData', [$customMetaData, $videoId]);
+        $this->callMethod($this->ratings, 'storeCustomMetaData', [$customMetaData, $this->videoId]);
 
         // check if rating average has been changed
-        $this->assertEquals($average, $ratings->getRatingAverage($videoId));
+        $this->assertEquals($average, $this->ratings->getRatingAverage($this->videoId));
     }
 
     /**
@@ -191,11 +152,9 @@ class RatingsTest extends TestCase
     {
         $count = 2;
         $average = 2;
-        $videoId = 123;
 
-        $video = new Video();
-        $video
-            ->setId($videoId)
+        $this->video
+            ->setId($this->videoId)
             ->setCustomMetadata(
                 [
                     self::RATING_COUNT_KEY => $count,
@@ -203,24 +162,16 @@ class RatingsTest extends TestCase
                 ]
             );
 
-        $client = $this->createMock(ApiClient::class);
-        $client
-            ->expects($this->once())
-            ->method('getVideo')
-            ->willReturn($video);
-
-        $ratings = new Ratings($client, 12345, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-
         // test initial ratings
-        $this->assertEquals($count, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
-        $this->assertEquals($average, $this->callMethod($ratings, 'getRatingAverage', [$videoId]));
+        $this->assertEquals($count, $this->callMethod($this->ratings, 'getRatingCount', [$this->videoId]));
+        $this->assertEquals($average, $this->callMethod($this->ratings, 'getRatingAverage', [$this->videoId]));
 
         // add new rating
-        $this->callMethod($ratings, 'addRating', [$videoId, 5]);
+        $this->callMethod($this->ratings, 'addRating', [$this->videoId, 5]);
 
         // test new rating
-        $this->assertEquals($count + 1, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
-        $this->assertEquals(3, $this->callMethod($ratings, 'getRatingAverage', [$videoId]));
+        $this->assertEquals($count + 1, $this->callMethod($this->ratings, 'getRatingCount', [$this->videoId]));
+        $this->assertEquals(3, $this->callMethod($this->ratings, 'getRatingAverage', [$this->videoId]));
     }
 
     /**
@@ -230,11 +181,9 @@ class RatingsTest extends TestCase
     {
         $count = 2;
         $average = 2;
-        $videoId = 123;
 
-        $video = new Video();
-        $video
-            ->setId($videoId)
+        $this->video
+            ->setId($this->videoId)
             ->setCustomMetadata(
                 [
                     self::RATING_COUNT_KEY => $count,
@@ -242,23 +191,47 @@ class RatingsTest extends TestCase
                 ]
             );
 
-        $client = $this->createMock(ApiClient::class);
-        $client
-            ->expects($this->once())
-            ->method('getVideo')
-            ->willReturn($video);
-
-        $ratings = new Ratings($client, 12345, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
-
         // test initial ratings
-        $this->assertEquals($count, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
-        $this->assertEquals($average, $this->callMethod($ratings, 'getRatingAverage', [$videoId]));
+        $this->assertEquals($count, $this->callMethod($this->ratings, 'getRatingCount', [$this->videoId]));
+        $this->assertEquals($average, $this->callMethod($this->ratings, 'getRatingAverage', [$this->videoId]));
 
         // modify rating
-        $this->callMethod($ratings, 'modifyRating', [$videoId, 4, 2]);
+        $this->callMethod($this->ratings, 'modifyRating', [$this->videoId, 4, 2]);
 
         // test new rating
-        $this->assertEquals($count, $this->callMethod($ratings, 'getRatingCount', [$videoId]));
-        $this->assertEquals(3, $this->callMethod($ratings, 'getRatingAverage', [$videoId]));
+        $this->assertEquals($count, $this->callMethod($this->ratings, 'getRatingCount', [$this->videoId]));
+        $this->assertEquals(3, $this->callMethod($this->ratings, 'getRatingAverage', [$this->videoId]));
+    }
+
+    /**
+     * @param int $rating
+     * @dataProvider invalidRatingProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage rating value is not in expected range
+     */
+    public function testAddInvalidRating($rating)
+    {
+        $this->ratings->addRating(123, $rating);
+    }
+
+    /**
+     * @param int $rating
+     * @dataProvider invalidRatingProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage rating value is not in expected range
+     */
+    public function testModifyInvalidRating($rating)
+    {
+        $this->ratings->modifyRating(123, $rating, 3);
+    }
+
+    public function invalidRatingProvider()
+    {
+        return [
+            [0],
+            [6],
+            [0.9],
+            [5.1],
+        ];
     }
 }
