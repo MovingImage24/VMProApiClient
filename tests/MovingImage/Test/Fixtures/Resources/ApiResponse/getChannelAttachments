@@ -1,0 +1,26 @@
+[
+    {
+        "type": {
+            "id": "7iDRUvpPykJ_VsfBx3TKCy",
+            "name": "thumbnail"
+        },
+        "data": {
+            "id": "1",
+            "fileName": "attachment1.jpg",
+            "downloadUrl": "http://example.org/attachment1.jpg",
+            "fileSize": 227174
+        }
+    },
+    {
+        "type": {
+            "id": "7iDRUvpPykJ_VsfBx3TKCy",
+            "name": "thumbnail"
+        },
+        "data": {
+            "id": "2",
+            "fileName": "attachment2.jpg",
+            "downloadUrl": "http://example.org/attachment2.jpg",
+            "fileSize": 227174
+        }
+    }
+]

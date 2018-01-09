@@ -156,6 +156,16 @@ interface ApiClientInterface
     public function getAttachments($videoManagerId, $videoId);
 
     /**
+     * Returns attachments for the specified channel.
+     *
+     * @param int $videoManagerId
+     * @param int $channelId
+     *
+     * @return Attachment[]
+     */
+    public function getChannelAttachments($videoManagerId, $channelId);
+
+    /**
      *  Get video keywords.
      *
      * @param int    $videoManagerId

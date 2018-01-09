@@ -258,6 +258,20 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
+    public function getChannelAttachments($videoManagerId, $channelId)
+    {
+        $response = $this->makeRequest(
+            'GET',
+            sprintf('channels/%s/attachments', $channelId),
+            [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
+        );
+
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Attachment::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getKeywords($videoManagerId, $videoId)
     {
         $response = $this->makeRequest(
