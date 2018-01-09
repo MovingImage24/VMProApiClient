@@ -13,6 +13,9 @@ use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
  */
 class Ratings
 {
+    const MINIMUM_RATING = 1;
+    const MAXIMUM_RATING = 5;
+
     /** @var ApiClientInterface */
     private $client;
 
@@ -45,9 +48,12 @@ class Ratings
      *
      * @param string $videoId
      * @param int    $rating
+     *
+     * @throws \InvalidArgumentException
      */
     public function addRating($videoId, $rating)
     {
+        $this->validateRating($rating);
         $customMetaData = $this->getVideo($videoId)->getCustomMetadata();
 
         $average = $this->getRatingAverage($videoId);
@@ -67,9 +73,12 @@ class Ratings
      * @param string $videoId
      * @param int    $rating
      * @param int    $oldRating
+     *
+     * @throws \InvalidArgumentException
      */
     public function modifyRating($videoId, $rating, $oldRating)
     {
+        $this->validateRating($rating);
         $customMetaData = $this->getVideo($videoId)->getCustomMetadata();
 
         $average = $this->getRatingAverage($videoId);
@@ -175,5 +184,20 @@ class Ratings
         }
 
         return $customMetaData;
+    }
+
+    /**
+     * Checks the rating value if it is in range from 1 to 5.
+     * Throws an exception if not.
+     *
+     * @param int $rating
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function validateRating($rating)
+    {
+        if ($rating < self::MINIMUM_RATING || $rating > self::MAXIMUM_RATING) {
+            throw new \InvalidArgumentException('rating value is not in expected range');
+        }
     }
 }
