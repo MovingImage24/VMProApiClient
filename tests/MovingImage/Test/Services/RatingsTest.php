@@ -234,4 +234,14 @@ class RatingsTest extends TestCase
             [5.1],
         ];
     }
+
+    public function testDisabledCache()
+    {
+        $client = $this->createMock(ApiClient::class);
+        $client
+            ->expects($this->once())
+            ->method('disableCaching');
+
+        new Ratings($client, $this->vmId, self::RATING_AVERAGE_KEY, self::RATING_COUNT_KEY);
+    }
 }
