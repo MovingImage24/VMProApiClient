@@ -91,6 +91,11 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
         $this->cacheItemPool = $cacheItemPool;
     }
 
+    public function disableCaching()
+    {
+        $this->setCacheItemPool(new VoidCachePool());
+    }
+
     /**
      * @return CacheItemPoolInterface
      */

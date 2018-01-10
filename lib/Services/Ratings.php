@@ -2,9 +2,9 @@
 
 namespace MovingImage\Client\VMPro\Services;
 
+use MovingImage\Client\VMPro\ApiClient\AbstractApiClient;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
-use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 
 /**
  * Class Ratings.
@@ -16,7 +16,7 @@ class Ratings
     const MINIMUM_RATING = 1;
     const MAXIMUM_RATING = 5;
 
-    /** @var ApiClientInterface */
+    /** @var AbstractApiClient */
     private $client;
 
     /** @var Video [] */
@@ -32,12 +32,13 @@ class Ratings
     private $metadataFieldCount;
 
     public function __construct(
-        ApiClientInterface $client,
+        AbstractApiClient $client,
         $vmId,
         $metadataFieldAverage,
         $metadataFieldCount
     ) {
         $this->client = $client;
+        $this->client->disableCaching();
         $this->metadataFieldAverage = $metadataFieldAverage;
         $this->metadataFieldCount = $metadataFieldCount;
         $this->vmId = $vmId;
