@@ -5,19 +5,19 @@ namespace MovingImage\Client\VMPro\Entity;
 use MovingImage\Client\VMPro\Util\AccessorTrait;
 
 /**
- * @method int getOffset()
+ * @method int                       getOffset()
  * @method ChannelsRequestParameters setOffset(int $offset)
- * @method int getLimit()
+ * @method int                       getLimit()
  * @method ChannelsRequestParameters setLimit(int $limit)
- * @method string getOrder()
- * @method string getOrderProperty()
+ * @method string                    getOrder()
+ * @method string                    getOrderProperty()
  * @method ChannelsRequestParameters setOrderProperty(string $orderProperty)
- * @method string getSearchTerm()
+ * @method string                    getSearchTerm()
  * @method ChannelsRequestParameters setSearchTerm(string $searchTerm)
- * @method string getSearchInField()
+ * @method string                    getSearchInField()
  * @method ChannelsRequestParameters setSearchInField(string $searchInField)
  * @method ChannelsRequestParameters setMetadataSetKey(string $metadataSetKey)
- * @method string getMetadataSetKey()
+ * @method string                    getMetadataSetKey()
  */
 class ChannelsRequestParameters
 {

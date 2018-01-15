@@ -2,11 +2,13 @@
 
 namespace MovingImage\Client\VMPro\Manager;
 
+use Cache\Adapter\Void\VoidCachePool;
 use GuzzleHttp\ClientInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerAwareInterface;
 
 /**
@@ -44,19 +46,30 @@ class TokenManager implements LoggerAwareInterface
     private $refreshToken;
 
     /**
+     * If provided in the constructor, will be used to cache the access token.
+     *
+     * @var CacheItemPoolInterface
+     */
+    private $cacheItemPool;
+
+    /**
      * TokenManager constructor.
      *
-     * @param ClientInterface $httpClient
-     * @param ApiCredentials  $credentials
+     * @param ClientInterface        $httpClient
+     * @param ApiCredentials         $credentials
+     * @param TokenExtractor         $tokenExtractor
+     * @param CacheItemPoolInterface $cacheItemPool
      */
     public function __construct(
         ClientInterface $httpClient,
         ApiCredentials $credentials,
-        TokenExtractor $tokenExtractor
+        TokenExtractor $tokenExtractor,
+        CacheItemPoolInterface $cacheItemPool = null
     ) {
         $this->httpClient = $httpClient;
         $this->credentials = $credentials;
         $this->tokenExtractor = $tokenExtractor;
+        $this->cacheItemPool = $cacheItemPool ?: new VoidCachePool();
     }
 
     /**
@@ -163,6 +176,12 @@ class TokenManager implements LoggerAwareInterface
         $logger = $this->getLogger();
         $this->logTokenData();
 
+        $cacheKey = sha1(sprintf('%s.%s', __METHOD__, json_encode(func_get_args())));
+        $cacheItem = $this->cacheItemPool->getItem($cacheKey);
+        if (!$this->accessToken && $cacheItem->isHit()) {
+            $this->accessToken = $cacheItem->get();
+        }
+
         // Access token has expired, but expiration token has not expired.
         // Issue ourselves a new access token for the same video manager.
         if (!is_null($this->accessToken)
@@ -195,6 +214,13 @@ class TokenManager implements LoggerAwareInterface
             $logger->info('Attempting to use token for different video manager - generate valid access token');
             $this->accessToken = $this->createAccessTokenFromRefreshToken($this->refreshToken, $videoManagerId);
         }
+
+        $cacheItem->set($this->accessToken);
+        $cacheItem->expiresAt((new \DateTime())
+            ->setTimestamp($this->accessToken->getTokenData()['exp'])
+            ->sub(new \DateInterval('PT30S'))
+        );
+        $this->cacheItemPool->save($cacheItem);
 
         return $this->accessToken->getTokenString();
     }
