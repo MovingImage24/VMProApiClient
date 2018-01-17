@@ -156,11 +156,9 @@ class TokenManager implements LoggerAwareInterface
     /**
      * Retrieve a valid token.
      *
-     * @param int $videoManagerId - deprecated and unused, preserved for BC
-     *
      * @return string
      */
-    public function getToken($videoManagerId = null)
+    public function getToken()
     {
         $logger = $this->getLogger();
         $this->logTokenData();

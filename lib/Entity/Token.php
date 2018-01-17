@@ -19,9 +19,8 @@ class Token
      *
      * @param string $tokenString
      * @param array  $tokenData
-     * @param int    $videoManagerId - deprecated, kept for BC
      */
-    public function __construct($tokenString, array $tokenData, $videoManagerId = null)
+    public function __construct($tokenString, array $tokenData)
     {
         $this->tokenString = $tokenString;
         $this->tokenData = $tokenData;
@@ -41,18 +40,6 @@ class Token
     public function getTokenData()
     {
         return $this->tokenData;
-    }
-
-    /**
-     * This method is kept for BC and will be removed in the future.
-     *
-     * @deprecated
-     *
-     * @return int
-     */
-    public function getVideoManagerId()
-    {
-        return null;
     }
 
     /**
