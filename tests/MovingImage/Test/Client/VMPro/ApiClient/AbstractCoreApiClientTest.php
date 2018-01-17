@@ -7,6 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\Serializer;
+use MovingImage\VMPro\TestUtil\GuzzleResponseGenerator;
 use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -20,6 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
 {
     use PrivateMethodCaller;
+    use GuzzleResponseGenerator;
 
     /**
      * @var AbstractApiClientImpl
@@ -96,7 +98,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $statusCode = 200;
         $headers = ['Content-Type' => ['application/json']];
         $body = 'test';
-        $cachedResponse = new Response($statusCode, $headers, $body);
+        $cachedResponse = $this->generateGuzzleResponse($statusCode, $headers, $body);
 
         $cacheItem->method('get')->willReturn($cachedResponse);
         $cacheItem->method('isHit')->willReturn(true);
@@ -109,7 +111,6 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($statusCode, $response->getStatusCode());
         $this->assertSame($headers, $response->getHeaders());
         $this->assertSame($body, $response->getBody()->getContents());
-        $response->getBody()->rewind();
     }
 
     /**
@@ -121,7 +122,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $serializer = $this->createMock(Serializer::class);
         $cachePool = $this->createMock(CacheItemPoolInterface::class);
         $cacheItem = $this->createMock(CacheItemInterface::class);
-        $expectedResponse = new Response();
+        $expectedResponse = $this->generateGuzzleResponse();
         $cacheItem->method('isHit')->willReturn(false);
         $cachePool->method('getItem')->willReturn($cacheItem);
         $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
@@ -140,7 +141,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     {
         $httpClient = $this->createMock(ClientInterface::class);
         $serializer = $this->createMock(Serializer::class);
-        $expectedResponse = new Response();
+        $expectedResponse = $this->generateGuzzleResponse();
         $client = new AbstractApiClientImpl($httpClient, $serializer);
         $client->setResponse($expectedResponse);
 
@@ -162,7 +163,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $httpClient = $this->createMock(ClientInterface::class);
         $serializer = $this->createMock(Serializer::class);
         $client = new AbstractApiClientImpl($httpClient, $serializer);
-        $response = new Response($responseCode);
+        $response = $this->generateGuzzleResponse($responseCode);
         $isCacheable = $this->callMethod($client, 'isCacheable', [$method, $uri, [], $response]);
         $this->assertSame($expectedResult, $isCacheable);
     }

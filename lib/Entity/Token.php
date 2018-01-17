@@ -15,21 +15,16 @@ class Token
     private $tokenData;
 
     /**
-     * @var int
-     */
-    private $videoManagerId;
-
-    /**
      * Token constructor.
      *
      * @param string $tokenString
      * @param array  $tokenData
+     * @param int    $videoManagerId - deprecated, kept for BC
      */
-    public function __construct($tokenString, array $tokenData, $videoManagerId)
+    public function __construct($tokenString, array $tokenData, $videoManagerId = null)
     {
         $this->tokenString = $tokenString;
         $this->tokenData = $tokenData;
-        $this->videoManagerId = $videoManagerId;
     }
 
     /**
@@ -49,11 +44,15 @@ class Token
     }
 
     /**
+     * This method is kept for BC and will be removed in the future.
+     *
+     * @deprecated
+     *
      * @return int
      */
     public function getVideoManagerId()
     {
-        return $this->videoManagerId;
+        return null;
     }
 
     /**

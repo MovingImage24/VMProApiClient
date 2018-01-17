@@ -84,31 +84,27 @@ class TokenManager implements LoggerAwareInterface
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access & refresh tokens');
 
-        $response = $this->httpClient->post('auth/login', [
-            'json' => [
-                'username' => $this->credentials->getUsername(),
-                'password' => $this->credentials->getPassword(),
-            ],
-            'headers' => [
-                'accept: application/json',
-                'cache-control: no-cache',
-                'content-type: application/json',
-            ],
-        ]);
+        $body = [
+            'client_id' => 'anonymous',
+            'grant_type' => 'password',
+            'response_type' => 'token',
+            'scope' => 'openid',
+            'username' => $this->credentials->getUsername(),
+            'password' => $this->credentials->getPassword(),
+        ];
 
-        $data = \json_decode($response->getBody(), true);
-        $logger->debug('Successfully retrieved new access & refresh tokens', $data);
+        $response = $this->sendPostRequest($body);
+
+        $logger->debug('Successfully retrieved new access & refresh tokens', $response);
 
         return [
             'accessToken' => new Token(
-                $data['accessToken'],
-                $this->tokenExtractor->extract($data['accessToken']),
-                $data['validForVideoManager']
+                $response['access_token'],
+                $this->tokenExtractor->extract($response['access_token'])
             ),
             'refreshToken' => new Token(
-                $data['refreshToken'],
-                $this->tokenExtractor->extract($data['refreshToken']),
-                null
+                $response['refresh_token'],
+                $this->tokenExtractor->extract($response['refresh_token'])
             ),
         ];
     }
@@ -117,33 +113,27 @@ class TokenManager implements LoggerAwareInterface
      * Create a new access token for a video manager using a refresh token.
      *
      * @param Token $refreshToken
-     * @param int   $videoManagerId
      *
      * @return Token
      */
-    protected function createAccessTokenFromRefreshToken(Token $refreshToken, $videoManagerId)
+    protected function createAccessTokenFromRefreshToken(Token $refreshToken)
     {
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access token from refresh token');
 
-        $response = $this->httpClient->post(sprintf('auth/refresh/%d', $videoManagerId), [
-            'json' => [
-                'refreshToken' => $refreshToken->getTokenString(),
-            ],
-            'headers' => [
-                'accept: application/json',
-                'cache-control: no-cache',
-                'content-type: application/json',
-            ],
-        ]);
+        $body = [
+            'client_id' => 'anonymous',
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken->getTokenString(),
+        ];
 
-        $data = \json_decode($response->getBody(), true);
-        $logger->debug('Successfully retrieved new access token', $data);
+        $response = $this->sendPostRequest($body);
+
+        $logger->debug('Successfully retrieved new access token', $response);
 
         return new Token(
-            $data['accessToken'],
-            $this->tokenExtractor->extract($data['accessToken']),
-            $videoManagerId
+            $response['access_token'],
+            $this->tokenExtractor->extract($response['access_token'])
         );
     }
 
@@ -166,8 +156,7 @@ class TokenManager implements LoggerAwareInterface
     /**
      * Retrieve a valid token.
      *
-     * @param int $videoManagerId Which video manager a token is requested for
-     * @TODO Refactor token storage to support multiple re-usable tokens, one per video manager
+     * @param int $videoManagerId - deprecated and unused, preserved for BC
      *
      * @return string
      */
@@ -188,11 +177,7 @@ class TokenManager implements LoggerAwareInterface
             && $this->accessToken->expired()
             && !$this->refreshToken->expired()) {
             $logger->info('Access token has expired - getting new one for same video manager with refresh token');
-            $tokenData = $this->createAccessTokenFromRefreshToken(
-                $this->refreshToken,
-                $this->accessToken->getVideoManagerId()
-            );
-
+            $tokenData = $this->createAccessTokenFromRefreshToken($this->refreshToken);
             $this->accessToken = $tokenData['accessToken'];
         } elseif (is_null($this->accessToken)
             || (!is_null($this->refreshToken) && $this->refreshToken->expired())) {
@@ -205,16 +190,6 @@ class TokenManager implements LoggerAwareInterface
             $this->refreshToken = $tokenData['refreshToken'];
         }
 
-        // Video manager is not matching with the one that our token
-        // was generated with - issue ourselves a token for the video manager
-        // we need.
-        if (!is_null($videoManagerId)
-            && isset($this->accessToken)
-            && $this->accessToken->getVideoManagerId() != $videoManagerId) {
-            $logger->info('Attempting to use token for different video manager - generate valid access token');
-            $this->accessToken = $this->createAccessTokenFromRefreshToken($this->refreshToken, $videoManagerId);
-        }
-
         $cacheItem->set($this->accessToken);
         $cacheItem->expiresAt((new \DateTime())
             ->setTimestamp($this->accessToken->getTokenData()['exp'])
@@ -223,5 +198,23 @@ class TokenManager implements LoggerAwareInterface
         $this->cacheItemPool->save($cacheItem);
 
         return $this->accessToken->getTokenString();
+    }
+
+    /**
+     * Sends a post request to the OAuth endpoint
+     * Supports both guzzle 5 and 6 versions.
+     *
+     * @param array $body
+     *
+     * @return mixed
+     */
+    private function sendPostRequest(array $body)
+    {
+        $requestBodyKey = version_compare(ClientInterface::VERSION, '6.0', '>=') ? 'form_params' : 'body';
+        $response = $this->httpClient->post('', [
+            $requestBodyKey => $body,
+        ]);
+
+        return \json_decode($response->getBody(), true);
     }
 }
