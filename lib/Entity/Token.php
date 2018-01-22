@@ -15,21 +15,15 @@ class Token
     private $tokenData;
 
     /**
-     * @var int
-     */
-    private $videoManagerId;
-
-    /**
      * Token constructor.
      *
      * @param string $tokenString
      * @param array  $tokenData
      */
-    public function __construct($tokenString, array $tokenData, $videoManagerId)
+    public function __construct($tokenString, array $tokenData)
     {
         $this->tokenString = $tokenString;
         $this->tokenData = $tokenData;
-        $this->videoManagerId = $videoManagerId;
     }
 
     /**
@@ -46,14 +40,6 @@ class Token
     public function getTokenData()
     {
         return $this->tokenData;
-    }
-
-    /**
-     * @return int
-     */
-    public function getVideoManagerId()
-    {
-        return $this->videoManagerId;
     }
 
     /**
