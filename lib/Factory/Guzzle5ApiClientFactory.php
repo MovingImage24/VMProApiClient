@@ -65,9 +65,9 @@ class Guzzle5ApiClientFactory extends AbstractApiClientFactory
     /**
      * {@inheritdoc}
      */
-    public function createSimple($baseUri, ApiCredentials $credentials)
+    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl)
     {
-        $tokenManager = $this->createTokenManager($baseUri, $credentials);
+        $tokenManager = $this->createTokenManager($authUrl, $credentials);
         $tokenSubscriber = $this->createTokenSubscriber($tokenManager);
         $httpClient = $this->createHttpClient($baseUri, [$tokenSubscriber]);
 
