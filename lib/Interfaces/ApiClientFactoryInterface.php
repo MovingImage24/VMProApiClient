@@ -39,11 +39,11 @@ interface ApiClientFactoryInterface
      * Factory method to create a new instance of the VMPro
      * API Client.
      *
-     * @param ClientInterface        $httpClient
-     * @param Serializer             $serializer
-     * @param LoggerInterface|null   $logger
-     * @param CacheItemPoolInterface $cacheItemPool
-     * @param mixed                  $cacheTtl
+     * @param ClientInterface             $httpClient
+     * @param Serializer                  $serializer
+     * @param LoggerInterface|null        $logger
+     * @param CacheItemPoolInterface|null $cacheItemPool
+     * @param mixed                       $cacheTtl
      *
      * @return ApiClientInterface
      */
@@ -60,8 +60,9 @@ interface ApiClientFactoryInterface
      *
      * @param string         $baseUri
      * @param ApiCredentials $credentials
+     * @param string         $authUrl
      *
      * @return mixed
      */
-    public function createSimple($baseUri, ApiCredentials $credentials);
+    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl);
 }

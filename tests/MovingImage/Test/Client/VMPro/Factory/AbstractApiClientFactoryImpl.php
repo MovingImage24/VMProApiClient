@@ -31,7 +31,7 @@ class AbstractApiClientFactoryImpl extends AbstractApiClientFactory
         return 'base_uri';
     }
 
-    public function createSimple($baseUri, ApiCredentials $credentials)
+    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl)
     {
     }
 }
