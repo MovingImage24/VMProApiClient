@@ -139,7 +139,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
                 return $this->unserializeResponse($cacheItem->get());
             }
 
-            $logger->info(sprintf('Making API %s request to %s', $method, $uri), [$uri]);
+            $logger->info(sprintf('Making API %s request to %s', $method, $uri), ['uri' => $uri, 'options' => $options]);
 
             $stopwatchEvent = "$method-$uri";
             $this->stopwatch->start($stopwatchEvent);
@@ -155,6 +155,9 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
             $logger->debug('Response JSON was:', [$response->getBody()]);
+
+            // reset stream if response body has been logged
+            $response->getBody()->rewind();
 
             return $response;
         } catch (\Exception $e) {
