@@ -9,6 +9,7 @@ use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ApiClientFactory.
@@ -70,12 +71,12 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
     /**
      * {@inheritdoc}
      */
-    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl)
+    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl, LoggerInterface $logger = null)
     {
         $tokenManager = $this->createTokenManager($authUrl, $credentials);
         $tokenMiddleware = $this->createTokenMiddleware($tokenManager);
         $httpClient = $this->createHttpClient($baseUri, [$tokenMiddleware]);
 
-        return $this->create($httpClient, $this->createSerializer());
+        return $this->create($httpClient, $this->createSerializer(), $logger);
     }
 }
