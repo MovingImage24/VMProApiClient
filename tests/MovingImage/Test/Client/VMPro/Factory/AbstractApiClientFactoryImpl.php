@@ -5,6 +5,7 @@ namespace MovingImage\Test\Client\VMPro\Factory;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Factory\AbstractApiClientFactory;
 use MovingImage\Test\Client\VMPro\ApiClient\AbstractApiClientImpl;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AbstractApiClientFactoryImpl.
@@ -31,7 +32,7 @@ class AbstractApiClientFactoryImpl extends AbstractApiClientFactory
         return 'base_uri';
     }
 
-    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl)
+    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl, LoggerInterface $logger = null)
     {
     }
 }
