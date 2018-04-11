@@ -299,4 +299,18 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         return $collection;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTranscodingStatus($videoManagerId, $videoId)
+    {
+        $response = $this->makeRequest('GET', sprintf('videos/%s/transcoding-status', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+
+        $response = $response->getBody()->getContents();
+
+        return $this->deserialize($response, 'ArrayCollection<'.VideoTranscodingStatus::class.'>');
+    }
 }
