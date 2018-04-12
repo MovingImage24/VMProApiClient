@@ -13,6 +13,7 @@ use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
+use MovingImage\Client\VMPro\Entity\VideoThumbnailCollection;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
@@ -312,5 +313,19 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $response = $response->getBody()->getContents();
 
         return $this->deserialize($response, 'ArrayCollection<'.VideoTranscodingStatus::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThumbnailCollection($videoManagerId, $videoId)
+    {
+        $response = $this->makeRequest('GET', sprintf('videos/%s/thumbnails', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+
+        $response = $response->getBody()->getContents();
+
+        return $this->deserialize($response, 'ArrayCollection<'.VideoThumbnailCollection::class.'>');
     }
 }
