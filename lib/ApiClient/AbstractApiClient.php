@@ -328,4 +328,28 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         return $this->deserialize($response, 'ArrayCollection<'.VideoThumbnailCollection::class.'>');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createThumbnailForVideo($videoManagerId, $videoId)
+    {
+        $response = $this->makeRequest('POST', sprintf('videos/%s/thumbnails', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+
+        return $response->getHeader('Location');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThumbnailUploadUrl($videoManagerId, $videoId, $thumbnailId)
+    {
+        $response = $this->makeRequest('GET', sprintf('videos/%s/thumbnails/%s/upload-url', $videoId, $thumbnailId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+
+        return $response->getHeader('Location');
+    }
 }
