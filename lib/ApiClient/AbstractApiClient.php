@@ -352,4 +352,18 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         return $response->getHeader('Location');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function publishVideoAsset($videoManagerId, $videoId)
+    {
+        $json = $this->buildJsonParameters(['published' => 'true'], ['downloadable' => 'true']);
+        $response = $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => $json
+        ]);
+
+        return $response->getStatusCode();
+    }
 }
