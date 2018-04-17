@@ -202,6 +202,7 @@ interface ApiClientInterface
      *
      * @param int                     $videoManagerId
      * @param VideosRequestParameters $parameters
+     * @param string                  $searchQuery
      *
      * @return VideoCollection
      */
