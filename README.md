@@ -42,4 +42,4 @@ If you have questions, suggestions or problems, feel free to get in touch with t
 
 ## Contributing
 
-If you want to expand the functionality of the API clients, or fix a bug, feel free to fork and do a pull request back onto the 'master' branch. Make sure the tests pass.
+If you want to expand the functionality of the API clients, or fix a bug, feel free to fork and do a pull request back onto the 'master' branch. Make sure the tests pass by running `./vendor/bin/phpunit`.
