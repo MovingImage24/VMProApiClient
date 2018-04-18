@@ -206,7 +206,7 @@ interface ApiClientInterface
      *
      * @return VideoCollection
      */
-    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, string $searchQuery = null);
+    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, $searchQuery = null);
 
     /**
      * Get channels using the search endpoint.
