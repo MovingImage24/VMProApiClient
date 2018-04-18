@@ -315,7 +315,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
-    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, string $searchQuery = null)
+    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, $searchQuery = null)
     {
         $options = $this->getRequestOptionsForSearchVideosEndpoint($videoManagerId, $parameters);
         if ($searchQuery) {
