@@ -34,12 +34,16 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createTokenManager($baseUri, ApiCredentials $credentials)
-    {
+    public function createTokenManager(
+        $baseUri,
+        ApiCredentials $credentials,
+        CacheItemPoolInterface $cacheItemPool = null
+    ) {
         return new TokenManager(
             new Client([$this->getGuzzleBaseUriOptionKey() => $baseUri]),
             $credentials,
-            new TokenExtractor()
+            new TokenExtractor(),
+            $cacheItemPool
         );
     }
 
