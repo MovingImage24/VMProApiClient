@@ -20,13 +20,20 @@ interface ApiClientFactoryInterface
 
     /**
      * Instantiate a TokenManager with a set of API credentials.
+     * If CacheItemPoolInterface implementation is provided,
+     * it will be used to cache the API token.
      *
-     * @param string         $baseUri
-     * @param ApiCredentials $credentials
+     * @param string                 $baseUri
+     * @param ApiCredentials         $credentials
+     * @param CacheItemPoolInterface $cacheItemPool
      *
      * @return TokenManager
      */
-    public function createTokenManager($baseUri, ApiCredentials $credentials);
+    public function createTokenManager(
+        $baseUri,
+        ApiCredentials $credentials,
+        CacheItemPoolInterface $cacheItemPool = null
+    );
 
     /**
      * Method to instantiate a serializer instance.
