@@ -93,13 +93,22 @@ interface ApiClientInterface
     public function updateVideo($videoManagerId, $videoId, $title, $description);
 
     /**
-     * Add a video to one or more channels.
+     * Add a video to a channel.
      *
      * @param int    $videoManagerId
      * @param string $videoId
      * @param string $channelId
      */
     public function addVideoToChannel($videoManagerId, $videoId, $channelId);
+
+    /**
+     * Remove a video from a channel.
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     * @param string $channelId
+     */
+    public function removeVideoFromChannel($videoManagerId, $videoId, $channelId);
 
     /**
      * Add/remove/update custom metadata fields to a video.

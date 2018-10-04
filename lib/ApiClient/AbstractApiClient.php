@@ -178,6 +178,16 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
+    public function removeVideoFromChannel($videoManagerId, $videoId, $channelId)
+    {
+        $this->makeRequest('DELETE', sprintf('channels/%s/videos/%s', $channelId, $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setCustomMetaData($videoManagerId, $videoId, $metadata)
     {
         $this->makeRequest('PATCH', sprintf('videos/%s/metadata', $videoId), [
