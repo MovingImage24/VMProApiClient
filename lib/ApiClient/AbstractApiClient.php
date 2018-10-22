@@ -367,4 +367,18 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         return $response->getStatusCode();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateSpecificThumbnail($videoManagerId, $videoId, $thumbnailId)
+    {
+        $json = $this->buildJsonParameters(['active' => 'true']);
+        $response = $this->makeRequest('PATCH', sprintf('videos/%s/thumbnails/%s', $videoId, $thumbnailId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => $json
+        ]);
+
+        return $response->getStatusCode();
+    }
 }
