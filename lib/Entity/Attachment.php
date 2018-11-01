@@ -34,6 +34,11 @@ class Attachment implements AttachmentInterface
     private $fileSize;
 
     /**
+     * @Type("string")
+     */
+    private $type;
+
+    /**
      * @return string
      */
     public function getId()
@@ -114,6 +119,26 @@ class Attachment implements AttachmentInterface
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param $type
+     *
+     * @return Attachment
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
      * @HandlerCallback("json",  direction = "deserialization")
      */
     public function deserializeFromJson(JsonDeserializationVisitor $visitor, array $data, DeserializationContext $context)
@@ -132,6 +157,10 @@ class Attachment implements AttachmentInterface
 
         if (isset($data['data']['fileSize'])) {
             $this->fileSize = $data['data']['fileSize'];
+        }
+
+        if (isset($data['type']['name'])) {
+            $this->type = $data['type']['name'];
         }
     }
 }
