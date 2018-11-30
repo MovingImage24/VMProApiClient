@@ -4,6 +4,7 @@ namespace MovingImage\Client\VMPro\Factory;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\HandlerStack;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
@@ -37,10 +38,20 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
     public function createTokenManager(
         $baseUri,
         ApiCredentials $credentials,
-        CacheItemPoolInterface $cacheItemPool = null
+        CacheItemPoolInterface $cacheItemPool = null,
+        array $middlewares = []
     ) {
+        $stack = HandlerStack::create();
+
+        foreach ($middlewares as $middleware) {
+            $stack->push($middleware);
+        }
+
         return new TokenManager(
-            new Client([$this->getGuzzleBaseUriOptionKey() => $baseUri]),
+            new Client([
+                $this->getGuzzleBaseUriOptionKey() => $baseUri,
+                'handler' => $stack,
+            ]),
             $credentials,
             new TokenExtractor(),
             $cacheItemPool

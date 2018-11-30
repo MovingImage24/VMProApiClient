@@ -32,7 +32,8 @@ interface ApiClientFactoryInterface
     public function createTokenManager(
         $baseUri,
         ApiCredentials $credentials,
-        CacheItemPoolInterface $cacheItemPool = null
+        CacheItemPoolInterface $cacheItemPool = null,
+        array $middlewares = []
     );
 
     /**
