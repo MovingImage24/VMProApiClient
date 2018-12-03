@@ -373,7 +373,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      */
     public function updateSpecificThumbnail($videoManagerId, $videoId, $thumbnailId)
     {
-        $json = $this->buildJsonParameters(['active' => 'true']);
+        $json = $this->buildJsonParameters(['active' => 'true'], []);
         $response = $this->makeRequest('PATCH', sprintf('videos/%s/thumbnails/%s', $videoId, $thumbnailId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
             'json' => $json
@@ -382,3 +382,4 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $response->getStatusCode();
     }
 }
+
