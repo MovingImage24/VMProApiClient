@@ -173,10 +173,10 @@ class TokenManager implements LoggerAwareInterface
         // Issue ourselves a new access token for the same video manager.
         if (!is_null($this->accessToken)
             && $this->accessToken->expired()
+            && !is_null($this->refreshToken)
             && !$this->refreshToken->expired()) {
             $logger->info('Access token has expired - getting new one for same video manager with refresh token');
-            $tokenData = $this->createAccessTokenFromRefreshToken($this->refreshToken);
-            $this->accessToken = $tokenData['accessToken'];
+            $this->accessToken = $this->createAccessTokenFromRefreshToken($this->refreshToken);
         } elseif (is_null($this->accessToken)
             || (!is_null($this->refreshToken) && $this->refreshToken->expired())) {
             // Either we have no token, or the refresh token has expired
