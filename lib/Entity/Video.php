@@ -116,6 +116,11 @@ class Video implements VideoInterface
     private $uploadFileName;
 
     /**
+     * @Type("boolean")
+     */
+    private $downloadable;
+
+    /**
      * @param string $id
      *
      * @return Video
@@ -453,6 +458,34 @@ class Video implements VideoInterface
     public function isPublished()
     {
         return $this->getPublished();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDownloadable()
+    {
+        return $this->downloadable;
+    }
+
+    /**
+     * @param mixed $downloadable
+     *
+     * @return Video
+     */
+    public function setDownloadable($downloadable)
+    {
+        $this->downloadable = $downloadable;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDownloadable()
+    {
+        return $this->getDownloadable();
     }
 
     /**
