@@ -240,7 +240,7 @@ interface ApiClientInterface
     public function getVideoManagers();
 
     /**
-     * Get download-URLs including file size of the specified video
+     * Get download-URLs including file size of the specified video.
      *
      * @param int    $videoManagerId
      * @param string $videoId

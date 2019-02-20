@@ -134,5 +134,4 @@ class VideoDownloadUrl implements VideoDownloadUrlInterface
 
         return $this;
     }
-
 }
