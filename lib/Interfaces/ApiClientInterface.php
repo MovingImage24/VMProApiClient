@@ -9,10 +9,11 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\Video;
+use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
-use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Meta\Interfaces\VideoInterface;
 
 /**
@@ -237,4 +238,14 @@ interface ApiClientInterface
      * @return VideoManager[]
      */
     public function getVideoManagers();
+
+    /**
+     * Get download-URLs including file size of the specified video.
+     *
+     * @param int    $videoManagerId
+     * @param string $videoId
+     *
+     * @return VideoDownloadUrl[] The video download URLs
+     */
+    public function getVideoDownloadUrls($videoManagerId, $videoId);
 }
