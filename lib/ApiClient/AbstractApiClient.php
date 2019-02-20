@@ -5,12 +5,13 @@ namespace MovingImage\Client\VMPro\ApiClient;
 use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
+use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
 use MovingImage\Client\VMPro\Entity\Video;
-use MovingImage\Client\VMPro\Entity\Attachment;
+use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
@@ -367,5 +368,25 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $response = $this->makeRequest('GET', '', []);
 
         return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.VideoManager::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVideoDownloadUrls($videoManagerId, $videoId)
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        $response = $this->makeRequest(
+            'GET',
+            sprintf('videos/%s/download-urls', $videoId),
+            $options
+        );
+
+        $response = $response->getBody()->getContents();
+
+        return $this->deserialize($response, VideoDownloadUrl::class);
     }
 }

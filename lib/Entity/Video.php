@@ -481,7 +481,7 @@ class Video implements VideoInterface
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isDownloadable()
     {
