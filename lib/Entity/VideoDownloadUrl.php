@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\SerializedName;
 use MovingImage\Meta\Interfaces\VideoDownloadUrlInterface;
 
 /**
@@ -12,26 +13,31 @@ class VideoDownloadUrl implements VideoDownloadUrlInterface
 {
     /**
      * @Type("string")
+     * @SerializedName("quality")
      */
     private $quality;
 
     /**
      * @Type("string")
+     * @SerializedName("profileKey")
      */
     private $profileKey;
 
     /**
      * @Type("string")
+     * @SerializedName("fileExtension")
      */
     private $fileExtension;
 
     /**
      * @Type("string")
+     * @SerializedName("url")
      */
     private $url;
 
     /**
      * @Type("integer")
+     * @SerializedName("fileSize")
      */
     private $fileSize;
 

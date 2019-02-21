@@ -387,6 +387,6 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         $response = $response->getBody()->getContents();
 
-        return $this->deserialize($response, VideoDownloadUrl::class);
+        return $this->deserialize($response, 'ArrayCollection<'.VideoDownloadUrl::class.'>');
     }
 }
