@@ -381,5 +381,19 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         return $response->getStatusCode();
     }
+
+    /**
+     * @param $videoManagerId
+     * @return string
+     * @throws \Exception
+     */
+    public function getAdConfigurations($videoManagerId)
+    {
+        $response = $this->makeRequest('GET', 'ad_configurations', [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ]);
+
+        return $response->getBody()->getContents();
+    }
 }
 
