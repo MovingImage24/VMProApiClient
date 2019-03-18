@@ -408,7 +408,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     {
         $response = $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => $paramsi,
+            'json' => [],
         ]);
 
         return $response->getStatusCode();
