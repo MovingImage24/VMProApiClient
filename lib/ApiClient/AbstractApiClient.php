@@ -403,13 +403,12 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      * @param array $params
      * @return int
      * @throws \Exception
-     * @throws Exception
      */
     public function updateVideoData($videoManagerId, $videoId, array $params = [])
     {
         $response = $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => $this->buildJsonParameters($params, []),
+            'json' => $params,
         ]);
 
         return $response->getStatusCode();
