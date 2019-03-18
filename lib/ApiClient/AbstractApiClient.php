@@ -15,6 +15,7 @@ use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideoThumbnailCollection;
 use MovingImage\Client\VMPro\Entity\VideoTranscodingStatus;
+use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
@@ -394,6 +395,24 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         ]);
 
         return $response->getBody()->getContents();
+    }
+
+    /**
+     * @param $videoManagerId
+     * @param $videoId
+     * @param array $params
+     * @return int
+     * @throws \Exception
+     * @throws Exception
+     */
+    public function updateVideoData($videoManagerId, $videoId, array $params = [])
+    {
+        $response = $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => $this->buildJsonParameters($params, []),
+        ]);
+
+        return $response->getStatusCode();
     }
 }
 
