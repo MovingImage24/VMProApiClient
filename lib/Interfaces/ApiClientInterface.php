@@ -248,4 +248,29 @@ interface ApiClientInterface
      * @return VideoDownloadUrl[] The video download URLs
      */
     public function getVideoDownloadUrls($videoManagerId, $videoId);
+
+    /**
+     * @param $videoManagerId
+     * @param $videoId
+     * @param $timestamp
+     * @return mixed
+     */
+    public function createThumbnailByTimestamp($videoManagerId, $videoId, $timestamp);
+
+    /**
+     * @param $videoManagerId
+     * @param $videoId
+     * @param $thumbnailId
+     * @return mixed
+     */
+    public function getThumbnail($videoManagerId, $videoId, $thumbnailId);
+
+    /**
+     * @param $videoManagerId
+     * @param $videoId
+     * @param $thumbnailId
+     * @param $active
+     * @return mixed
+     */
+    public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active);
 }
