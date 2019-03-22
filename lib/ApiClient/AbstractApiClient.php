@@ -15,6 +15,7 @@ use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
+use MovingImage\Client\VMPro\Entity\Thumbnail;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
@@ -388,5 +389,68 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $response = $response->getBody()->getContents();
 
         return $this->deserialize($response, 'ArrayCollection<'.VideoDownloadUrl::class.'>');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createThumbnailByTimestamp($videoManagerId, $videoId, $timestamp)
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => intval($videoManagerId),
+        ];
+
+        $response = $this->makeRequest(
+            'POST',
+            'videos/'.$videoId.'/thumbnails?timestamp='.intval($timestamp),
+            $options
+        );
+
+        if (preg_match('/\/thumbnails\/([0-9]*)/', $response->getHeader('Location')[0], $match)) {
+            return (new Thumbnail())->setId(intval($match[1]));
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThumbnail($videoManagerId, $videoId, $thumbnailId)
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        $response = $this->makeRequest(
+            'GET',
+            'videos/'.$videoId.'/thumbnails/'.$thumbnailId.'/url',
+            $options
+        );
+
+        $result = \json_decode($response->getBody()->getContents(), true);
+
+        if (isset($result['downloadUrl'])) {
+            return (new Thumbnail())
+                ->setId(intval($thumbnailId))
+                ->setUrl($result['downloadUrl']);
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active)
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => ['active' => boolval($active)],
+        ];
+
+        $this->makeRequest(
+            'PATCH',
+            'videos/'.$videoId.'/thumbnails/'.intval($thumbnailId),
+            $options
+        );
     }
 }
