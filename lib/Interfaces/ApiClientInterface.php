@@ -15,6 +15,7 @@ use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Meta\Interfaces\VideoInterface;
+use MovingImage\Meta\Interfaces\ThumbnailInterface;
 
 /**
  * Interface ApiClientInterface.
@@ -253,7 +254,7 @@ interface ApiClientInterface
      * @param $videoManagerId
      * @param $videoId
      * @param $timestamp
-     * @return mixed
+     * @return ThumbnailInterface
      */
     public function createThumbnailByTimestamp($videoManagerId, $videoId, $timestamp);
 
@@ -261,7 +262,7 @@ interface ApiClientInterface
      * @param $videoManagerId
      * @param $videoId
      * @param $thumbnailId
-     * @return mixed
+     * @return ThumbnailInterface|null
      */
     public function getThumbnail($videoManagerId, $videoId, $thumbnailId);
 
@@ -270,7 +271,7 @@ interface ApiClientInterface
      * @param $videoId
      * @param $thumbnailId
      * @param $active
-     * @return mixed
+     * @return void
      */
     public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active);
 }
