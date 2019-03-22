@@ -254,6 +254,7 @@ interface ApiClientInterface
      * @param $videoManagerId
      * @param $videoId
      * @param $timestamp
+     *
      * @return ThumbnailInterface
      */
     public function createThumbnailByTimestamp($videoManagerId, $videoId, $timestamp);
@@ -262,6 +263,7 @@ interface ApiClientInterface
      * @param $videoManagerId
      * @param $videoId
      * @param $thumbnailId
+     *
      * @return ThumbnailInterface|null
      */
     public function getThumbnail($videoManagerId, $videoId, $thumbnailId);
@@ -271,7 +273,6 @@ interface ApiClientInterface
      * @param $videoId
      * @param $thumbnailId
      * @param $active
-     * @return void
      */
     public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active);
 }

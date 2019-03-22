@@ -26,7 +26,8 @@ class Thumbnail implements ThumbnailInterface
 
     /**
      * @param int $id
-     * @return $this
+     *
+     * @return Thumbnail
      */
     public function setId($id)
     {
@@ -45,7 +46,8 @@ class Thumbnail implements ThumbnailInterface
 
     /**
      * @param string $url
-     * @return $this
+     *
+     * @return Thumbnail
      */
     public function setUrl($url)
     {

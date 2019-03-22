@@ -444,7 +444,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => ['active' => boolval($active)]
+            'json' => ['active' => boolval($active)],
         ];
 
         $this->makeRequest(
