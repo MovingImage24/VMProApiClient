@@ -177,10 +177,10 @@ interface ApiClientInterface
     public function getChannelAttachments($videoManagerId, $channelId);
 
     /**
-     *  Get video keywords.
+     * Get keywords, either for specific video if videoId is given, or for all videos of given videoManager.
      *
-     * @param int    $videoManagerId
-     * @param string $videoId
+     * @param int         $videoManagerId
+     * @param string|null $videoId
      *
      * @return Keyword[]
      */

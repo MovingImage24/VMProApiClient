@@ -288,9 +288,13 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      */
     public function getKeywords($videoManagerId, $videoId)
     {
+        $uri = is_null($videoId)
+            ? 'keyword/find'
+            : sprintf('videos/%s/keywords', $videoId);
+
         $response = $this->makeRequest(
             'GET',
-            sprintf('videos/%s/keywords', $videoId),
+            $uri,
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
