@@ -93,7 +93,7 @@ interface ApiClientInterface
      * @param string    $description
      * @param bool|null $autoPublish
      */
-    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish);
+    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish = null);
 
     /**
      * Add a video to a channel.

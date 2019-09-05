@@ -159,7 +159,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * {@inheritdoc}
      */
-    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish)
+    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish = null)
     {
         $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
