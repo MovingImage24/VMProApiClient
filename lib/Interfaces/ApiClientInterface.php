@@ -87,12 +87,13 @@ interface ApiClientInterface
     /**
      * Update a video with new values.
      *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param string $title
-     * @param string $description
+     * @param int       $videoManagerId
+     * @param string    $videoId
+     * @param string    $title
+     * @param string    $description
+     * @param bool|null $autoPublish
      */
-    public function updateVideo($videoManagerId, $videoId, $title, $description);
+    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish);
 
     /**
      * Add a video to a channel.
