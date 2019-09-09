@@ -10,6 +10,7 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\UserInfo;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
@@ -456,5 +457,22 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             'videos/'.$videoId.'/thumbnails/'.intval($thumbnailId),
             $options
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUserInfo($idToken)
+    {
+        $options = [
+            'body' => json_encode(['jwt_id_token' => $idToken]),
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ]
+        ];
+
+        $response = $this->makeRequest('POST', 'corp-tube-admin/user-info', $options);
+
+        return $this->deserialize($response->getBody()->getContents(), UserInfo::class);
     }
 }
