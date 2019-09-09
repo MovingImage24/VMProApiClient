@@ -6,7 +6,6 @@ namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class UserInfo
 {

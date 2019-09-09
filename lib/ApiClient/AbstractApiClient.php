@@ -467,7 +467,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $options = [
             'body' => json_encode(['jwt_id_token' => $idToken]),
             'headers' => [
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ]
         ];
 
