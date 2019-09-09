@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class UserInfo
 {
@@ -16,11 +17,13 @@ class UserInfo
 
     /**
      * @Type("string")
+     * @SerializedName("fullName")
      */
     private $fullName;
 
     /**
      * @Type("array")
+     * @SerializedName("videoManagerIds")
      */
     private $videoManagerIds = [];
 }
