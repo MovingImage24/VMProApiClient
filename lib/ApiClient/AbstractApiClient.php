@@ -468,7 +468,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             'body' => json_encode(['jwt_id_token' => $idToken]),
             'headers' => [
                 'Content-Type' => 'application/json',
-            ]
+            ],
         ];
 
         $response = $this->makeRequest('POST', 'corp-tube-admin/user-info', $options);
