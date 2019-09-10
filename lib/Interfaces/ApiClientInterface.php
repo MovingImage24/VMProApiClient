@@ -9,6 +9,7 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\UserInfo;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
@@ -276,4 +277,11 @@ interface ApiClientInterface
      * @param $active
      */
     public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active);
+
+    /**
+     * @param string $token
+     *
+     * @return UserInfo
+     */
+    public function getUserInfo($token);
 }
