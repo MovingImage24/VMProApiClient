@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\TestCase;
 
 use GuzzleHttp\Client;
@@ -10,10 +12,13 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Subscriber\History;
 use GuzzleHttp\Subscriber\Mock;
+use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\ApiClient\Guzzle5ApiClient;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
+use MovingImage\Client\VMPro\Subscriber\DeserializeAttachmentSubscriber;
 
 /**
  * Class ApiClientTestCase.
@@ -98,13 +103,19 @@ class ApiClientTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \JMS\Serializer\Serializer
+     * @return SerializerInterface
      */
     protected function createSerializer()
     {
         \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 
-        return SerializerBuilder::create()->build();
+        $serializerBuilder = SerializerBuilder::create();
+
+        $serializerBuilder->configureHandlers(static function (HandlerRegistry $registry) {
+            $registry->registerSubscribingHandler(new DeserializeAttachmentSubscriber());
+        });
+
+        return $serializerBuilder->build();
     }
 
     /**
