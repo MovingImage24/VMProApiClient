@@ -137,30 +137,4 @@ class Attachment implements AttachmentInterface
 
         return $this;
     }
-
-    /**
-     * @HandlerCallback("json",  direction = "deserialization")
-     */
-    public function deserializeFromJson(JsonDeserializationVisitor $visitor, array $data, DeserializationContext $context)
-    {
-        if (isset($data['data']['id'])) {
-            $this->id = $data['data']['id'];
-        }
-
-        if (isset($data['data']['fileName'])) {
-            $this->fileName = $data['data']['fileName'];
-        }
-
-        if (isset($data['data']['downloadUrl'])) {
-            $this->downloadUrl = $data['data']['downloadUrl'];
-        }
-
-        if (isset($data['data']['fileSize'])) {
-            $this->fileSize = $data['data']['fileSize'];
-        }
-
-        if (isset($data['type']['name'])) {
-            $this->type = $data['type']['name'];
-        }
-    }
 }

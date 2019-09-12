@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Factory;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
+use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
@@ -11,6 +14,7 @@ use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Interfaces\ApiClientFactoryInterface;
 use MovingImage\Client\VMPro\Interfaces\StopwatchInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
+use MovingImage\Client\VMPro\Subscriber\DeserializeAttachmentSubscriber;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
@@ -55,7 +59,13 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         // Set up that JMS annotations can be loaded through autoloader
         \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 
-        return SerializerBuilder::create()->build();
+        $serializerBuilder = SerializerBuilder::create();
+
+        $serializerBuilder->configureHandlers(static function (HandlerRegistry $registry) {
+            $registry->registerSubscribingHandler(new DeserializeAttachmentSubscriber());
+        });
+
+        return $serializerBuilder->build();
     }
 
     /**

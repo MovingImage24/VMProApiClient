@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Test\Client\VMPro\ApiClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerInterface;
 use MovingImage\VMPro\TestUtil\GuzzleResponseGenerator;
 use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
 use Psr\Cache\CacheItemInterface;
@@ -29,11 +30,17 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     private $client;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
      * Set up an instance of our mock abstract api client implementation.
      */
     public function setUp()
     {
         $this->client = new AbstractApiClientImpl(new Client(), SerializerBuilder::create()->build());
+        $this->serializer = SerializerBuilder::create()->build();
     }
 
     /**
@@ -92,7 +99,6 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     public function testCachedResponse()
     {
         $httpClient = $this->createMock(ClientInterface::class);
-        $serializer = $this->createMock(Serializer::class);
         $cachePool = $this->createMock(CacheItemPoolInterface::class);
         $cacheItem = $this->createMock(CacheItemInterface::class);
         $statusCode = 200;
@@ -103,7 +109,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
         $cacheItem->method('get')->willReturn($cachedResponse);
         $cacheItem->method('isHit')->willReturn(true);
         $cachePool->method('getItem')->willReturn($cacheItem);
-        $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
+        $client = new AbstractApiClientImpl($httpClient, $this->serializer, $cachePool);
 
         /** @var ResponseInterface $response */
         $response = $this->callMethod($client, 'makeRequest', ['GET', 'http://example.org', []]);
@@ -119,13 +125,12 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     public function testUncachedResponse()
     {
         $httpClient = $this->createMock(ClientInterface::class);
-        $serializer = $this->createMock(Serializer::class);
         $cachePool = $this->createMock(CacheItemPoolInterface::class);
         $cacheItem = $this->createMock(CacheItemInterface::class);
         $expectedResponse = $this->generateGuzzleResponse();
         $cacheItem->method('isHit')->willReturn(false);
         $cachePool->method('getItem')->willReturn($cacheItem);
-        $client = new AbstractApiClientImpl($httpClient, $serializer, $cachePool);
+        $client = new AbstractApiClientImpl($httpClient, $this->serializer, $cachePool);
         $client->setResponse($expectedResponse);
 
         /** @var ResponseInterface $response */
@@ -140,9 +145,8 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     public function testNullCache()
     {
         $httpClient = $this->createMock(ClientInterface::class);
-        $serializer = $this->createMock(Serializer::class);
         $expectedResponse = $this->generateGuzzleResponse();
-        $client = new AbstractApiClientImpl($httpClient, $serializer);
+        $client = new AbstractApiClientImpl($httpClient, $this->serializer);
         $client->setResponse($expectedResponse);
 
         /** @var ResponseInterface $response */
@@ -161,8 +165,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     public function testIsCachable($method, $uri, $responseCode, $expectedResult)
     {
         $httpClient = $this->createMock(ClientInterface::class);
-        $serializer = $this->createMock(Serializer::class);
-        $client = new AbstractApiClientImpl($httpClient, $serializer);
+        $client = new AbstractApiClientImpl($httpClient, $this->serializer);
         $response = $this->generateGuzzleResponse($responseCode);
         $isCacheable = $this->callMethod($client, 'isCacheable', [$method, $uri, [], $response]);
         $this->assertSame($expectedResult, $isCacheable);

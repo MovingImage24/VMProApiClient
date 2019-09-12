@@ -85,8 +85,7 @@ class Guzzle5ApiClientTest extends \PHPUnit_Framework_TestCase
         $response = new Response(200, $headers, Stream::factory($body));
 
         $httpClient = $this->createMock(ClientInterface::class);
-        $serializer = $this->createMock(Serializer::class);
-        $client = new Guzzle5ApiClient($httpClient, $serializer);
+        $client = new Guzzle5ApiClient($httpClient, $this->serializer);
 
         $rc = new \ReflectionClass($client);
         $serializeMethod = $rc->getMethod('serializeResponse');
