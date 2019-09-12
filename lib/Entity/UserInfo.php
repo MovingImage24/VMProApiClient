@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\SerializedName;
@@ -25,4 +23,30 @@ class UserInfo
      * @SerializedName("videoManagerIds")
      */
     private $videoManagerIds = [];
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getVideoManagerIds()
+    {
+        return $this->videoManagerIds;
+    }
+
+
 }
