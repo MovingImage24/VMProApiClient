@@ -15,7 +15,7 @@
     "psr/log": "^1.0",
     "monolog/monolog": "^1.0",
     "namshi/jose": "^6.0 || ^7.0",
-    "jms/serializer": "^1.0",
+    "jms/serializer": "^3.0",
     "guzzlehttp/guzzle": "^5.0 || ^6.0",
     "movingimage/video-manager-meta": "dev-master",
     "psr/cache": "^1.0",
