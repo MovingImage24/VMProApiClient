@@ -473,6 +473,11 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         $response = $this->makeRequest('POST', 'corp-tube-admin/user-info', $options);
 
-        return $this->deserialize($response->getBody()->getContents(), UserInfo::class);
+        /** @var UserInfo $userInfo */
+        $userInfo = $this->deserialize($response->getBody()->getContents(), UserInfo::class);
+
+        $userInfo->validate();
+
+        return $userInfo;
     }
 }
