@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\SerializedName;
@@ -24,18 +26,22 @@ class UserInfo
      */
     private $videoManagerIds = [];
 
-    /**
-     * @return string
-     */
-    public function getEmail()
+    public function validate(): void
+    {
+        if (!\is_string($this->email) || !\is_string($this->fullName) || !\is_array($this->videoManagerIds)) {
+            throw new \InvalidArgumentException(sprintf(
+                '%s is not valid',
+                self::class
+            ));
+        }
+    }
+
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }
@@ -43,10 +49,8 @@ class UserInfo
     /**
      * @return int[]
      */
-    public function getVideoManagerIds()
+    public function getVideoManagerIds(): array
     {
         return $this->videoManagerIds;
     }
-
-
 }
