@@ -68,6 +68,9 @@ class UserInfo
         return $this->videoManagerIds;
     }
 
+    /**
+     * @param int[] $videoManagerIds
+     */
     public function setVideoManagerIds(array $videoManagerIds): self
     {
         $this->videoManagerIds = $videoManagerIds;
