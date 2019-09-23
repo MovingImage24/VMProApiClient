@@ -41,9 +41,23 @@ class UserInfo
         return $this->email;
     }
 
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getFullName(): string
     {
         return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+
+        return $this;
     }
 
     /**
@@ -52,5 +66,12 @@ class UserInfo
     public function getVideoManagerIds(): array
     {
         return $this->videoManagerIds;
+    }
+
+    public function setVideoManagerIds(array $videoManagerIds): self
+    {
+        $this->videoManagerIds = $videoManagerIds;
+
+        return $this;
     }
 }
