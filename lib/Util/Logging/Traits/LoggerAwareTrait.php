@@ -9,8 +9,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Trait that abstracts implementing of LoggerAwareInterface setter method
  * as well as logger storage + retrieval within a class.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
  */
 trait LoggerAwareTrait
 {

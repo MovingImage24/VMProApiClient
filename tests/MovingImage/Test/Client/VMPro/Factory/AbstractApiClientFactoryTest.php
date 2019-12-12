@@ -15,11 +15,6 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class AbstractApiClientFactoryTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class AbstractApiClientFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**

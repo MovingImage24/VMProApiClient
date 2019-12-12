@@ -8,11 +8,6 @@ use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient;
 
-/**
- * Class ApiClientTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class ApiClientTest extends \PHPUnit_Framework_TestCase
 {
     /**

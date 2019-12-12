@@ -9,11 +9,6 @@ use GuzzleHttp\Message\ResponseInterface;
 use MovingImage\Client\VMPro\Exception;
 use GuzzleHttp\Stream\Stream;
 
-/**
- * Class Guzzle5ApiClient.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
 {
     /**
@@ -25,6 +20,7 @@ class Guzzle5ApiClient extends ApiClient implements ApiClientInterface
      * @param array  $options
      *
      * @return \GuzzleHttp\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function _doRequest($method, $uri, $options)
     {

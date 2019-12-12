@@ -11,11 +11,6 @@ use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerAwareInterface;
 
-/**
- * Class TokenManager.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class TokenManager implements LoggerAwareInterface
 {
     use LoggerAwareTrait;

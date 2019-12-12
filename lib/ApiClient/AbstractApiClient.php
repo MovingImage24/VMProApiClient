@@ -22,12 +22,6 @@ use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
 
-/**
- * Class AbstractApiClient.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- * @author Omid Rad <omid.rad@movingimage.com>
- */
 abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiClientInterface
 {
     use LoggerAwareTrait;

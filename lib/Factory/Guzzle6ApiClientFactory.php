@@ -10,11 +10,6 @@ use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
 
-/**
- * Class ApiClientFactory.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class Guzzle6ApiClientFactory extends AbstractApiClientFactory
 {
     /**

@@ -14,11 +14,6 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class AbstractCoreApiClientTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
 {
     use PrivateMethodCaller;

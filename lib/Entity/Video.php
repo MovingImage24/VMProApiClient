@@ -6,11 +6,6 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use MovingImage\Meta\Interfaces\VideoInterface;
 
-/**
- * Class Video.
- *
- * @author Omid Rad <omid.rad@movingimage.com>
- */
 class Video implements VideoInterface
 {
     /**

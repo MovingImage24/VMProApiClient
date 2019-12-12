@@ -5,11 +5,6 @@ namespace MovingImage\Test\Client\VMPro\ApiClient\Methods;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\TestCase\ApiClientTestCase;
 
-/**
- * Class GetUploadVideoUrlTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class GetVideoUploadUrlTest extends ApiClientTestCase
 {
     /**

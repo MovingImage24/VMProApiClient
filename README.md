@@ -35,8 +35,7 @@ If you use Guzzle 5, make sure to use `MovingImage\Client\VMPro\ApiClientFactory
 
 ## Maintainers
 
-* Ruben Knol - ruben.knol@movingimage.com
-* Omid Rad - omid.rad@movingimage.com
+* Movingimage - developer@movingimage.com
 
 If you have questions, suggestions or problems, feel free to get in touch with the maintainers by e-mail.
 

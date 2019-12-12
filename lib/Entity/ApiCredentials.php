@@ -2,11 +2,6 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
-/**
- * Class ApiCredentials.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class ApiCredentials
 {
     /**

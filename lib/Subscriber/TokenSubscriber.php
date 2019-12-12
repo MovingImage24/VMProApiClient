@@ -9,11 +9,6 @@ use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 
-/**
- * Class TokenSubscriber.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;

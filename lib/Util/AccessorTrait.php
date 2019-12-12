@@ -2,11 +2,6 @@
 
 namespace MovingImage\Client\VMPro\Util;
 
-/**
- * AccessorTrait for general purposes.
- *
- * @author Omid Rad <omid.rad@movingimage.com>
- */
 trait AccessorTrait
 {
     public static $typeSnakeCase = 0;

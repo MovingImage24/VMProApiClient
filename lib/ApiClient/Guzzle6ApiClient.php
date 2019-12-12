@@ -7,11 +7,6 @@ use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
 use MovingImage\Client\VMPro\Exception;
 
-/**
- * Class Guzzle6ApiClient.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class Guzzle6ApiClient extends AbstractApiClient implements ApiClientInterface
 {
     /**

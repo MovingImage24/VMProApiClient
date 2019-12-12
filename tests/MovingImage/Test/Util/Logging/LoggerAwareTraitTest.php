@@ -5,11 +5,6 @@ namespace MovingImage\Test\Util\Logging;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class LoggerAwareTraitTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class LoggerAwareTraitTest extends \PHPUnit_Framework_TestCase
 {
     /**

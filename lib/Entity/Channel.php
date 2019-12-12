@@ -7,11 +7,6 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use MovingImage\Meta\Interfaces\ChannelInterface;
 
-/**
- * Class Channel.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class Channel implements ChannelInterface
 {
     /**

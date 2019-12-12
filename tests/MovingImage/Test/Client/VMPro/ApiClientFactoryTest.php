@@ -5,11 +5,6 @@ namespace MovingImage\Test\Client\VMPro;
 use MovingImage\Client\VMPro\ApiClientFactory;
 use MovingImage\Client\VMPro\Factory\Guzzle6ApiClientFactory;
 
-/**
- * Class ApiClientFactoryTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class ApiClientFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**

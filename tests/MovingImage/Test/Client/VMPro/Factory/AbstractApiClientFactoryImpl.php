@@ -6,11 +6,6 @@ use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Factory\AbstractApiClientFactory;
 use MovingImage\Test\Client\VMPro\ApiClient\AbstractApiClientImpl;
 
-/**
- * Class AbstractApiClientFactoryImpl.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class AbstractApiClientFactoryImpl extends AbstractApiClientFactory
 {
     /**

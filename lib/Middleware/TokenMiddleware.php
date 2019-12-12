@@ -7,11 +7,6 @@ use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerAwareInterface;
 
-/**
- * Class TokenMiddleware.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class TokenMiddleware implements LoggerAwareInterface
 {
     use LoggerAwareTrait;

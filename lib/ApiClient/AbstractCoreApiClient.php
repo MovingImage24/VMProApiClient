@@ -13,11 +13,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 
-/**
- * Class AbstractCoreApiClient.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 abstract class AbstractCoreApiClient implements LoggerAwareInterface
 {
     use LoggerAwareTrait;

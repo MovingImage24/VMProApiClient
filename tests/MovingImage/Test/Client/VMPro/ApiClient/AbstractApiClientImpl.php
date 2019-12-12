@@ -5,11 +5,6 @@ namespace MovingImage\Test\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\ApiClient\AbstractApiClient;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class AbstractApiClientImpl.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class AbstractApiClientImpl extends AbstractApiClient
 {
     /**

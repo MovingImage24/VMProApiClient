@@ -20,11 +20,6 @@ use MovingImage\Client\VMPro\ApiClient\Guzzle5ApiClient;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
 use MovingImage\Client\VMPro\Subscriber\DeserializeAttachmentSubscriber;
 
-/**
- * Class ApiClientTestCase.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class ApiClientTestCase extends \PHPUnit_Framework_TestCase
 {
     /**

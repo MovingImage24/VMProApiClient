@@ -18,12 +18,6 @@ use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Meta\Interfaces\VideoInterface;
 use MovingImage\Meta\Interfaces\ThumbnailInterface;
 
-/**
- * Interface ApiClientInterface.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- * @author Omid Rad <omid.rad@movingimage.com>
- */
 interface ApiClientInterface
 {
     /**

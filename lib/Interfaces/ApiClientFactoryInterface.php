@@ -9,11 +9,6 @@ use MovingImage\Client\VMPro\Manager\TokenManager;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Interface ApiClientFactoryInterface.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 interface ApiClientFactoryInterface
 {
     const VERSION = '0.2';
