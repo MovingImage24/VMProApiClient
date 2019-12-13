@@ -3,6 +3,7 @@
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
+use MovingImage\Client\VMPro\Collection\TranscodeCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
@@ -15,8 +16,8 @@ use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
-use MovingImage\Meta\Interfaces\VideoInterface;
 use MovingImage\Meta\Interfaces\ThumbnailInterface;
+use MovingImage\Meta\Interfaces\VideoInterface;
 
 interface ApiClientInterface
 {
@@ -37,14 +38,14 @@ interface ApiClientInterface
     /**
      * Create a new Video entity in the video manager.
      *
-     * @param int    $videoManagerId
-     * @param string $fileName
-     * @param string $title
-     * @param string $description
-     * @param null   $channel
-     * @param null   $group
-     * @param array  $keywords
-     * @param bool   $autoPublish
+     * @param int         $videoManagerId
+     * @param string      $fileName
+     * @param string      $title
+     * @param string      $description
+     * @param array       $channels
+     * @param string|null $group
+     * @param array       $keywords
+     * @param bool        $autoPublish
      *
      * @return string The video ID of the newly created video
      */
@@ -53,7 +54,7 @@ interface ApiClientInterface
         $fileName,
         $title = '',
         $description = '',
-        $channel = null,
+        array $channels = [],
         $group = null,
         array $keywords = [],
         $autoPublish = true
@@ -147,8 +148,7 @@ interface ApiClientInterface
     public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null);
 
     /**
-     * @param                              $videoManagerId
-     * @param VideosRequestParameters|null $parameters
+     * @param $videoManagerId
      *
      * @return mixed
      */
@@ -205,13 +205,13 @@ interface ApiClientInterface
      * This method is a temporary solution and therefore you should not rely on it.
      * It will be removed in the future.
      *
-     * @deprecated
-     *
      * @param int                     $videoManagerId
      * @param VideosRequestParameters $parameters
      * @param string                  $searchQuery
      *
      * @return VideoCollection
+     *
+     * @deprecated
      */
     public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, $searchQuery = null);
 
@@ -220,12 +220,12 @@ interface ApiClientInterface
      * This method is a temporary solution and therefore you should not rely on it.
      * It will be removed in the future.
      *
-     * @deprecated
-     *
      * @param int                       $videoManagerId
      * @param ChannelsRequestParameters $parameters
      *
      * @return ChannelCollection
+     *
+     * @deprecated
      */
     public function searchChannels($videoManagerId, ChannelsRequestParameters $parameters = null);
 
@@ -278,4 +278,12 @@ interface ApiClientInterface
      * @return UserInfo
      */
     public function getUserInfo($token);
+
+    /**
+     * @param string $videoManagerId
+     * @param string $videoId
+     *
+     * @return TranscodeCollection
+     */
+    public function getTranscodingStatus($videoManagerId, $videoId);
 }

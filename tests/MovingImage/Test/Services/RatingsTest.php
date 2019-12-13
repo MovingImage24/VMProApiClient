@@ -2,6 +2,7 @@
 
 namespace MovingImage\Test\Services;
 
+use InvalidArgumentException;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Services\Ratings;
@@ -17,8 +18,8 @@ class RatingsTest extends TestCase
 {
     use PrivateMethodCaller;
 
-    const RATING_AVERAGE_KEY = 'rating_value_key';
-    const RATING_COUNT_KEY = 'rating_count_key';
+    private const RATING_AVERAGE_KEY = 'rating_value_key';
+    private const RATING_COUNT_KEY = 'rating_count_key';
 
     /** @var Ratings */
     private $ratings;
@@ -35,7 +36,7 @@ class RatingsTest extends TestCase
     /** @var int */
     private $videoId = 123;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->video = new Video();
         $this->video
@@ -206,26 +207,26 @@ class RatingsTest extends TestCase
     /**
      * @param int $rating
      * @dataProvider invalidRatingProvider
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage rating value is not in expected range
      */
-    public function testAddInvalidRating($rating)
+    public function testAddInvalidRating($rating): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('rating value is not in expected range');
         $this->ratings->addRating(123, $rating);
     }
 
     /**
      * @param int $rating
      * @dataProvider invalidRatingProvider
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage rating value is not in expected range
      */
-    public function testModifyInvalidRating($rating)
+    public function testModifyInvalidRating($rating): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('rating value is not in expected range');
         $this->ratings->modifyRating(123, $rating, 3);
     }
 
-    public function invalidRatingProvider()
+    public function invalidRatingProvider(): array
     {
         return [
             [0],

@@ -6,9 +6,6 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use MovingImage\Meta\Interfaces\VideoDownloadUrlInterface;
 
-/**
- * Class VideoDownloadUrl.
- */
 class VideoDownloadUrl implements VideoDownloadUrlInterface
 {
     /**
@@ -41,100 +38,60 @@ class VideoDownloadUrl implements VideoDownloadUrlInterface
      */
     private $fileSize;
 
-    /**
-     * @return string
-     */
-    public function getQuality()
+    public function getQuality(): string
     {
         return $this->quality;
     }
 
-    /**
-     * @param string $quality
-     *
-     * @return VideoDownloadUrl
-     */
-    public function setQuality($quality)
+    public function setQuality(string $quality): self
     {
         $this->quality = $quality;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProfileKey()
+    public function getProfileKey(): string
     {
         return $this->profileKey;
     }
 
-    /**
-     * @param string $profileKey
-     *
-     * @return VideoDownloadUrl
-     */
-    public function setProfileKey($profileKey)
+    public function setProfileKey(string $profileKey): self
     {
         $this->profileKey = $profileKey;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFileExtension()
+    public function getFileExtension(): string
     {
         return $this->fileExtension;
     }
 
-    /**
-     * @param string $fileExtension
-     *
-     * @return VideoDownloadUrl
-     */
-    public function setFileExtension($fileExtension)
+    public function setFileExtension(string $fileExtension): self
     {
         $this->fileExtension = $fileExtension;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return VideoDownloadUrl
-     */
-    public function setUrl($url)
+    public function setUrl(string $url): self
     {
         $this->url = $url;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getFileSize()
+    public function getFileSize(): int
     {
         return $this->fileSize;
     }
 
-    /**
-     * @param int $fileSize
-     *
-     * @return VideoDownloadUrl
-     */
-    public function setFileSize($fileSize)
+    public function setFileSize(int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

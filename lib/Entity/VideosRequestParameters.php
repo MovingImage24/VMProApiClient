@@ -6,8 +6,6 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
 use MovingImage\Meta\Enums\PublicationState;
 
 /**
- * Class VideosRequestParameters.
- *
  * @method int                     getVideoId()
  * @method VideosRequestParameters setVideoId(int $videoId)
  * @method int                     getChannelId()
@@ -40,12 +38,7 @@ class VideosRequestParameters
 {
     use AccessorTrait;
 
-    /**
-     * @param string $order
-     *
-     * @return VideosRequestParameters
-     */
-    public function setOrder($order)
+    public function setOrder(string $order): self
     {
         $pool = ['asc', 'desc'];
 
@@ -57,12 +50,7 @@ class VideosRequestParameters
         return $this;
     }
 
-    /**
-     * @param string $publicationState
-     *
-     * @return VideosRequestParameters
-     */
-    public function setPublicationState($publicationState)
+    public function setPublicationState(string $publicationState): self
     {
         if (in_array($publicationState, PublicationState::getValues())) {
             $this->container['publication_state'] = $publicationState;

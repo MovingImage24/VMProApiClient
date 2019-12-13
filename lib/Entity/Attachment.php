@@ -8,9 +8,6 @@ use JMS\Serializer\JsonDeserializationVisitor;
 use JMS\Serializer\DeserializationContext;
 use MovingImage\Meta\Interfaces\AttachmentInterface;
 
-/**
- * Class Attachment.
- */
 class Attachment implements AttachmentInterface
 {
     /**
@@ -38,100 +35,60 @@ class Attachment implements AttachmentInterface
      */
     private $type;
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param $id
-     *
-     * @return Attachment
-     */
-    public function setId($id)
+    public function setId(string $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileName;
     }
 
-    /**
-     * @param $fileName
-     *
-     * @return Attachment
-     */
-    public function setFileName($fileName)
+    public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDownloadUrl()
+    public function getDownloadUrl(): string
     {
         return $this->downloadUrl;
     }
 
-    /**
-     * @param $downloadUrl
-     *
-     * @return Attachment
-     */
-    public function setDownloadUrl($downloadUrl)
+    public function setDownloadUrl(string $downloadUrl): self
     {
         $this->downloadUrl = $downloadUrl;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getFileSize()
+    public function getFileSize(): int
     {
         return $this->fileSize;
     }
 
-    /**
-     * @param $fileSize
-     *
-     * @return Attachment
-     */
-    public function setFileSize($fileSize)
+    public function setFileSize(int $fileSize): self
     {
         $this->fileSize = $fileSize;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param $type
-     *
-     * @return Attachment
-     */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 

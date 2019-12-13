@@ -2,7 +2,6 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use MovingImage\Meta\Interfaces\ChannelInterface;
@@ -39,7 +38,7 @@ class Channel implements ChannelInterface
     private $customMetadata = [];
 
     /**
-     * @Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
+     * @Type("array<MovingImage\Client\VMPro\Entity\Channel>")
      *
      * @var ChannelInterface[]
      */
@@ -58,90 +57,60 @@ class Channel implements ChannelInterface
      */
     private $parentId = null;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCustomMetadata()
+    public function getCustomMetadata(): array
     {
         return $this->customMetadata;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setCustomMetadata($customMetadata)
+    public function setCustomMetadata($customMetadata): self
     {
         $this->customMetadata = $customMetadata;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
+    public function getParent(): ChannelInterface
     {
         return $this->parent;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setParent(ChannelInterface $parent)
+    public function setParent(ChannelInterface $parent): self
     {
         $this->parent = $parent;
         $this->setParentId($parent->getId());
@@ -149,7 +118,7 @@ class Channel implements ChannelInterface
         return $this;
     }
 
-    public function setParentOnChildren()
+    public function setParentOnChildren(): self
     {
         /** @var Channel $child */
         foreach ($this->getChildren() as $child) {
@@ -158,66 +127,46 @@ class Channel implements ChannelInterface
                 $child->setParentOnChildren();
             }
         }
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getParentId()
+    public function getParentId(): int
     {
         return $this->parentId;
     }
 
-    /**
-     * @param int $parentId
-     *
-     * @return Channel
-     */
-    public function setParentId($parentId)
+    public function setParentId(int $parentId): self
     {
         $this->parentId = $parentId;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildren()
+    public function getChildren(): array
     {
         if (is_null($this->children)) {
-            $this->children = new ArrayCollection();
+            $this->children = [];
         }
 
         return $this->children;
     }
 
-    /**
-     * @param ArrayCollection $children
-     *
-     * @return $this
-     */
-    public function setChildren($children)
+    public function setChildren(array $children): self
     {
         $this->children = $children;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addChild(ChannelInterface $child)
+    public function addChild(ChannelInterface $child): self
     {
         $this->getChildren()->add($child);
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function removeChild(ChannelInterface $channel)
+    public function removeChild(ChannelInterface $channel): self
     {
         $this->getChildren()->removeElement($channel);
 

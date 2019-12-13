@@ -5,9 +5,6 @@ namespace MovingImage\Client\VMPro\Entity;
 use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\VideoManagerInterface;
 
-/**
- * Class VideoManager.
- */
 class VideoManager implements VideoManagerInterface
 {
     /**
@@ -20,40 +17,24 @@ class VideoManager implements VideoManagerInterface
      */
     private $name;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param $id integer
-     *
-     * @return VideoManager
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param $name string
-     *
-     * @return VideoManager
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 

@@ -14,38 +14,23 @@ class Token
      */
     private $tokenData;
 
-    /**
-     * Token constructor.
-     *
-     * @param string $tokenString
-     * @param array  $tokenData
-     */
-    public function __construct($tokenString, array $tokenData)
+    public function __construct(string $tokenString, array $tokenData)
     {
         $this->tokenString = $tokenString;
         $this->tokenData = $tokenData;
     }
 
-    /**
-     * @return string
-     */
-    public function getTokenString()
+    public function getTokenString(): string
     {
         return $this->tokenString;
     }
 
-    /**
-     * @return array
-     */
-    public function getTokenData()
+    public function getTokenData(): array
     {
         return $this->tokenData;
     }
 
-    /**
-     * @return bool
-     */
-    public function expired()
+    public function expired(): bool
     {
         return $this->getTokenData()['exp'] < time();
     }

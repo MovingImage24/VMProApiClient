@@ -23,12 +23,7 @@ class ChannelsRequestParameters
 {
     use AccessorTrait;
 
-    /**
-     * @param string $order
-     *
-     * @return ChannelsRequestParameters
-     */
-    public function setOrder($order)
+    public function setOrder(string $order): self
     {
         $pool = ['asc', 'desc'];
 
