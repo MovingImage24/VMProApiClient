@@ -181,7 +181,7 @@ class Video implements VideoInterface
     public function getCreatedDate(): DateTime
     {
         $date = new DateTime();
-        $date->setTimestamp(floor($this->createdDate / 1000));
+        $date->setTimestamp(intval($this->createdDate / 1000));
 
         return $date;
     }
@@ -196,7 +196,7 @@ class Video implements VideoInterface
     public function getModifiedDate(): ?DateTime
     {
         $date = new DateTime();
-        $date->setTimestamp(floor($this->modifiedDate / 1000));
+        $date->setTimestamp(intval($this->modifiedDate / 1000));
 
         return $date;
     }
@@ -211,7 +211,7 @@ class Video implements VideoInterface
     public function getUploadDate(): ?DateTime
     {
         $date = new DateTime();
-        $date->setTimestamp(floor($this->uploadDate / 1000));
+        $date->setTimestamp(intval($this->uploadDate / 1000));
 
         return $date;
     }
@@ -297,6 +297,10 @@ class Video implements VideoInterface
 
     public function getStills(): array
     {
+        if (!$this->stills) {
+            return [];
+        }
+
         //sorting preview's images from smallest to biggest
         usort($this->stills, function (array $item1, array $item2) {
             if (isset($item1['dimension']['height'], $item2['dimension']['height']) && $item1['dimension']['height'] != $item2['dimension']['height']) {

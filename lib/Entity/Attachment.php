@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
+use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\HandlerCallback;
-use JMS\Serializer\JsonDeserializationVisitor;
-use JMS\Serializer\DeserializationContext;
 use MovingImage\Meta\Interfaces\AttachmentInterface;
 
 class Attachment implements AttachmentInterface
@@ -19,16 +17,19 @@ class Attachment implements AttachmentInterface
 
     /**
      * @Type("string")
+     * @SerializedName("fileName")
      */
     private $fileName;
 
     /**
      * @Type("string")
+     * @SerializedName("downloadUrl")
      */
     private $downloadUrl;
 
     /**
      * @Type("int")
+     * @SerializedName("fileSize")
      */
     private $fileSize;
 

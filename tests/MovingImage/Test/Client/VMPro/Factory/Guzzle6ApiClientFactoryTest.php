@@ -2,7 +2,6 @@
 
 namespace MovingImage\Test\Client\VMPro\Factory;
 
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Factory\Guzzle6ApiClientFactory;

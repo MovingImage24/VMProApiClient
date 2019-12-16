@@ -96,23 +96,29 @@ trait SearchEndpointTrait
     }
 
     /**
-     * Adjust the response from the `search` endpoint for transcodingStatus data type.
+     * Adjust the response from the `search` endpoint for ChannelAttachmentsResponse data type.
      * Namely, it renames the root-level properties, so they can be correctly unserialized.
      *
      * @throws Exception
      */
-    private function normalizeSearchTranscodingStatusResponse(string $response): string
+    private function normalizeGetChannelAttachmentsResponse(string $response): string
     {
         $response = json_decode($response, true);
         if (!is_array($response)) {
             throw new Exception('Invalid response from search endpoint');
         }
+        $result = [];
+        foreach ($response as $item) {
+            $result[] = [
+                'id' => $item['data']['id'],
+                'fileName' => $item['data']['fileName'],
+                'downloadUrl' => $item['data']['downloadUrl'],
+                'fileSize' => $item['data']['fileSize'],
+                'type' => $item['type']['name'],
+            ];
+        }
 
-        $response = [
-            'transcodes' => $response,
-        ];
-
-        return json_encode($response);
+        return json_encode($result);
     }
 
     /**

@@ -2,14 +2,15 @@
 
 namespace MovingImage\Client\VMPro\Interfaces;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
-use MovingImage\Client\VMPro\Collection\TranscodeCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\Transcode;
 use MovingImage\Client\VMPro\Entity\UserInfo;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
@@ -50,9 +51,9 @@ interface ApiClientInterface
     /**
      * Get list of videos.
      *
-     * @return VideoInterface[] Collection of videos
+     * @return ArrayCollection<<VideoInterface> Collection of videos
      */
-    public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): array;
+    public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): ArrayCollection;
 
     /**
      * Get the upload URL for a specific video.
@@ -107,23 +108,23 @@ interface ApiClientInterface
     public function getCount(int $videoManagerId, ?VideosRequestParameters $parameters = null): int;
 
     /**
-     * @return Attachment[]
+     * @return ArrayCollection<Attachment>
      */
-    public function getAttachments(int $videoManagerId, string $videoId): array;
+    public function getAttachments(int $videoManagerId, string $videoId): ArrayCollection;
 
     /**
      * Returns attachments for the specified channel.
      *
-     * @return Attachment[]
+     * @return ArrayCollection<Attachment>
      */
-    public function getChannelAttachments(int $videoManagerId, int $channelId): array;
+    public function getChannelAttachments(int $videoManagerId, int $channelId): ArrayCollection;
 
     /**
      * Get keywords, either for specific video if videoId is given, or for all videos of given videoManager.
      *
-     * @return Keyword[]
+     * @return ArrayCollection<Keyword>
      */
-    public function getKeywords(int $videoManagerId, ?string $videoId): array;
+    public function getKeywords(int $videoManagerId, ?string $videoId): ArrayCollection;
 
     /**
      * Update video keywords.
@@ -163,16 +164,16 @@ interface ApiClientInterface
     /**
      * Get video managers.
      *
-     * @return VideoManager[]
+     * @return ArrayCollection<VideoManager>
      */
-    public function getVideoManagers(): array;
+    public function getVideoManagers(): ArrayCollection;
 
     /**
      * Get download-URLs including file size of the specified video.
      *
-     * @return VideoDownloadUrl[] The video download URLs
+     * @return ArrayCollection<VideoDownloadUrl> The video download URLs
      */
-    public function getVideoDownloadUrls(int $videoManagerId, string $videoId): array;
+    public function getVideoDownloadUrls(int $videoManagerId, string $videoId): ArrayCollection;
 
     public function createThumbnailByTimestamp(
         int $videoManagerId,
@@ -186,5 +187,8 @@ interface ApiClientInterface
 
     public function getUserInfo(string $token): UserInfo;
 
-    public function getTranscodingStatus(int $videoManagerId, string $videoId): TranscodeCollection;
+    /**
+     * @return ArrayCollection<Transcode>
+     */
+    public function getTranscodingStatus(int $videoManagerId, string $videoId): ArrayCollection;
 }

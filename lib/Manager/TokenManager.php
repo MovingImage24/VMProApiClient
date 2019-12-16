@@ -171,7 +171,7 @@ class TokenManager implements LoggerAwareInterface
 
         $cacheItem->set($this->accessToken);
         $cacheItem->expiresAt((new \DateTime())
-            ->setTimestamp($this->accessToken->getTokenData()['exp'])
+            ->setTimestamp(intval($this->accessToken->getTokenData()['exp']))
             ->sub(new \DateInterval('PT30S'))
         );
         $this->cacheItemPool->save($cacheItem);

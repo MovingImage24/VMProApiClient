@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Collection;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\ChannelInterface;
 
@@ -17,15 +18,15 @@ class ChannelCollection
     private $totalCount;
 
     /**
-     * @var ChannelInterface[]
-     * @JMS\Type("array<MovingImage\Client\VMPro\Entity\Channel>")
+     * @var ArrayCollection<ChannelInterface>
+     * @JMS\Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
      */
     private $channels;
 
     /**
-     * @param ChannelInterface[] $channels
+     * @param ArrayCollection<ChannelInterface> $channels
      */
-    public function __construct(int $totalCount, array $channels)
+    public function __construct(int $totalCount, ArrayCollection $channels)
     {
         $this->totalCount = $totalCount;
         $this->channels = $channels;
@@ -37,9 +38,9 @@ class ChannelCollection
     }
 
     /**
-     * @return ChannelInterface[]
+     * @return ArrayCollection<ChannelInterface>
      */
-    public function getChannels(): array
+    public function getChannels(): ArrayCollection
     {
         return $this->channels;
     }
@@ -52,9 +53,9 @@ class ChannelCollection
     }
 
     /**
-     * @param ChannelInterface[] $channels
+     * @param ArrayCollection<ChannelInterface> $channels
      */
-    public function setChannels(array $channels): ChannelCollection
+    public function setChannels(ArrayCollection $channels): ChannelCollection
     {
         $this->channels = $channels;
 

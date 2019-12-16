@@ -2,7 +2,9 @@
 
 namespace MovingImage\Test\Client\VMPro\ApiClient\Methods;
 
-use MovingImage\Client\VMPro\Collection\TranscodeCollection;
+use Doctrine\Common\Collections\ArrayCollection;
+use MovingImage\Client\VMPro\Entity\Transcode;
+use MovingImage\Test\Fixtures\Fixture;
 use MovingImage\TestCase\ApiClientTestCase;
 
 class GetTranscodingStatusTest extends ApiClientTestCase
@@ -13,29 +15,14 @@ class GetTranscodingStatusTest extends ApiClientTestCase
      */
     public function testGetTranscodingStatusBasicOk()
     {
-        $httpClient = $this->createMockGuzzleClient(200, [],
-            [
-                [
-                    'quality' => '480p',
-                    'profileKey' => 'mww1560',
-                    'fileExtension' => 'asf',
-                    'transcodingCompleted' => true,
-                ],
-                [
-                    'quality' => '720p',
-                    'profileKey' => 'mww2420',
-                    'fileExtension' => 'asf',
-                    'transcodingCompleted' => false,
-                ],
-            ]
-        );
+        $httpClient = $this->createMockGuzzleClient(200, [], Fixture::getApiResponse('getTranscodingStatus'));
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
-        /** @var TranscodeCollection $transcodeCollection */
-        $transcodeCollection = $client->getTranscodingStatus(2, '74WGsUCJ3QJMjN8-LeYFpm');
+        /** @var ArrayCollection<Transcode> $transcodes */
+        $transcodes = $client->getTranscodingStatus(2, '74WGsUCJ3QJMjN8-LeYFpm');
 
-        $this->assertCount(2, $transcodeCollection->getTranscodes());
-        $this->assertEquals('480p', $transcodeCollection->getTranscodes()[0]->getQuality());
+        $this->assertCount(2, $transcodes);
+        $this->assertEquals('480p', $transcodes[0]->getQuality());
     }
 
     /**
@@ -44,7 +31,7 @@ class GetTranscodingStatusTest extends ApiClientTestCase
     public function testGetTranscodingStatusBasicError()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid response from search endpoint');
+        $this->expectExceptionMessageMatches('/Expected array, but got string.*/');
         $httpClient = $this->createMockGuzzleClient(200, [], '');
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());

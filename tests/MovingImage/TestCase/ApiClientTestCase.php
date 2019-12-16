@@ -11,12 +11,10 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
-use MovingImage\Client\VMPro\Subscriber\DeserializeAttachmentSubscriber;
 use PHPUnit\Framework\TestCase;
 use function GuzzleHttp\Psr7\stream_for;
 
@@ -75,10 +73,6 @@ class ApiClientTestCase extends TestCase
         AnnotationRegistry::registerLoader('class_exists');
 
         $serializerBuilder = SerializerBuilder::create();
-
-        $serializerBuilder->configureHandlers(static function (HandlerRegistry $registry) {
-            $registry->registerSubscribingHandler(new DeserializeAttachmentSubscriber());
-        });
 
         return $serializerBuilder->build();
     }

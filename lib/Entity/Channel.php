@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\ChannelInterface;
@@ -40,9 +41,9 @@ class Channel implements ChannelInterface
     private $customMetadata = [];
 
     /**
-     * @Type("array<MovingImage\Client\VMPro\Entity\Channel>")
+     * @Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
      *
-     * @var ChannelInterface[]
+     * @var ArrayCollection<ChannelInterface>
      */
     private $children;
 
@@ -148,16 +149,16 @@ class Channel implements ChannelInterface
     /**
      * {@inheritdoc}
      */
-    public function getChildren(): array
+    public function getChildren(): ArrayCollection
     {
         if (is_null($this->children)) {
-            $this->children = [];
+            $this->children = new ArrayCollection();
         }
 
         return $this->children;
     }
 
-    public function setChildren(array $children): self
+    public function setChildren(ArrayCollection $children): self
     {
         $this->children = $children;
 
@@ -166,22 +167,14 @@ class Channel implements ChannelInterface
 
     public function addChild(ChannelInterface $child): self
     {
-        $children = $this->getChildren();
-        $children[] = $child;
-        $this->setChildren($children);
+        $this->getChildren()->add($child);
 
         return $this;
     }
 
     public function removeChild(ChannelInterface $channel): self
     {
-        $children = [];
-        foreach ($this->getChildren() as $child) {
-            if ($child->getId() !== $channel->getId()) {
-                $children[] = $child;
-            }
-        }
-        $this->setChildren($children);
+        $this->getChildren()->removeElement($channel);
 
         return $this;
     }

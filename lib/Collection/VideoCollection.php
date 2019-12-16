@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Collection;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\VideoInterface;
 
@@ -17,15 +18,15 @@ class VideoCollection
     private $totalCount;
 
     /**
-     * @var VideoInterface[]
-     * @JMS\Type("array<MovingImage\Client\VMPro\Entity\Video>")
+     * @var ArrayCollection<VideoInterface>
+     * @JMS\Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Video>")
      */
     private $videos;
 
     /**
-     * @param VideoInterface[] $videos
+     * @param ArrayCollection<VideoInterface> $videos
      */
-    public function __construct(int $totalCount, array $videos)
+    public function __construct(int $totalCount, ArrayCollection $videos)
     {
         $this->totalCount = $totalCount;
         $this->videos = $videos;
@@ -37,9 +38,9 @@ class VideoCollection
     }
 
     /**
-     * @return VideoInterface[]
+     * @return ArrayCollection<VideoInterface>
      */
-    public function getVideos(): array
+    public function getVideos(): ArrayCollection
     {
         return $this->videos;
     }
@@ -52,9 +53,9 @@ class VideoCollection
     }
 
     /**
-     * @param VideoInterface[] $videos
+     * @param ArrayCollection<VideoInterface> $videos
      */
-    public function setVideos(array $videos): VideoCollection
+    public function setVideos(ArrayCollection $videos): VideoCollection
     {
         $this->videos = $videos;
 

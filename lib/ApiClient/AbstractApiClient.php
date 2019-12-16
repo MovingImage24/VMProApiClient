@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\ApiClient;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
-use MovingImage\Client\VMPro\Collection\TranscodeCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
@@ -13,6 +13,7 @@ use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
 use MovingImage\Client\VMPro\Entity\Thumbnail;
+use MovingImage\Client\VMPro\Entity\Transcode;
 use MovingImage\Client\VMPro\Entity\UserInfo;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
@@ -51,17 +52,20 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      *
      * @throws \Exception
      */
-    protected function sortChannels(array $channels)
+    protected function sortChannels(ArrayCollection $channels)
     {
-        array_map(function ($channel) {
+        $channels->map(function ($channel) {
             $channel->setChildren($this->sortChannels($channel->getChildren()));
-        }, $channels);
+        });
 
-        uasort($channels, function ($a, $b) {
+        $iterator = $channels->getIterator();
+        $iterator->uasort(function ($a, $b) {
+            /* @var Channel $a */
+            /* @var Channel $b */
             return $a->getName() > $b->getName();
         });
 
-        return $channels;
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     public function createVideo(
@@ -90,21 +94,21 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return end($pieces);
     }
 
-    public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): array
+    public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): ArrayCollection
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ];
 
         if ($parameters) {
-            $query = http_build_query($parameters->getContainer(), null, '&', PHP_QUERY_RFC3986);
+            $query = http_build_query($parameters->getContainer(), '', '&', PHP_QUERY_RFC3986);
             $options['query'] = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D', $query);
         }
 
         $response = $this->makeRequest('GET', 'videos', $options);
         $response = json_encode(json_decode($response->getBody()->getContents(), true)['videos']);
 
-        return $this->deserialize($response, 'array<'.Video::class.'>');
+        return $this->deserialize($response, 'ArrayCollection<'.Video::class.'>');
     }
 
     public function getCount(int $videoManagerId, ?VideosRequestParameters $parameters = null): int
@@ -114,7 +118,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         ];
 
         if ($parameters) {
-            $query = http_build_query($parameters->getContainer(), null, '&', PHP_QUERY_RFC3986);
+            $query = http_build_query($parameters->getContainer(), '', '&', PHP_QUERY_RFC3986);
             $options['query'] = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D', $query);
         }
 
@@ -186,7 +190,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         $response = $this->makeRequest('GET', $url, [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]);
 
-        $data = \json_decode($response->getBody(), true);
+        $data = \json_decode($response->getBody()->getContents(), true);
         $embedCode = new EmbedCode();
         $embedCode->setCode($data['embedCode']);
 
@@ -219,7 +223,10 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), Video::class);
     }
 
-    public function getAttachments(int $videoManagerId, string $videoId): array
+    /**
+     * {@inheritDoc}
+     */
+    public function getAttachments(int $videoManagerId, string $videoId): ArrayCollection
     {
         $response = $this->makeRequest(
             'GET',
@@ -227,10 +234,13 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
-        return $this->deserialize($response->getBody()->getContents(), 'array<'.Attachment::class.'>');
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Attachment::class.'>');
     }
 
-    public function getChannelAttachments(int $videoManagerId, int $channelId): array
+    /**
+     * {@inheritDoc}
+     */
+    public function getChannelAttachments(int $videoManagerId, int $channelId): ArrayCollection
     {
         $response = $this->makeRequest(
             'GET',
@@ -238,10 +248,15 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
-        return $this->deserialize($response->getBody()->getContents(), 'array<'.Attachment::class.'>');
+        $response = $this->normalizeGetChannelAttachmentsResponse($response->getBody()->getContents());
+
+        return $this->deserialize($response, 'ArrayCollection<'.Attachment::class.'>');
     }
 
-    public function getKeywords(int $videoManagerId, ?string $videoId): array
+    /**
+     * {@inheritDoc}
+     */
+    public function getKeywords(int $videoManagerId, ?string $videoId): ArrayCollection
     {
         $uri = is_null($videoId)
             ? 'keyword/find'
@@ -253,7 +268,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
-        return $this->deserialize($response->getBody()->getContents(), 'array<'.Keyword::class.'>');
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Keyword::class.'>');
     }
 
     public function updateKeywords(int $videoManagerId, string $videoId, array $keywords): void
@@ -311,14 +326,20 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $collection;
     }
 
-    public function getVideoManagers(): array
+    /**
+     * {@inheritDoc}
+     */
+    public function getVideoManagers(): ArrayCollection
     {
         $response = $this->makeRequest('GET', '', []);
 
-        return $this->deserialize($response->getBody()->getContents(), 'array<'.VideoManager::class.'>');
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.VideoManager::class.'>');
     }
 
-    public function getVideoDownloadUrls(int $videoManagerId, string $videoId): array
+    /**
+     * {@inheritDoc}
+     */
+    public function getVideoDownloadUrls(int $videoManagerId, string $videoId): ArrayCollection
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -330,7 +351,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $options
         );
 
-        return $this->deserialize($response->getBody()->getContents(), 'array<'.VideoDownloadUrl::class.'>');
+        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.VideoDownloadUrl::class.'>');
     }
 
     public function createThumbnailByTimestamp(int $videoManagerId, string $videoId, int $timestamp): ?ThumbnailInterface
@@ -408,7 +429,10 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $userInfo;
     }
 
-    public function getTranscodingStatus(int $videoManagerId, string $videoId): TranscodeCollection
+    /**
+     * {@inheritdoc}
+     */
+    public function getTranscodingStatus(int $videoManagerId, string $videoId): ArrayCollection
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -420,8 +444,8 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $options
         );
 
-        $response = $this->normalizeSearchTranscodingStatusResponse($response->getBody()->getContents());
+        $response = $response->getBody()->getContents();
 
-        return $this->deserialize($response, TranscodeCollection::class);
+        return $this->deserialize($response, 'ArrayCollection<'.Transcode::class.'>');
     }
 }

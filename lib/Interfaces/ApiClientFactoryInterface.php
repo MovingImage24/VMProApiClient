@@ -4,6 +4,7 @@ namespace MovingImage\Client\VMPro\Interfaces;
 
 use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use Psr\Cache\CacheItemPoolInterface;
@@ -27,7 +28,7 @@ interface ApiClientFactoryInterface
     /**
      * Method to instantiate a serializer instance.
      */
-    public function createSerializer(): Serializer;
+    public function createSerializer(): SerializerInterface;
 
     /**
      * Factory method to create a new instance of the VMPro
