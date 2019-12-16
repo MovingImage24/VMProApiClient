@@ -420,6 +420,8 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $options
         );
 
-        return $this->deserialize($response->getBody()->getContents(), TranscodeCollection::class);
+        $response = $this->normalizeSearchTranscodingStatusResponse($response->getBody()->getContents());
+
+        return $this->deserialize($response, TranscodeCollection::class);
     }
 }

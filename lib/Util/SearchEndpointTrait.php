@@ -96,6 +96,26 @@ trait SearchEndpointTrait
     }
 
     /**
+     * Adjust the response from the `search` endpoint for transcodingStatus data type.
+     * Namely, it renames the root-level properties, so they can be correctly unserialized.
+     *
+     * @throws Exception
+     */
+    private function normalizeSearchTranscodingStatusResponse(string $response): string
+    {
+        $response = json_decode($response, true);
+        if (!is_array($response)) {
+            throw new Exception('Invalid response from search endpoint');
+        }
+
+        $response = [
+            'transcodes' => $response,
+        ];
+
+        return json_encode($response);
+    }
+
+    /**
      * @throws Exception
      */
     private function getTotalCountFromSearchVideosResponse(string $response): int
