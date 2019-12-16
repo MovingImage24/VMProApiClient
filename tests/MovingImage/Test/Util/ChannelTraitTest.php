@@ -3,8 +3,9 @@
 namespace MovingImage\Test\Util;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use PHPUnit\Framework\TestCase;
 
-class ChannelTraitTest extends \PHPUnit_Framework_TestCase
+class ChannelTraitTest extends TestCase
 {
     /**
      * @var ChannelTraitImpl
@@ -14,7 +15,7 @@ class ChannelTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * Instantiate our ChannelTrait implementation test helper.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->traitObj = new ChannelTraitImpl();
     }

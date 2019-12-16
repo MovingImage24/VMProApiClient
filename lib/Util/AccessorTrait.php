@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Util;
+
+use BadMethodCallException;
 
 trait AccessorTrait
 {
-    public static $typeSnakeCase = 0;
-    public static $typeCamelCase = 1;
+    protected static $typeSnakeCase = 0;
 
     /**
      * @var int Set default type to snake case
@@ -15,12 +18,9 @@ trait AccessorTrait
     private $container = [];
 
     /**
-     * @param $methodName string Key
-     * @param $args       array  Method Arguments
-     *
      * @return mixed
      */
-    public function __call($methodName, $args)
+    public function __call(string $methodName, array $args)
     {
         // are we getting or setting?
         if (preg_match('~^(set|get|is)([A-Z])(.*)$~', $methodName, $matches)) {
@@ -44,7 +44,7 @@ trait AccessorTrait
 
                     return $this->get($property);
                 case 'default':
-                    throw new \BadMethodCallException("Method $methodName is not exist");
+                    throw new BadMethodCallException("Method $methodName is not exist");
             }
         }
 
@@ -52,11 +52,9 @@ trait AccessorTrait
     }
 
     /**
-     * @param $property string Key
-     *
      * @return mixed
      */
-    public function get($property)
+    public function get(string $property)
     {
         if (isset($this->container[$property])) {
             return $this->container[$property];
@@ -65,12 +63,7 @@ trait AccessorTrait
         return null;
     }
 
-    /**
-     * @param $property
-     *
-     * @return bool|null
-     */
-    public function is($property)
+    public function is(string $property): ?bool
     {
         if (isset($this->container[$property])) {
             return 'true' === $this->container[$property];
@@ -79,13 +72,7 @@ trait AccessorTrait
         return null;
     }
 
-    /**
-     * @param $property string Key
-     * @param $value    string Value
-     *
-     * @return self
-     */
-    public function set($property, $value)
+    public function set(string $property, $value): self
     {
         // we need to convert booleans into string, because these are query parameters
         if (is_bool($value)) {
@@ -101,42 +88,26 @@ trait AccessorTrait
 
     /**
      * Check if args are valid or not.
-     *
-     * @param array  $args       List of arguments
-     * @param int    $min        integer Minimum valid params
-     * @param int    $max        Maximum valid params
-     * @param string $methodName Method name
      */
-    protected function checkArguments(array $args, $min, $max, $methodName)
+    protected function checkArguments(array $args, int $min, int $max, string $methodName): void
     {
         $argc = count($args);
         if ($argc < $min || $argc > $max) {
-            throw new \BadMethodCallException("Method $methodName is not exist");
+            throw new BadMethodCallException("Method $methodName is not exist");
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getContainer()
+    public function getContainer(): array
     {
         return $this->container;
     }
 
-    /**
-     * @return int
-     */
-    public function getType()
+    public function getType(): int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     *
-     * @return $this
-     */
-    public function setType($type)
+    public function setType(int $type): self
     {
         $this->type = $type;
 

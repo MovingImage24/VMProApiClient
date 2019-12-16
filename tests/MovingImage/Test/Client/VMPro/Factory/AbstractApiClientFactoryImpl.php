@@ -10,18 +10,13 @@ class AbstractApiClientFactoryImpl extends AbstractApiClientFactory
 {
     /**
      * Return our impl class for testing.
-     *
-     * @return string
      */
-    protected function getApiClientClass()
+    protected function getApiClientClass(): string
     {
         return AbstractApiClientImpl::class;
     }
 
-    /**
-     * @return string
-     */
-    protected function getGuzzleBaseUriOptionKey()
+    protected function getGuzzleBaseUriOptionKey(): string
     {
         return 'base_uri';
     }

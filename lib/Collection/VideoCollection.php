@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Collection;
 
 use JMS\Serializer\Annotation as JMS;
@@ -21,19 +23,15 @@ class VideoCollection
     private $videos;
 
     /**
-     * @param int              $totalCount
      * @param VideoInterface[] $videos
      */
-    public function __construct($totalCount, array $videos)
+    public function __construct(int $totalCount, array $videos)
     {
         $this->totalCount = $totalCount;
         $this->videos = $videos;
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalCount()
+    public function getTotalCount(): int
     {
         return $this->totalCount;
     }
@@ -41,17 +39,12 @@ class VideoCollection
     /**
      * @return VideoInterface[]
      */
-    public function getVideos()
+    public function getVideos(): array
     {
         return $this->videos;
     }
 
-    /**
-     * @param int $totalCount
-     *
-     * @return VideoCollection
-     */
-    public function setTotalCount(int $totalCount)
+    public function setTotalCount(int $totalCount): VideoCollection
     {
         $this->totalCount = $totalCount;
 
@@ -60,10 +53,8 @@ class VideoCollection
 
     /**
      * @param VideoInterface[] $videos
-     *
-     * @return VideoCollection
      */
-    public function setVideos(array $videos)
+    public function setVideos(array $videos): VideoCollection
     {
         $this->videos = $videos;
 

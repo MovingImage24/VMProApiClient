@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Collection;
 
 use JMS\Serializer\Annotation as JMS;
@@ -21,19 +23,15 @@ class ChannelCollection
     private $channels;
 
     /**
-     * @param int                $totalCount
      * @param ChannelInterface[] $channels
      */
-    public function __construct($totalCount, array $channels)
+    public function __construct(int $totalCount, array $channels)
     {
         $this->totalCount = $totalCount;
         $this->channels = $channels;
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalCount()
+    public function getTotalCount(): int
     {
         return $this->totalCount;
     }
@@ -41,17 +39,12 @@ class ChannelCollection
     /**
      * @return ChannelInterface[]
      */
-    public function getChannels()
+    public function getChannels(): array
     {
         return $this->channels;
     }
 
-    /**
-     * @param int $totalCount
-     *
-     * @return ChannelCollection
-     */
-    public function setTotalCount($totalCount)
+    public function setTotalCount(int $totalCount): ChannelCollection
     {
         $this->totalCount = $totalCount;
 
@@ -60,10 +53,8 @@ class ChannelCollection
 
     /**
      * @param ChannelInterface[] $channels
-     *
-     * @return ChannelCollection
      */
-    public function setChannels(array $channels)
+    public function setChannels(array $channels): ChannelCollection
     {
         $this->channels = $channels;
 

@@ -24,266 +24,167 @@ interface ApiClientInterface
     /**
      * @const Version indicator to determine compatibility.
      */
-    const VERSION = '0.2';
+    public const VERSION = '0.2';
 
     /**
      * Get all channels for a specific video manager.
-     *
-     * @param int $videoManagerId
-     *
-     * @return Channel
      */
-    public function getChannels($videoManagerId);
+    public function getChannels(int $videoManagerId): Channel;
 
     /**
      * Create a new Video entity in the video manager.
      *
-     * @param int         $videoManagerId
-     * @param string      $fileName
-     * @param string      $title
-     * @param string      $description
-     * @param array       $channels
-     * @param string|null $group
-     * @param array       $keywords
-     * @param bool        $autoPublish
-     *
      * @return string The video ID of the newly created video
      */
     public function createVideo(
-        $videoManagerId,
-        $fileName,
-        $title = '',
-        $description = '',
-        array $channels = [],
-        $group = null,
-        array $keywords = [],
-        $autoPublish = true
-    );
+        int $videoManagerId,
+        string $fileName,
+        ?string $title = '',
+        ?string $description = '',
+        ?array $channels = [],
+        ?string $group = null,
+        ?array $keywords = [],
+        ?bool $autoPublish = true
+    ): string;
 
     /**
      * Get list of videos.
      *
-     * @param int                     $videoManagerId
-     * @param VideosRequestParameters $parameters
-     *
      * @return VideoInterface[] Collection of videos
      */
-    public function getVideos($videoManagerId, VideosRequestParameters $parameters = null);
+    public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): array;
 
     /**
      * Get the upload URL for a specific video.
      *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     *
      * @return string The video's upload URL
      */
-    public function getVideoUploadUrl($videoManagerId, $videoId);
+    public function getVideoUploadUrl(int $videoManagerId, string $videoId): string;
 
     /**
      * Update a video with new values.
-     *
-     * @param int       $videoManagerId
-     * @param string    $videoId
-     * @param string    $title
-     * @param string    $description
-     * @param bool|null $autoPublish
      */
-    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish = null);
+    public function updateVideo(
+        int $videoManagerId,
+        string $videoId,
+        string $title,
+        string $description,
+        ?bool $autoPublish = null
+    ): void;
 
     /**
      * Add a video to a channel.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param string $channelId
      */
-    public function addVideoToChannel($videoManagerId, $videoId, $channelId);
+    public function addVideoToChannel(int $videoManagerId, string $videoId, string $channelId): void;
 
     /**
      * Remove a video from a channel.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param string $channelId
      */
-    public function removeVideoFromChannel($videoManagerId, $videoId, $channelId);
+    public function removeVideoFromChannel(int $videoManagerId, string $videoId, string $channelId): void;
 
     /**
      * Add/remove/update custom metadata fields to a video.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param array  $metadata
      */
-    public function setCustomMetaData($videoManagerId, $videoId, $metadata);
+    public function setCustomMetaData(int $videoManagerId, string $videoId, array $metadata): void;
 
     /**
      * Retrieve an embed code for a specific player definition + video ID.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param string $playerDefinitionId
-     * @param string $embedType
-     *
-     * @return EmbedCode
      */
-    public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html');
+    public function getEmbedCode(
+        int $videoManagerId,
+        string $videoId,
+        string $playerDefinitionId,
+        ?string $embedType = 'html'
+    ): EmbedCode;
 
     /**
      * Delete a video.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
      */
-    public function deleteVideo($videoManagerId, $videoId);
+    public function deleteVideo(int $videoManagerId, string $videoId): void;
+
+    public function getVideo(int $videoManagerId, string $videoId, ?VideoRequestParameters $parameters = null): Video;
+
+    public function getCount(int $videoManagerId, ?VideosRequestParameters $parameters = null): int;
 
     /**
-     * @param int                    $videoManagerId
-     * @param string                 $videoId
-     * @param VideoRequestParameters $parameters
-     *
-     * @return Video
-     */
-    public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null);
-
-    /**
-     * @param $videoManagerId
-     *
-     * @return mixed
-     */
-    public function getCount($videoManagerId, VideosRequestParameters $parameters = null);
-
-    /**
-     * @param int    $videoManagerId
-     * @param string $videoId
-     *
      * @return Attachment[]
      */
-    public function getAttachments($videoManagerId, $videoId);
+    public function getAttachments(int $videoManagerId, string $videoId): array;
 
     /**
      * Returns attachments for the specified channel.
      *
-     * @param int $videoManagerId
-     * @param int $channelId
-     *
      * @return Attachment[]
      */
-    public function getChannelAttachments($videoManagerId, $channelId);
+    public function getChannelAttachments(int $videoManagerId, int $channelId): array;
 
     /**
      * Get keywords, either for specific video if videoId is given, or for all videos of given videoManager.
      *
-     * @param int         $videoManagerId
-     * @param string|null $videoId
-     *
      * @return Keyword[]
      */
-    public function getKeywords($videoManagerId, $videoId);
+    public function getKeywords(int $videoManagerId, ?string $videoId): array;
 
     /**
      * Update video keywords.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param array  $keywords
      */
-    public function updateKeywords($videoManagerId, $videoId, $keywords);
+    public function updateKeywords(int $videoManagerId, string $videoId, array $keywords): void;
 
     /**
      * Delete keyword from video by keyword id.
-     *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     * @param int    $keywordId
      */
-    public function deleteKeyword($videoManagerId, $videoId, $keywordId);
+    public function deleteKeyword(int $videoManagerId, string $videoId, int $keywordId): void;
 
     /**
      * Get list of videos using the search endpoint.
      * This method is a temporary solution and therefore you should not rely on it.
      * It will be removed in the future.
      *
-     * @param int                     $videoManagerId
-     * @param VideosRequestParameters $parameters
-     * @param string                  $searchQuery
-     *
-     * @return VideoCollection
-     *
      * @deprecated
      */
-    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, $searchQuery = null);
+    public function searchVideos(
+        int $videoManagerId,
+        ?VideosRequestParameters $parameters = null,
+        ?string $searchQuery = null
+    ): VideoCollection;
 
     /**
      * Get channels using the search endpoint.
      * This method is a temporary solution and therefore you should not rely on it.
      * It will be removed in the future.
      *
-     * @param int                       $videoManagerId
-     * @param ChannelsRequestParameters $parameters
-     *
-     * @return ChannelCollection
-     *
      * @deprecated
      */
-    public function searchChannels($videoManagerId, ChannelsRequestParameters $parameters = null);
+    public function searchChannels(
+        int $videoManagerId,
+        ?ChannelsRequestParameters $parameters = null
+    ): ChannelCollection;
 
     /**
      * Get video managers.
      *
      * @return VideoManager[]
      */
-    public function getVideoManagers();
+    public function getVideoManagers(): array;
 
     /**
      * Get download-URLs including file size of the specified video.
      *
-     * @param int    $videoManagerId
-     * @param string $videoId
-     *
      * @return VideoDownloadUrl[] The video download URLs
      */
-    public function getVideoDownloadUrls($videoManagerId, $videoId);
+    public function getVideoDownloadUrls(int $videoManagerId, string $videoId): array;
 
-    /**
-     * @param $videoManagerId
-     * @param $videoId
-     * @param $timestamp
-     *
-     * @return ThumbnailInterface
-     */
-    public function createThumbnailByTimestamp($videoManagerId, $videoId, $timestamp);
+    public function createThumbnailByTimestamp(
+        int $videoManagerId,
+        string $videoId,
+        int $timestamp
+    ): ?ThumbnailInterface;
 
-    /**
-     * @param $videoManagerId
-     * @param $videoId
-     * @param $thumbnailId
-     *
-     * @return ThumbnailInterface|null
-     */
-    public function getThumbnail($videoManagerId, $videoId, $thumbnailId);
+    public function getThumbnail(int $videoManagerId, string $videoId, int $thumbnailId): ?ThumbnailInterface;
 
-    /**
-     * @param $videoManagerId
-     * @param $videoId
-     * @param $thumbnailId
-     * @param $active
-     */
-    public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active);
+    public function updateThumbnail(int $videoManagerId, string $videoId, int $thumbnailId, bool $active): void;
 
-    /**
-     * @param string $token
-     *
-     * @return UserInfo
-     */
-    public function getUserInfo($token);
+    public function getUserInfo(string $token): UserInfo;
 
-    /**
-     * @param string $videoManagerId
-     * @param string $videoId
-     *
-     * @return TranscodeCollection
-     */
-    public function getTranscodingStatus($videoManagerId, $videoId);
+    public function getTranscodingStatus(int $videoManagerId, string $videoId): TranscodeCollection;
 }

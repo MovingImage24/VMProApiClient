@@ -3,9 +3,10 @@
 namespace MovingImage\Test\Util\Logging;
 
 use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class LoggerAwareTraitTest extends \PHPUnit_Framework_TestCase
+class LoggerAwareTraitTest extends TestCase
 {
     /**
      * @var LoggerAwareTraitImpl
@@ -15,7 +16,7 @@ class LoggerAwareTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * Instantiate our logger aware trait implementation test helper.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->traitObj = new LoggerAwareTraitImpl();
     }

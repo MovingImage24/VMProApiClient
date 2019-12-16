@@ -2,6 +2,7 @@
 
 namespace MovingImage\Test\Client\VMPro\ApiClient;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Handler\MockHandler;
@@ -11,9 +12,12 @@ use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use ReflectionClass;
+use function GuzzleHttp\Psr7\stream_for;
 
-class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
+class Guzzle6ApiClientTest extends TestCase
 {
     private $httpClient;
     private $historyContainer = [];
@@ -22,18 +26,13 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
     private function createJsonStream($arr)
     {
         $str = json_encode($arr);
-        $stream = \GuzzleHttp\Psr7\stream_for($str);
 
-        return $stream;
+        return stream_for($str);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
-        if (version_compare(ClientInterface::VERSION, '6.0', '<')) {
-            $this->markTestSkipped('Skipping tests for Guzzle6ApiClient when Guzzle ~5.0 is installed');
-        }
-
-        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
+        AnnotationRegistry::registerLoader('class_exists');
 
         $mock = new MockHandler([
             new Response(200, ['X-Foo' => 'Bar'], $this->createJsonStream([
@@ -65,6 +64,7 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests both serializeResponse and unserializeResponse methods.
+     * @throws \ReflectionException
      */
     public function testSerializeResponse()
     {
@@ -76,7 +76,7 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
         $httpClient = $this->createMock(ClientInterface::class);
         $client = new Guzzle6ApiClient($httpClient, $this->serializer);
 
-        $rc = new \ReflectionClass($client);
+        $rc = new ReflectionClass($client);
         $serializeMethod = $rc->getMethod('serializeResponse');
         $serializeMethod->setAccessible(true);
         $serialized = $serializeMethod->invoke($client, $response);
@@ -86,7 +86,7 @@ class Guzzle6ApiClientTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($headers, $response->getHeaders());
         $this->assertSame($body, $response->getBody()->getContents());
 
-        $this->assertInternalType('string', $serialized);
+        $this->assertIsString($serialized);
 
         $unserializeMethod = $rc->getMethod('unserializeResponse');
         $unserializeMethod->setAccessible(true);

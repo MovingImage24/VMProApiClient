@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
 use DateTime;
@@ -128,7 +130,7 @@ class Video implements VideoInterface
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -140,7 +142,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -152,7 +154,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getThumbnail(): string
+    public function getThumbnail(): ?string
     {
         return $this->thumbnail;
     }
@@ -164,7 +166,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getLength(): int
+    public function getLength(): ?int
     {
         return $this->length;
     }
@@ -186,12 +188,12 @@ class Video implements VideoInterface
 
     public function setCreatedDate(DateTime $createdDate): Video
     {
-        $this->createdDate = $createdDate;
+        $this->createdDate = $createdDate->getTimestamp() * 1000;
 
         return $this;
     }
 
-    public function getModifiedDate(): DateTime
+    public function getModifiedDate(): ?DateTime
     {
         $date = new DateTime();
         $date->setTimestamp(floor($this->modifiedDate / 1000));
@@ -201,12 +203,12 @@ class Video implements VideoInterface
 
     public function setModifiedDate(DateTime $modifiedDate): self
     {
-        $this->modifiedDate = $modifiedDate->getTimestamp();
+        $this->modifiedDate = $modifiedDate->getTimestamp() * 1000;
 
         return $this;
     }
 
-    public function getUploadDate(): DateTime
+    public function getUploadDate(): ?DateTime
     {
         $date = new DateTime();
         $date->setTimestamp(floor($this->uploadDate / 1000));
@@ -216,12 +218,12 @@ class Video implements VideoInterface
 
     public function setUploadDate(DateTime $uploadDate): self
     {
-        $this->uploadDate = $uploadDate->getTimestamp();
+        $this->uploadDate = $uploadDate->getTimestamp() * 1000;
 
         return $this;
     }
 
-    public function getGeneration(): int
+    public function getGeneration(): ?int
     {
         return $this->generation;
     }
@@ -233,7 +235,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getPlays(): int
+    public function getPlays(): ?int
     {
         return $this->plays;
     }
@@ -245,7 +247,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getViews(): int
+    public function getViews(): ?int
     {
         return $this->views;
     }
@@ -257,7 +259,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getAllFormatsAvailable(): bool
+    public function areAllFormatsAvailable(): bool
     {
         return $this->allFormatsAvailable;
     }
@@ -269,7 +271,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getCustomMetadata(): array
+    public function getCustomMetadata(): ?array
     {
         return $this->customMetadata;
     }
@@ -321,7 +323,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function isPublished(): bool
+    public function isPublished(): ?bool
     {
         return $this->published;
     }
@@ -333,7 +335,7 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function isDownloadable(): bool
+    public function isDownloadable(): ?bool
     {
         return $this->downloadable;
     }

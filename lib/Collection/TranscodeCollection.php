@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Collection;
 
 use JMS\Serializer\Annotation as JMS;
@@ -24,15 +26,13 @@ class TranscodeCollection
     /**
      * @return TranscodeInterface[]
      */
-    public function getTranscodes()
+    public function getTranscodes(): array
     {
         return $this->transcodes;
     }
 
     /**
      * @param TranscodeInterface[] $transcodes
-     *
-     * @return TranscodeCollection
      */
     public function setTranscodes(array $transcodes): self
     {

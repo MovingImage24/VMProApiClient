@@ -12,6 +12,7 @@ use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Interfaces\ApiClientFactoryInterface;
+use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Interfaces\StopwatchInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Subscriber\DeserializeAttachmentSubscriber;
@@ -22,27 +23,19 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
 {
     /**
      * Get the API client class within Guzzle-client specific factories.
-     *
-     * @return string
      */
-    abstract protected function getApiClientClass();
+    abstract protected function getApiClientClass(): string;
 
     /**
-     * Get the Base URI Guzzle option key - for some reason Guzzle decided
-     * to change it between ~5.0 and ~6.0..
-     *
-     * @return string
+     * Get the Base URI Guzzle option key - for some reason Guzzle decided.
      */
-    abstract protected function getGuzzleBaseUriOptionKey();
+    abstract protected function getGuzzleBaseUriOptionKey(): string;
 
-    /**
-     * {@inheritdoc}
-     */
     public function createTokenManager(
-        $baseUri,
+        string $baseUri,
         ApiCredentials $credentials,
-        CacheItemPoolInterface $cacheItemPool = null
-    ) {
+        ?CacheItemPoolInterface $cacheItemPool = null
+    ): TokenManager {
         return new TokenManager(
             new Client([$this->getGuzzleBaseUriOptionKey() => $baseUri]),
             $credentials,
@@ -51,10 +44,7 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createSerializer()
+    public function createSerializer(): Serializer
     {
         // Set up that JMS annotations can be loaded through autoloader
         \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
@@ -68,17 +58,14 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         return $serializerBuilder->build();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        LoggerInterface $logger = null,
-        CacheItemPoolInterface $cacheItemPool = null,
-        $cacheTtl = null,
-        StopwatchInterface $stopwatch = null
-    ) {
+        ?LoggerInterface $logger = null,
+        ?CacheItemPoolInterface $cacheItemPool = null,
+        ?int $cacheTtl = null,
+        ?StopwatchInterface $stopwatch = null
+    ): ApiClientInterface {
         $cls = $this->getApiClientClass();
         $apiClient = new $cls($httpClient, $serializer, $cacheItemPool, $cacheTtl, $stopwatch);
 
@@ -89,8 +76,5 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         return $apiClient;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function createSimple($baseUri, ApiCredentials $credentials, $authUrl);
+    abstract public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl);
 }

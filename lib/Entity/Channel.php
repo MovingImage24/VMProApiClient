@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\ChannelInterface;
 
 class Channel implements ChannelInterface
@@ -105,7 +107,7 @@ class Channel implements ChannelInterface
         return $this;
     }
 
-    public function getParent(): ChannelInterface
+    public function getParent(): ?ChannelInterface
     {
         return $this->parent;
     }
@@ -131,18 +133,21 @@ class Channel implements ChannelInterface
         return $this;
     }
 
-    public function getParentId(): int
+    public function getParentId(): ?int
     {
         return $this->parentId;
     }
 
-    public function setParentId(int $parentId): self
+    public function setParentId(?int $parentId): self
     {
         $this->parentId = $parentId;
 
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getChildren(): array
     {
         if (is_null($this->children)) {
@@ -161,14 +166,22 @@ class Channel implements ChannelInterface
 
     public function addChild(ChannelInterface $child): self
     {
-        $this->getChildren()->add($child);
+        $children = $this->getChildren();
+        $children[] = $child;
+        $this->setChildren($children);
 
         return $this;
     }
 
     public function removeChild(ChannelInterface $channel): self
     {
-        $this->getChildren()->removeElement($channel);
+        $children = [];
+        foreach ($this->getChildren() as $child) {
+            if ($child->getId() !== $channel->getId()) {
+                $children[] = $child;
+            }
+        }
+        $this->setChildren($children);
 
         return $this;
     }

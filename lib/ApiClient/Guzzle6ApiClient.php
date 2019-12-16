@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
@@ -13,13 +15,9 @@ class Guzzle6ApiClient extends AbstractApiClient implements ApiClientInterface
      * Guzzle6 Client implementation for making HTTP requests with
      * the appropriate options.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array  $options
-     *
      * @return mixed
      */
-    protected function _doRequest($method, $uri, $options)
+    protected function _doRequest(string $method, string $uri, array $options)
     {
         return $this->httpClient->request($method, $uri, $options);
     }

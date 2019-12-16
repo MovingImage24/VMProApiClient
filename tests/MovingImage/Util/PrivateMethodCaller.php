@@ -2,11 +2,6 @@
 
 namespace MovingImage\VMPro\TestUtil;
 
-/**
- * Trait PrivateMethodCaller.
- *
- * @author Robert Szeker <robert.szeker@movingimage.com>
- */
 trait PrivateMethodCaller
 {
     /**

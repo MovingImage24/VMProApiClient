@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use Cache\Adapter\Void\VoidCachePool;
@@ -17,15 +19,12 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @const string
-     */
-    const OPT_VIDEO_MANAGER_ID = 'videoManagerId';
+    protected const OPT_VIDEO_MANAGER_ID = 'videoManagerId';
 
     /**
      * List of endpoints that may be cached, even though they use POST.
      */
-    const CACHEABLE_POST_ENDPOINTS = ['search'];
+    protected const CACHEABLE_POST_ENDPOINTS = ['search'];
 
     /**
      * @var ClientInterface The Guzzle HTTP client
@@ -55,21 +54,12 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      */
     protected $stopwatch;
 
-    /**
-     * ApiClient constructor.
-     *
-     * @param ClientInterface        $httpClient
-     * @param Serializer             $serializer
-     * @param CacheItemPoolInterface $cacheItemPool
-     * @param int                    $cacheTtl
-     * @param StopwatchInterface     $stopwatch
-     */
     public function __construct(
         ClientInterface $httpClient,
         Serializer $serializer,
-        CacheItemPoolInterface $cacheItemPool = null,
-        $cacheTtl = null,
-        StopwatchInterface $stopwatch = null
+        ?CacheItemPoolInterface $cacheItemPool = null,
+        ?int $cacheTtl = null,
+        ?StopwatchInterface $stopwatch = null
     ) {
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
@@ -78,18 +68,12 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
         $this->stopwatch = $stopwatch ?: new NullStopwatch();
     }
 
-    /**
-     * @param CacheItemPoolInterface $cacheItemPool
-     */
-    public function setCacheItemPool(CacheItemPoolInterface $cacheItemPool)
+    public function setCacheItemPool(CacheItemPoolInterface $cacheItemPool): void
     {
         $this->cacheItemPool = $cacheItemPool;
     }
 
-    /**
-     * @return CacheItemPoolInterface
-     */
-    public function getCacheItemPool()
+    public function getCacheItemPool(): CacheItemPoolInterface
     {
         return $this->cacheItemPool;
     }
@@ -97,25 +81,18 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     /**
      * Perform the actual request in the implementation classes.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array  $options
-     *
      * @return mixed
      */
-    abstract protected function _doRequest($method, $uri, $options);
+    abstract protected function _doRequest(string $method, string $uri, array $options);
 
     /**
      * Make a request to the API and serialize the result according to our
      * serialization strategy.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array  $options
-     *
      * @return object|ResponseInterface
+     * @throws \Exception
      */
-    protected function makeRequest($method, $uri, $options)
+    protected function makeRequest(string $method, string $uri, array $options)
     {
         $logger = $this->getLogger();
 
@@ -160,12 +137,9 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     /**
      * Deserialize a response into an instance of it's associated class.
      *
-     * @param string $data
-     * @param string $serialisationClass
-     *
      * @return object
      */
-    protected function deserialize($data, $serialisationClass)
+    protected function deserialize(string $data, string $serialisationClass)
     {
         return $this->serializer->deserialize($data, $serialisationClass, 'json');
     }
@@ -186,12 +160,9 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *     'bla' => 'test',
      * ]
      *
-     * @param array $required
-     * @param array $optional
-     *
-     * @return array
+     * @throws Exception
      */
-    protected function buildJsonParameters(array $required, array $optional)
+    protected function buildJsonParameters(array $required, array $optional): array
     {
         foreach ($required as $key => $value) {
             if (empty($value)) {
@@ -212,29 +183,16 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 
     /**
      * Generates the cache key based on the class name, request method, uri and options.
-     *
-     * @param string $method
-     * @param string $uri
-     * @param array  $options
-     *
-     * @return string
      */
-    private function generateCacheKey($method, $uri, array $options = [])
+    private function generateCacheKey(string $method, string $uri, ?array $options = []): string
     {
         return sha1(sprintf('%s.%s.%s.%s', get_class($this), $method, $uri, json_encode($options)));
     }
 
     /**
      * Checks if the request may be cached.
-     *
-     * @param string $method
-     * @param string $uri
-     * @param array  $options
-     * @param mixed  $response
-     *
-     * @return bool
      */
-    private function isCacheable($method, $uri, array $options, $response)
+    private function isCacheable(string $method, string $uri, array $options, $response): bool
     {
         /** @var ResponseInterface $statusCode */
         $statusCode = $response->getStatusCode();

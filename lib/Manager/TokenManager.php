@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Manager;
 
 use Cache\Adapter\Void\VoidCachePool;
@@ -47,19 +49,11 @@ class TokenManager implements LoggerAwareInterface
      */
     private $cacheItemPool;
 
-    /**
-     * TokenManager constructor.
-     *
-     * @param ClientInterface        $httpClient
-     * @param ApiCredentials         $credentials
-     * @param TokenExtractor         $tokenExtractor
-     * @param CacheItemPoolInterface $cacheItemPool
-     */
     public function __construct(
         ClientInterface $httpClient,
         ApiCredentials $credentials,
         TokenExtractor $tokenExtractor,
-        CacheItemPoolInterface $cacheItemPool = null
+        ?CacheItemPoolInterface $cacheItemPool = null
     ) {
         $this->httpClient = $httpClient;
         $this->credentials = $credentials;
@@ -71,10 +65,8 @@ class TokenManager implements LoggerAwareInterface
      * Create completely fresh Access + Refresh tokens.
      *
      * @TODO Implement proper error handling
-     *
-     * @return array
      */
-    protected function createNewTokens()
+    protected function createNewTokens(): array
     {
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access & refresh tokens');
@@ -106,12 +98,8 @@ class TokenManager implements LoggerAwareInterface
 
     /**
      * Create a new access token for a video manager using a refresh token.
-     *
-     * @param Token $refreshToken
-     *
-     * @return Token
      */
-    protected function createAccessTokenFromRefreshToken(Token $refreshToken)
+    protected function createAccessTokenFromRefreshToken(Token $refreshToken): Token
     {
         $logger = $this->getLogger();
         $logger->debug('Starting request to create fresh access token from refresh token');
@@ -135,7 +123,7 @@ class TokenManager implements LoggerAwareInterface
     /**
      * Log information about which tokens we have.
      */
-    protected function logTokenData()
+    protected function logTokenData(): void
     {
         $this->getLogger()->debug('Token information', [
             'accessTokenExists' => isset($this->accessToken),
@@ -150,10 +138,8 @@ class TokenManager implements LoggerAwareInterface
 
     /**
      * Retrieve a valid token.
-     *
-     * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         $logger = $this->getLogger();
         $this->logTokenData();
@@ -194,20 +180,16 @@ class TokenManager implements LoggerAwareInterface
     }
 
     /**
-     * Sends a post request to the OAuth endpoint
-     * Supports both guzzle 5 and 6 versions.
-     *
-     * @param array $body
+     * Sends a post request to the OAuth endpoint.
      *
      * @return mixed
      */
-    private function sendPostRequest(array $body)
+    private function sendPostRequest(array $body): array
     {
-        $requestBodyKey = version_compare(ClientInterface::VERSION, '6.0', '>=') ? 'form_params' : 'body';
         $response = $this->httpClient->post('', [
-            $requestBodyKey => $body,
+            'form_params' => $body,
         ]);
 
-        return \json_decode($response->getBody(), true);
+        return \json_decode($response->getBody()->getContents(), true);
     }
 }

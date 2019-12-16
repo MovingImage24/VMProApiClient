@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Util;
 
 use MovingImage\Client\VMPro\Entity\Channel;
@@ -13,10 +15,8 @@ trait ChannelTrait
      * Configures the parent/child relationships between Channels.
      *
      * @param Channel[] $channels - any iterable collection of Channel
-     *
-     * @return array
      */
-    private function setChannelRelations($channels)
+    private function setChannelRelations(array $channels): array
     {
         $indexedChannels = [];
 

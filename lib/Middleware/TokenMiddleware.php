@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Middleware;
 
+use Closure;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Http\Message\RequestInterface;
@@ -14,18 +17,13 @@ class TokenMiddleware implements LoggerAwareInterface
     /**
      * @const string
      */
-    const AUTH_BEARER = 'Bearer %s';
+    protected const AUTH_BEARER = 'Bearer %s';
 
     /**
      * @var TokenManager
      */
     private $tokenManager;
 
-    /**
-     * TokenMiddleware constructor.
-     *
-     * @param TokenManager $tokenManager
-     */
     public function __construct(TokenManager $tokenManager)
     {
         $this->tokenManager = $tokenManager;
@@ -34,18 +32,14 @@ class TokenMiddleware implements LoggerAwareInterface
     /**
      * Middleware invocation method that actually adds the bearer
      * token to the HTTP request.
-     *
-     * @param callable $handler
-     *
-     * @return \Closure
      */
-    public function __invoke(callable $handler)
+    public function __invoke(callable $handler): Closure
     {
         return function (
             RequestInterface $request,
             array $options
         ) use ($handler) {
-            $videoManagerId = isset($options['videoManagerId']) ? $options['videoManagerId'] : null;
+            $videoManagerId = $options['videoManagerId'] ?? null;
             $token = $this->tokenManager->getToken($videoManagerId);
 
             return $handler($request->withHeader(

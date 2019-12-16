@@ -10,11 +10,12 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use MovingImage\VMPro\TestUtil\GuzzleResponseGenerator;
 use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
+class AbstractCoreApiClientTest extends TestCase
 {
     use PrivateMethodCaller;
     use GuzzleResponseGenerator;
@@ -32,7 +33,7 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     /**
      * Set up an instance of our mock abstract api client implementation.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = new AbstractApiClientImpl(new Client(), SerializerBuilder::create()->build());
         $this->serializer = SerializerBuilder::create()->build();
@@ -55,11 +56,11 @@ class AbstractCoreApiClientTest extends \PHPUnit_Framework_TestCase
     /**
      * Assert whether an exception is thrown when a required parameter
      * has an empty value.
-     *
-     * @expectedException \Exception
      */
     public function testBuildJsonParametersFailedMissingRequiredParams()
     {
+        $this->expectException(\Exception::class);
+
         $this->client->buildJsonParameters([
             'test' => '',
         ], []);

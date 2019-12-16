@@ -43,60 +43,12 @@ class TokenManagerTest extends ApiClientTestCase
     }
 
     /**
-     * Tests that the correct Guzzle 5 request is sent from the createNewTokens method.
-     *
-     * @covers \TokenManager::createNewTokens()
-     */
-    public function testCreateNewTokensGuzzle5Request()
-    {
-        if (version_compare(ClientInterface::VERSION, '6.0', '>=')) {
-            $this->markTestSkipped('Skipping tests for Guzzle5ApiClient when Guzzle ~6.0 is installed');
-        }
-
-        $token = $this->createSimpleJwsToken();
-        $oauthResponse = json_encode([
-            'access_token' => $token->getTokenString(),
-            'refresh_token' => $token->getTokenString(),
-        ]);
-
-        $httpClient = $this->createMock(Client::class);
-        $clientResponse = $this->generateGuzzleResponse(200, [], $oauthResponse);
-
-        $phpUnit = $this;
-
-        $httpClient
-            ->method('post')
-            ->willReturnCallback(function ($requestUrl, $requestOptions) use ($phpUnit, $clientResponse) {
-                $phpUnit->assertArrayHasKey('body', $requestOptions);
-                $body = $requestOptions['body'];
-                $phpUnit->assertSame('', $requestUrl);
-                $phpUnit->assertSame('anonymous', $body['client_id']);
-                $phpUnit->assertSame('password', $body['grant_type']);
-                $phpUnit->assertSame('token', $body['response_type']);
-                $phpUnit->assertSame('openid', $body['scope']);
-                $phpUnit->assertSame('user', $body['username']);
-                $phpUnit->assertSame('pass', $body['password']);
-
-                return $clientResponse;
-            })
-        ;
-
-        $credentials = new ApiCredentials('user', 'pass');
-        $tokenManager = new TokenManager($httpClient, $credentials, new TokenExtractor());
-        $this->callMethod($tokenManager, 'createNewTokens', []);
-    }
-
-    /**
      * Tests that the correct Guzzle 6 request is sent from the createNewTokens method.
      *
      * @covers \TokenManager::createNewTokens()
      */
     public function testCreateNewTokensGuzzle6Request()
     {
-        if (version_compare(ClientInterface::VERSION, '6.0', '<')) {
-            $this->markTestSkipped('Skipping tests for Guzzle6ApiClient when Guzzle ~5.0 is installed');
-        }
-
         $token = $this->createSimpleJwsToken();
         $oauthResponse = json_encode([
             'access_token' => $token->getTokenString(),
@@ -152,61 +104,12 @@ class TokenManagerTest extends ApiClientTestCase
     }
 
     /**
-     * Tests that the correct Guzzle 5 request is sent from the createAccessTokenFromRefreshToken method.
-     *
-     * @covers \TokenManager::createAccessTokenFromRefreshToken()
-     */
-    public function testCreateAccessTokenFromRefreshTokenGuzzle5Request()
-    {
-        if (version_compare(ClientInterface::VERSION, '6.0', '>=')) {
-            $this->markTestSkipped('Skipping tests for Guzzle5ApiClient when Guzzle ~6.0 is installed');
-        }
-
-        $token = $this->createSimpleJwsToken();
-        $oauthResponse = json_encode([
-            'access_token' => $token->getTokenString(),
-            'refresh_token' => $token->getTokenString(),
-        ]);
-
-        $jwsToken = $this->createSimpleJwsToken();
-        $tokenExtractor = new TokenExtractor();
-        $refreshToken = new Token($jwsToken->getTokenString(), $tokenExtractor->extract($jwsToken->getTokenString()));
-
-        $httpClient = $this->createMock(Client::class);
-        $clientResponse = $this->generateGuzzleResponse(200, [], $oauthResponse);
-
-        $phpUnit = $this;
-
-        $httpClient
-            ->method('post')
-            ->willReturnCallback(function ($requestUrl, $requestOptions) use ($phpUnit, $clientResponse, $refreshToken) {
-                $phpUnit->assertArrayHasKey('body', $requestOptions);
-                $body = $requestOptions['body'];
-                $phpUnit->assertSame('', $requestUrl);
-                $phpUnit->assertSame('anonymous', $body['client_id']);
-                $phpUnit->assertSame('refresh_token', $body['grant_type']);
-                $phpUnit->assertSame($refreshToken->getTokenString(), $body['refresh_token']);
-
-                return $clientResponse;
-            })
-        ;
-
-        $credentials = new ApiCredentials('user', 'pass');
-        $tokenManager = new TokenManager($httpClient, $credentials, new TokenExtractor());
-        $this->callMethod($tokenManager, 'createAccessTokenFromRefreshToken', [$refreshToken]);
-    }
-
-    /**
      * Tests that the correct Guzzle 6 request is sent from the createAccessTokenFromRefreshToken method.
      *
      * @covers \TokenManager::createAccessTokenFromRefreshToken()
      */
     public function testCreateAccessTokenFromRefreshTokenGuzzle6Request()
     {
-        if (version_compare(ClientInterface::VERSION, '6.0', '<')) {
-            $this->markTestSkipped('Skipping tests for Guzzle6ApiClient when Guzzle ~5.0 is installed');
-        }
-
         $token = $this->createSimpleJwsToken();
         $oauthResponse = json_encode([
             'access_token' => $token->getTokenString(),

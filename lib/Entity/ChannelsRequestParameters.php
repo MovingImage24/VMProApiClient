@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
 use MovingImage\Client\VMPro\Util\AccessorTrait;

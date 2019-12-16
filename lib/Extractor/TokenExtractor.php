@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Extractor;
 
 use Namshi\JOSE\SimpleJWS;
@@ -12,12 +14,8 @@ class TokenExtractor
     /**
      * Wrapper method to be able to more easily mock extracting information from
      * JWT token strings from the TokenManager.
-     *
-     * @param string $tokenString
-     *
-     * @return array
      */
-    public function extract($tokenString)
+    public function extract(string $tokenString): array
     {
         return SimpleJWS::load($tokenString)->getPayload();
     }

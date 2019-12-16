@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
@@ -21,6 +23,7 @@ use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
+use MovingImage\Meta\Interfaces\ThumbnailInterface;
 
 abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiClientInterface
 {
@@ -29,15 +32,15 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     use ChannelTrait;
 
     /**
-     * {@inheritdoc}
+     * @throws \Exception
      */
-    public function getChannels($videoManagerId)
+    public function getChannels(int $videoManagerId): Channel
     {
         $response = $this->makeRequest('GET', 'channels', [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
 
-        $rootChannel = $this->deserialize($response->getBody(), Channel::class);
+        $rootChannel = $this->deserialize($response->getBody()->getContents(), Channel::class);
         $rootChannel->setChildren($this->sortChannels($rootChannel->getChildren()));
 
         return $rootChannel;
@@ -45,8 +48,6 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
     /**
      * Since the VMPro API doesn't sort any more the returned channels, we have to do it on our side.
-     *
-     * @return array
      *
      * @throws \Exception
      */
@@ -63,19 +64,16 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $channels;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createVideo(
-        $videoManagerId,
-        $fileName,
-        $title = '',
-        $description = '',
-        array $channels = [],
-        $group = null,
-        array $keywords = [],
-        $autoPublish = null
-    ) {
+        int $videoManagerId,
+        string $fileName,
+        ?string $title = '',
+        ?string $description = '',
+        ?array $channels = [],
+        ?string $group = null,
+        ?array $keywords = [],
+        ?bool $autoPublish = null
+    ): string {
         $channel = implode(',', $channels);
         $response = $this->makeRequest('POST', 'videos', [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -85,21 +83,14 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             ),
         ]);
 
-        // Guzzle 5+6 co-compatibility - Guzzle 6 for some reason
-        // wraps headers in arrays.
-        $videoLocation = is_array($response->getHeader('location'))
-            ? $response->getHeader('location')[0]
-            : $response->getHeader('location');
+        $videoLocation = $response->getHeader('location')[0];
 
         $pieces = explode('/', $videoLocation);
 
         return end($pieces);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getVideos($videoManagerId, VideosRequestParameters $parameters = null)
+    public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): array
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -116,10 +107,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response, 'array<'.Video::class.'>');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCount($videoManagerId, VideosRequestParameters $parameters = null)
+    public function getCount(int $videoManagerId, ?VideosRequestParameters $parameters = null): int
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -135,57 +123,43 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return json_decode($response->getBody()->getContents(), true)['total'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getVideoUploadUrl($videoManagerId, $videoId)
+    public function getVideoUploadUrl(int $videoManagerId, string $videoId): string
     {
         $response = $this->makeRequest('GET', sprintf('videos/%s/url', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
 
-        // Guzzle 5+6 co-compatibility - Guzzle 6 for some reason
-        // wraps headers in arrays.
-        return is_array($response->getHeader('location'))
-            ? $response->getHeader('location')[0]
-            : $response->getHeader('location');
+        return $response->getHeader('location')[0];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateVideo($videoManagerId, $videoId, $title, $description, $autoPublish = null)
-    {
+    public function updateVideo(
+        int $videoManagerId,
+        string $videoId,
+        string $title,
+        string $description,
+        ?bool $autoPublish = null
+    ): void {
         $this->makeRequest('PATCH', sprintf('videos/%s', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
             'json' => $this->buildJsonParameters([], compact('title', 'description', 'autoPublish')),
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addVideoToChannel($videoManagerId, $videoId, $channelId)
+    public function addVideoToChannel(int $videoManagerId, string $videoId, string $channelId): void
     {
         $this->makeRequest('POST', sprintf('channels/%s/videos/%s', $channelId, $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function removeVideoFromChannel($videoManagerId, $videoId, $channelId)
+    public function removeVideoFromChannel(int $videoManagerId, string $videoId, string $channelId): void
     {
         $this->makeRequest('DELETE', sprintf('channels/%s/videos/%s', $channelId, $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setCustomMetaData($videoManagerId, $videoId, $metadata)
+    public function setCustomMetaData(int $videoManagerId, string $videoId, array $metadata): void
     {
         $this->makeRequest('PATCH', sprintf('videos/%s/metadata', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -193,11 +167,12 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getEmbedCode($videoManagerId, $videoId, $playerDefinitionId, $embedType = 'html')
-    {
+    public function getEmbedCode(
+        int $videoManagerId,
+        string $videoId,
+        string $playerDefinitionId,
+        ?string $embedType = 'html'
+    ): EmbedCode {
         $url = sprintf(
             'videos/%s/embed-codes?player_definition_id=%s&embed_type=%s',
             $videoId,
@@ -218,20 +193,14 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $embedCode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteVideo($videoManagerId, $videoId)
+    public function deleteVideo(int $videoManagerId, string $videoId): void
     {
         $this->makeRequest('DELETE', sprintf('videos/%s', $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null)
+    public function getVideo(int $videoManagerId, string $videoId, ?VideoRequestParameters $parameters = null): Video
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -250,10 +219,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), Video::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttachments($videoManagerId, $videoId)
+    public function getAttachments(int $videoManagerId, string $videoId): array
     {
         $response = $this->makeRequest(
             'GET',
@@ -264,10 +230,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), 'array<'.Attachment::class.'>');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getChannelAttachments($videoManagerId, $channelId)
+    public function getChannelAttachments(int $videoManagerId, int $channelId): array
     {
         $response = $this->makeRequest(
             'GET',
@@ -278,10 +241,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), 'array<'.Attachment::class.'>');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getKeywords($videoManagerId, $videoId)
+    public function getKeywords(int $videoManagerId, ?string $videoId): array
     {
         $uri = is_null($videoId)
             ? 'keyword/find'
@@ -296,10 +256,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), 'array<'.Keyword::class.'>');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateKeywords($videoManagerId, $videoId, $keywords)
+    public function updateKeywords(int $videoManagerId, string $videoId, array $keywords): void
     {
         //remove all keywords
         foreach ($this->getKeywords($videoManagerId, $videoId) as $keyword) {
@@ -315,21 +272,18 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteKeyword($videoManagerId, $videoId, $keywordId)
+    public function deleteKeyword(int $videoManagerId, string $videoId, int $keywordId): void
     {
         $this->makeRequest('DELETE', sprintf('videos/%s/keywords/%s', $videoId, $keywordId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function searchVideos($videoManagerId, VideosRequestParameters $parameters = null, $searchQuery = null)
-    {
+    public function searchVideos(
+        int $videoManagerId,
+        ?VideosRequestParameters $parameters = null,
+        ?string $searchQuery = null
+    ): VideoCollection {
         $options = $this->getRequestOptionsForSearchVideosEndpoint($videoManagerId, $parameters);
         if ($searchQuery) {
             $options['query'] = sprintf('(%s) AND (%s)', $options['query'], $searchQuery);
@@ -340,11 +294,10 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response, VideoCollection::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function searchChannels($videoManagerId, ChannelsRequestParameters $parameters = null)
-    {
+    public function searchChannels(
+        int $videoManagerId,
+        ?ChannelsRequestParameters $parameters = null
+    ): ChannelCollection {
         $options = $this->getRequestOptionsForSearchChannelsEndpoint($videoManagerId, $parameters);
         $response = $this->makeRequest('POST', 'search', ['json' => $options]);
         $response = $this->normalizeSearchChannelsResponse($response->getBody()->getContents());
@@ -358,20 +311,14 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $collection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getVideoManagers()
+    public function getVideoManagers(): array
     {
         $response = $this->makeRequest('GET', '', []);
 
         return $this->deserialize($response->getBody()->getContents(), 'array<'.VideoManager::class.'>');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getVideoDownloadUrls($videoManagerId, $videoId)
+    public function getVideoDownloadUrls(int $videoManagerId, string $videoId): array
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -383,35 +330,29 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $options
         );
 
-        $response = $response->getBody()->getContents();
-
-        return $this->deserialize($response, 'array<'.VideoDownloadUrl::class.'>');
+        return $this->deserialize($response->getBody()->getContents(), 'array<'.VideoDownloadUrl::class.'>');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createThumbnailByTimestamp($videoManagerId, $videoId, $timestamp)
+    public function createThumbnailByTimestamp(int $videoManagerId, string $videoId, int $timestamp): ?ThumbnailInterface
     {
         $options = [
-            self::OPT_VIDEO_MANAGER_ID => intval($videoManagerId),
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ];
 
         $response = $this->makeRequest(
             'POST',
-            'videos/'.$videoId.'/thumbnails?timestamp='.intval($timestamp),
+            'videos/'.$videoId.'/thumbnails?timestamp='.$timestamp,
             $options
         );
 
         if (preg_match('/\/thumbnails\/([0-9]*)/', $response->getHeader('Location')[0], $match)) {
-            return (new Thumbnail())->setId(intval($match[1]));
+            return (new Thumbnail())->setId($match[1]);
         }
+
+        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getThumbnail($videoManagerId, $videoId, $thumbnailId)
+    public function getThumbnail(int $videoManagerId, string $videoId, int $thumbnailId): ?ThumbnailInterface
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -427,37 +368,31 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
         if (isset($result['downloadUrl'])) {
             return (new Thumbnail())
-                ->setId(intval($thumbnailId))
+                ->setId($thumbnailId)
                 ->setUrl($result['downloadUrl']);
         }
 
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateThumbnail($videoManagerId, $videoId, $thumbnailId, $active)
+    public function updateThumbnail(int $videoManagerId, string $videoId, int $thumbnailId, bool $active): void
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => ['active' => boolval($active)],
+            'json' => ['active' => $active],
         ];
 
         $this->makeRequest(
             'PATCH',
-            'videos/'.$videoId.'/thumbnails/'.intval($thumbnailId),
+            'videos/'.$videoId.'/thumbnails/'.$thumbnailId,
             $options
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUserInfo($idToken)
+    public function getUserInfo(string $token): UserInfo
     {
         $options = [
-            'body' => json_encode(['jwt_id_token' => $idToken]),
+            'body' => json_encode(['jwt_id_token' => $token]),
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
@@ -473,10 +408,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $userInfo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTranscodingStatus($videoManagerId, $videoId)
+    public function getTranscodingStatus(int $videoManagerId, string $videoId): TranscodeCollection
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -488,6 +420,6 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $options
         );
 
-        return $this->deserialize($response, TranscodeCollection::class);
+        return $this->deserialize($response->getBody()->getContents(), TranscodeCollection::class);
     }
 }

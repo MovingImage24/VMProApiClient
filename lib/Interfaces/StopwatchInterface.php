@@ -9,16 +9,11 @@ interface StopwatchInterface
 {
     /**
      * Starts the stopwatch for the specified segment (optionally allows specifying a category in second arg).
-     *
-     * @param string      $name
-     * @param string|null $category
      */
-    public function start($name, $category = null);
+    public function start(string $name, ?string $category = null): void;
 
     /**
      * Stops the stopwatch for the specified segment.
-     *
-     * @param string $name
      */
-    public function stop($name);
+    public function stop(string $name): void;
 }

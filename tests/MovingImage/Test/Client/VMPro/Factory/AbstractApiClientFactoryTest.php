@@ -11,11 +11,12 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Test\Client\VMPro\ApiClient\AbstractApiClientImpl;
+use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
-class AbstractApiClientFactoryTest extends \PHPUnit_Framework_TestCase
+class AbstractApiClientFactoryTest extends TestCase
 {
     /**
      * @var AbstractApiClientFactoryImpl
@@ -26,7 +27,7 @@ class AbstractApiClientFactoryTest extends \PHPUnit_Framework_TestCase
      * Set up an instance of our impl class for AbstractApiClient just
      * for this test suite.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->factory = new AbstractApiClientFactoryImpl();
     }
@@ -53,7 +54,8 @@ class AbstractApiClientFactoryTest extends \PHPUnit_Framework_TestCase
         ];
 
         try {
-            $serializer->deserialize(json_encode($data), Channel::class, 'json');
+            $channel = $serializer->deserialize(json_encode($data), Channel::class, 'json');
+            $this->assertEquals($channel->getId(), 5);
         } catch (AnnotationException $e) {
             $this->fail('Could not autoload annotations for serialization classes');
         }

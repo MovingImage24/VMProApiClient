@@ -27,11 +27,9 @@ class DeserializeAttachmentSubscriber implements SubscribingHandlerInterface
      *
      * The direction and method keys can be omitted.
      *
-     * @return array
-     *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
      */
-    public static function getSubscribingMethods()
+    public static function getSubscribingMethods(): array
     {
         return [
             [
@@ -39,11 +37,16 @@ class DeserializeAttachmentSubscriber implements SubscribingHandlerInterface
                 'format' => 'json',
                 'type' => Attachment::class,
                 'method' => 'deserialize',
-            ]
+            ],
         ];
     }
-    public function deserialize(JsonDeserializationVisitor $visitor, array $data, array $type, DeserializationContext $context)
-    {
+
+    public function deserialize(
+        JsonDeserializationVisitor $visitor,
+        array $data,
+        array $type,
+        DeserializationContext $context
+    ): Attachment {
         $attachment = new Attachment();
         if (isset($data['data']['id'])) {
             $attachment->setId($data['data']['id']);

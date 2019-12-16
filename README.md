@@ -31,8 +31,6 @@ $apiClient = $factory->createSimple($baseUri, $credentials);
 echo $apiClient->getChannels(5)->getName() . PHP_EOL;
 ```
 
-If you use Guzzle 5, make sure to use `MovingImage\Client\VMPro\ApiClientFactory\Guzzle5ApiClientFactory` instead of `ApiClientFactory`.
-
 ## Maintainers
 
 * Movingimage - developer@movingimage.com
