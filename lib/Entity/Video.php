@@ -235,8 +235,12 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getPlays(): ?int
+    public function getPlays(): int
     {
+        if (!$this->plays) {
+            return 0;
+        }
+
         return $this->plays;
     }
 
@@ -247,8 +251,12 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getViews(): ?int
+    public function getViews(): int
     {
+        if (!$this->views) {
+            return 0;
+        }
+
         return $this->views;
     }
 
@@ -261,6 +269,10 @@ class Video implements VideoInterface
 
     public function areAllFormatsAvailable(): bool
     {
+        if (!$this->allFormatsAvailable) {
+            return false;
+        }
+
         return $this->allFormatsAvailable;
     }
 
@@ -271,8 +283,12 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function getCustomMetadata(): ?array
+    public function getCustomMetadata(): array
     {
+        if (!$this->customMetadata) {
+            return [];
+        }
+
         return $this->customMetadata;
     }
 
@@ -285,6 +301,10 @@ class Video implements VideoInterface
 
     public function getKeywords(): array
     {
+        if (!$this->keywords) {
+            return [];
+        }
+
         return $this->keywords;
     }
 
@@ -327,8 +347,12 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function isPublished(): bool
     {
+        if (!$this->published) {
+            return false;
+        }
+
         return $this->published;
     }
 
@@ -339,8 +363,12 @@ class Video implements VideoInterface
         return $this;
     }
 
-    public function isDownloadable(): ?bool
+    public function isDownloadable(): bool
     {
+        if (!$this->downloadable) {
+            return false;
+        }
+
         return $this->downloadable;
     }
 
@@ -353,6 +381,11 @@ class Video implements VideoInterface
 
     public function getChannels(): array
     {
+        if (!$this->channels) {
+            return [];
+        }
+
+
         return $this->channels;
     }
 
@@ -365,6 +398,10 @@ class Video implements VideoInterface
 
     public function getUploadFileName(): string
     {
+        if (!$this->uploadFileName) {
+            return '';
+        }
+
         return $this->uploadFileName;
     }
 

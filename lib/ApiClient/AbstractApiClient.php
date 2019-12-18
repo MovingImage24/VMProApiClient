@@ -175,7 +175,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         int $videoManagerId,
         string $videoId,
         string $playerDefinitionId,
-        ?string $embedType = 'html'
+        string $embedType = 'html'
     ): EmbedCode {
         $url = sprintf(
             'videos/%s/embed-codes?player_definition_id=%s&embed_type=%s',
@@ -367,7 +367,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         );
 
         if (preg_match('/\/thumbnails\/([0-9]*)/', $response->getHeader('Location')[0], $match)) {
-            return (new Thumbnail())->setId($match[1]);
+            return (new Thumbnail())->setId(intval($match[1]));
         }
 
         return null;

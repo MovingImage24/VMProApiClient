@@ -184,7 +184,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     /**
      * Generates the cache key based on the class name, request method, uri and options.
      */
-    private function generateCacheKey(string $method, string $uri, ?array $options = []): string
+    private function generateCacheKey(string $method, string $uri, array $options): string
     {
         return sha1(sprintf('%s.%s.%s.%s', get_class($this), $method, $uri, json_encode($options)));
     }

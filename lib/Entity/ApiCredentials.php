@@ -7,12 +7,12 @@ namespace MovingImage\Client\VMPro\Entity;
 class ApiCredentials
 {
     /**
-     * @var string VMPro API username
+     * @var null|string VMPro API username
      */
     private $username;
 
     /**
-     * @var string VMPro API password
+     * @var null|string VMPro API password
      */
     private $password;
 
@@ -22,12 +22,12 @@ class ApiCredentials
         $this->password = $password;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }

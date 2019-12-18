@@ -51,7 +51,7 @@ interface ApiClientInterface
     /**
      * Get list of videos.
      *
-     * @return ArrayCollection<<VideoInterface> Collection of videos
+     * @return ArrayCollection<VideoInterface> Collection of videos
      */
     public function getVideos(int $videoManagerId, ?VideosRequestParameters $parameters = null): ArrayCollection;
 
@@ -95,7 +95,7 @@ interface ApiClientInterface
         int $videoManagerId,
         string $videoId,
         string $playerDefinitionId,
-        ?string $embedType = 'html'
+        string $embedType = 'html'
     ): EmbedCode;
 
     /**

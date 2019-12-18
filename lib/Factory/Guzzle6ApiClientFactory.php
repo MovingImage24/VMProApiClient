@@ -38,8 +38,11 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
     /**
      * Method to instantiate a HTTP client.
      */
-    public function createHttpClient(string $baseUri, ?array $middlewares = [], ?array $options = []): ClientInterface
+    public function createHttpClient(string $baseUri, ?array $middlewares, ?array $options = []): ClientInterface
     {
+        $middlewares = $middlewares ?? [];
+        $options = $options ?? [];
+
         $stack = HandlerStack::create();
 
         foreach ($middlewares as $middleware) {
