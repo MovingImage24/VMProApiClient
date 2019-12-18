@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Util;
 
+use DateTime;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
@@ -14,13 +17,8 @@ trait SearchEndpointTrait
 {
     /**
      * Creates an elastic search query from the provided array od parameters.
-     *
-     * @param array  $params
-     * @param string $operator
-     *
-     * @return string
      */
-    private function createElasticSearchQuery(array $params, $operator = 'AND')
+    private function createElasticSearchQuery(array $params, ?string $operator = 'AND'): string
     {
         $filteredParams = [];
         foreach ($params as $name => $value) {
@@ -41,13 +39,10 @@ trait SearchEndpointTrait
      * and re-maps some renamed properties (such as duration).
      * It also renames root-level properties so that they can be correctly unserialized.
      *
-     * @param string $response
-     *
-     * @return string
-     *
      * @throws Exception
+     * @throws \Exception
      */
-    private function normalizeSearchVideosResponse($response)
+    private function normalizeSearchVideosResponse(string $response): string
     {
         $response = json_decode($response, true);
         if (!is_array($response) || !array_key_exists('result', $response) || !array_key_exists('total', $response)) {
@@ -63,7 +58,7 @@ trait SearchEndpointTrait
             $video['length'] = $video['duration'];
             foreach ($video as $prop => $value) {
                 if (in_array($prop, ['createdDate', 'modifiedDate', 'uploadDate'])) {
-                    $video[$prop] = (new \DateTime($value))->getTimestamp();
+                    $video[$prop] = (new DateTime($value))->getTimestamp();
                 }
 
                 if ('channels' === $prop) {
@@ -84,13 +79,9 @@ trait SearchEndpointTrait
      * Adjust the response from the `search` endpoint for channel data type.
      * Namely, it renames the root-level properties, so they can be correctly unserialized.
      *
-     * @param string $response
-     *
-     * @return string
-     *
      * @throws Exception
      */
-    private function normalizeSearchChannelsResponse($response)
+    private function normalizeSearchChannelsResponse(string $response): string
     {
         $response = json_decode($response, true);
         if (!is_array($response) || !array_key_exists('result', $response) || !array_key_exists('total', $response)) {
@@ -105,13 +96,35 @@ trait SearchEndpointTrait
     }
 
     /**
-     * @param string $response
-     *
-     * @return int
+     * Adjust the response from the `search` endpoint for ChannelAttachmentsResponse data type.
+     * Namely, it renames the root-level properties, so they can be correctly unserialized.
      *
      * @throws Exception
      */
-    private function getTotalCountFromSearchVideosResponse($response)
+    private function normalizeGetChannelAttachmentsResponse(string $response): string
+    {
+        $response = json_decode($response, true);
+        if (!is_array($response)) {
+            throw new Exception('Invalid response from search endpoint');
+        }
+        $result = [];
+        foreach ($response as $item) {
+            $result[] = [
+                'id' => $item['data']['id'],
+                'fileName' => $item['data']['fileName'],
+                'downloadUrl' => $item['data']['downloadUrl'],
+                'fileSize' => $item['data']['fileSize'],
+                'type' => $item['type']['name'],
+            ];
+        }
+
+        return json_encode($result);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getTotalCountFromSearchVideosResponse(string $response): int
     {
         $response = json_decode($response, true);
         if (!is_array($response) || !array_key_exists('total', $response)) {
@@ -121,16 +134,10 @@ trait SearchEndpointTrait
         return (int) $response['total'];
     }
 
-    /**
-     * @param int                          $videoManagerId
-     * @param VideosRequestParameters|null $parameters
-     *
-     * @return array
-     */
     private function getRequestOptionsForSearchVideosEndpoint(
-        $videoManagerId,
-        VideosRequestParameters $parameters = null
-    ) {
+        int $videoManagerId,
+        ?VideosRequestParameters $parameters = null
+    ): array {
         $options = [
             'documentType' => 'video',
             'videoManagerIds' => [$videoManagerId],
@@ -172,16 +179,10 @@ trait SearchEndpointTrait
         return $options;
     }
 
-    /**
-     * @param int                            $videoManagerId
-     * @param ChannelsRequestParameters|null $parameters
-     *
-     * @return array
-     */
     private function getRequestOptionsForSearchChannelsEndpoint(
-        $videoManagerId,
+        int $videoManagerId,
         ChannelsRequestParameters $parameters = null
-    ) {
+    ): array {
         $options = [
             'documentType' => 'channel',
             'videoManagerIds' => [$videoManagerId],

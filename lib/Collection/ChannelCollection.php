@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Collection;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\ChannelInterface;
 
@@ -15,43 +18,34 @@ class ChannelCollection
     private $totalCount;
 
     /**
-     * @var ChannelInterface[]
-     * @JMS\Type("array<MovingImage\Client\VMPro\Entity\Channel>")
+     * @var ArrayCollection<ChannelInterface>
+     * @JMS\Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
      */
     private $channels;
 
     /**
-     * @param int                $totalCount
-     * @param ChannelInterface[] $channels
+     * @param ArrayCollection<ChannelInterface> $channels
      */
-    public function __construct($totalCount, array $channels)
+    public function __construct(int $totalCount, ArrayCollection $channels)
     {
         $this->totalCount = $totalCount;
         $this->channels = $channels;
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalCount()
+    public function getTotalCount(): int
     {
         return $this->totalCount;
     }
 
     /**
-     * @return ChannelInterface[]
+     * @return ArrayCollection<ChannelInterface>
      */
-    public function getChannels()
+    public function getChannels(): ArrayCollection
     {
         return $this->channels;
     }
 
-    /**
-     * @param int $totalCount
-     *
-     * @return ChannelCollection
-     */
-    public function setTotalCount($totalCount)
+    public function setTotalCount(int $totalCount): ChannelCollection
     {
         $this->totalCount = $totalCount;
 
@@ -59,11 +53,9 @@ class ChannelCollection
     }
 
     /**
-     * @param ChannelInterface[] $channels
-     *
-     * @return ChannelCollection
+     * @param ArrayCollection<ChannelInterface> $channels
      */
-    public function setChannels(array $channels)
+    public function setChannels(ArrayCollection $channels): ChannelCollection
     {
         $this->channels = $channels;
 

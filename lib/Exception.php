@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro;
 
-/**
- * Class Exception.
- */
 class Exception extends \Exception
 {
 }

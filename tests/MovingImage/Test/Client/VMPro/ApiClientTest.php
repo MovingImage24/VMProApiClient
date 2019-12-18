@@ -7,13 +7,9 @@ use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class ApiClientTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
-class ApiClientTest extends \PHPUnit_Framework_TestCase
+class ApiClientTest extends TestCase
 {
     /**
      * @var ClientInterface
@@ -28,7 +24,7 @@ class ApiClientTest extends \PHPUnit_Framework_TestCase
     /**
      * Set up instances of Guzzle client + JMS Serializer.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->httpClient = new Client();
         $this->serializer = SerializerBuilder::create()->build();

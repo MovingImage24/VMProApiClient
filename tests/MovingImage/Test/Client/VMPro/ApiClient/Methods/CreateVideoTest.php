@@ -5,11 +5,6 @@ namespace MovingImage\Test\Client\VMPro\ApiClient\Methods;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\TestCase\ApiClientTestCase;
 
-/**
- * Class CreateVideoTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class CreateVideoTest extends ApiClientTestCase
 {
     /**
@@ -49,11 +44,10 @@ class CreateVideoTest extends ApiClientTestCase
     /**
      * Assert whether the appropriate exception is thrown when the required
      * parameter 'fileName' is missing.
-     *
-     * @expectedException \Exception
      */
     public function testMissingRequiredParameters()
     {
+        $this->expectException(\Exception::class);
         $httpClient = $this->createMockGuzzleClient(200, [
             'Location' => 'http://videomanagerpro.com/video/kljadsfe390_ioASDJr',
         ]);
@@ -73,7 +67,7 @@ class CreateVideoTest extends ApiClientTestCase
         ]);
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
-        $res = $client->createVideo(5, 'example.mp4', 'Example', 'Description', 6, 5, ['test'], false);
+        $res = $client->createVideo(5, 'example.mp4', 'Example', 'Description', [6], 5, ['test'], false);
         $params = json_decode($this->getLastRequest()->getBody(), true);
 
         $this->assertArrayHasKey('title', $params);
@@ -94,16 +88,15 @@ class CreateVideoTest extends ApiClientTestCase
     /**
      * Assert whether the right exception is thrown when a non-existing channel ID
      * is provided to the method.
-     *
-     * @expectedException \Exception
      */
     public function testCreateButChannelNotExist()
     {
+        $this->expectException(\Exception::class);
         $httpClient = $this->createMockGuzzleClient(404, [], [
             'message' => 'entity not found',
         ]);
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
-        $client->createVideo(5, 'example.mp4', '', '', 34890534905);
+        $client->createVideo(5, 'example.mp4', '', '', [34890534905]);
     }
 }

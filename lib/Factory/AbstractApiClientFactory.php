@@ -6,15 +6,15 @@ namespace MovingImage\Client\VMPro\Factory;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Interfaces\ApiClientFactoryInterface;
+use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Interfaces\StopwatchInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
-use MovingImage\Client\VMPro\Subscriber\DeserializeAttachmentSubscriber;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
@@ -22,27 +22,19 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
 {
     /**
      * Get the API client class within Guzzle-client specific factories.
-     *
-     * @return string
      */
-    abstract protected function getApiClientClass();
+    abstract protected function getApiClientClass(): string;
 
     /**
-     * Get the Base URI Guzzle option key - for some reason Guzzle decided
-     * to change it between ~5.0 and ~6.0..
-     *
-     * @return string
+     * Get the Base URI Guzzle option key - for some reason Guzzle decided.
      */
-    abstract protected function getGuzzleBaseUriOptionKey();
+    abstract protected function getGuzzleBaseUriOptionKey(): string;
 
-    /**
-     * {@inheritdoc}
-     */
     public function createTokenManager(
-        $baseUri,
+        string $baseUri,
         ApiCredentials $credentials,
-        CacheItemPoolInterface $cacheItemPool = null
-    ) {
+        ?CacheItemPoolInterface $cacheItemPool = null
+    ): TokenManager {
         return new TokenManager(
             new Client([$this->getGuzzleBaseUriOptionKey() => $baseUri]),
             $credentials,
@@ -51,34 +43,22 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createSerializer()
+    public function createSerializer(): SerializerInterface
     {
         // Set up that JMS annotations can be loaded through autoloader
         \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 
-        $serializerBuilder = SerializerBuilder::create();
-
-        $serializerBuilder->configureHandlers(static function (HandlerRegistry $registry) {
-            $registry->registerSubscribingHandler(new DeserializeAttachmentSubscriber());
-        });
-
-        return $serializerBuilder->build();
+        return SerializerBuilder::create()->build();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        LoggerInterface $logger = null,
-        CacheItemPoolInterface $cacheItemPool = null,
-        $cacheTtl = null,
-        StopwatchInterface $stopwatch = null
-    ) {
+        ?LoggerInterface $logger = null,
+        ?CacheItemPoolInterface $cacheItemPool = null,
+        ?int $cacheTtl = null,
+        ?StopwatchInterface $stopwatch = null
+    ): ApiClientInterface {
         $cls = $this->getApiClientClass();
         $apiClient = new $cls($httpClient, $serializer, $cacheItemPool, $cacheTtl, $stopwatch);
 
@@ -89,8 +69,5 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         return $apiClient;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function createSimple($baseUri, ApiCredentials $credentials, $authUrl);
+    abstract public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl);
 }

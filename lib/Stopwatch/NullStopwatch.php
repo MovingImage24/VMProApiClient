@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Stopwatch;
 
 use MovingImage\Client\VMPro\Interfaces\StopwatchInterface;
@@ -9,17 +11,11 @@ use MovingImage\Client\VMPro\Interfaces\StopwatchInterface;
  */
 class NullStopwatch implements StopwatchInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function start($name, $category = null)
+    public function start(string $name, ?string $category = null): void
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function stop($name)
+    public function stop(string $name): void
     {
     }
 }

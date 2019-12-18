@@ -1,48 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
-/**
- * Class ApiCredentials.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class ApiCredentials
 {
     /**
-     * @var string VMPro API username
+     * @var null|string VMPro API username
      */
     private $username;
 
     /**
-     * @var string VMPro API password
+     * @var null|string VMPro API password
      */
     private $password;
 
-    /**
-     * ApiCredentials constructor.
-     *
-     * @param string $username
-     * @param string $password
-     */
-    public function __construct($username, $password)
+    public function __construct(?string $username, ?string $password)
     {
         $this->username = $username;
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }

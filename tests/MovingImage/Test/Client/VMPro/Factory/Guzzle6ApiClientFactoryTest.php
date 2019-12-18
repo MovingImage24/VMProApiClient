@@ -2,14 +2,14 @@
 
 namespace MovingImage\Test\Client\VMPro\Factory;
 
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Factory\Guzzle6ApiClientFactory;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
+use PHPUnit\Framework\TestCase;
 
-class Guzzle6ApiClientFactoryTest extends \PHPUnit_Framework_TestCase
+class Guzzle6ApiClientFactoryTest extends TestCase
 {
     /**
      * @var Guzzle6ApiClientFactory
@@ -22,7 +22,7 @@ class Guzzle6ApiClientFactoryTest extends \PHPUnit_Framework_TestCase
     private $tokenManager;
 
     /**
-     * Set accessibility for a method on the Guzzle5ApiClientFactory
+     * Set accessibility for a method
      * object to public.
      *
      * @param string $methodName
@@ -41,12 +41,8 @@ class Guzzle6ApiClientFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Set up a factory + token manager instance.
      */
-    public function setUp()
+    public function setUp(): void
     {
-        if (version_compare(ClientInterface::VERSION, '6.0', '<')) {
-            $this->markTestSkipped('Skipping tests for Guzzle5ApiClientFactory when Guzzle ~5.0 is installed');
-        }
-
         $this->factory = new Guzzle6ApiClientFactory();
         $this->tokenManager = $this->prophesize(TokenManager::class)->reveal();
     }

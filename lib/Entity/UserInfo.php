@@ -29,10 +29,7 @@ class UserInfo
     public function validate(): void
     {
         if (!\is_string($this->email) || !\is_string($this->fullName) || !\is_array($this->videoManagerIds)) {
-            throw new \InvalidArgumentException(sprintf(
-                '%s is not valid',
-                self::class
-            ));
+            throw new \InvalidArgumentException(sprintf('%s is not valid', self::class));
         }
     }
 

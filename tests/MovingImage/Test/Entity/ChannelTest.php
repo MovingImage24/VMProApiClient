@@ -3,8 +3,9 @@
 namespace MovingImage\Test\Entity;
 
 use MovingImage\Client\VMPro\Entity\Channel;
+use PHPUnit\Framework\TestCase;
 
-class ChannelTest extends \PHPUnit_Framework_TestCase
+class ChannelTest extends TestCase
 {
     /**
      * @covers \Channel::setParent()

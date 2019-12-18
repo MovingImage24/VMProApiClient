@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Util;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Entity\Channel;
 
 /**
@@ -12,11 +15,9 @@ trait ChannelTrait
     /**
      * Configures the parent/child relationships between Channels.
      *
-     * @param Channel[] $channels - any iterable collection of Channel
-     *
-     * @return array
+     * @param ArrayCollection<Channel> $channels - any iterable collection of Channel
      */
-    private function setChannelRelations($channels)
+    private function setChannelRelations(ArrayCollection $channels): ArrayCollection
     {
         $indexedChannels = [];
 
@@ -40,6 +41,6 @@ trait ChannelTrait
             }
         }
 
-        return array_values($indexedChannels);
+        return new ArrayCollection(array_values($indexedChannels));
     }
 }

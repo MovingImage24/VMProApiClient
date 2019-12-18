@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Factory;
 
 use GuzzleHttp\Client;
@@ -10,51 +12,37 @@ use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
 
-/**
- * Class ApiClientFactory.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class Guzzle6ApiClientFactory extends AbstractApiClientFactory
 {
     /**
      * Use the Guzzle6-specific API client class.
-     *
-     * @return string
      */
-    protected function getApiClientClass()
+    protected function getApiClientClass(): string
     {
         return ApiClient::class;
     }
 
-    protected function getGuzzleBaseUriOptionKey()
+    protected function getGuzzleBaseUriOptionKey(): string
     {
         return 'base_uri';
     }
 
     /**
      * Instantiate a TokenMiddleware instance with a TokenManager.
-     *
-     * @param TokenManager $tokenManager
-     *
-     * @return TokenMiddleware
      */
-    public function createTokenMiddleware(TokenManager $tokenManager)
+    public function createTokenMiddleware(TokenManager $tokenManager): TokenMiddleware
     {
         return new TokenMiddleware($tokenManager);
     }
 
     /**
      * Method to instantiate a HTTP client.
-     *
-     * @param string $baseUri
-     * @param array  $middlewares
-     * @param array  $options
-     *
-     * @return ClientInterface
      */
-    public function createHttpClient($baseUri, array $middlewares = [], array $options = [])
+    public function createHttpClient(string $baseUri, ?array $middlewares, ?array $options = []): ClientInterface
     {
+        $middlewares = $middlewares ?? [];
+        $options = $options ?? [];
+
         $stack = HandlerStack::create();
 
         foreach ($middlewares as $middleware) {
@@ -67,9 +55,6 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
         ], $options));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createSimple($baseUri, ApiCredentials $credentials, $authUrl)
     {
         $tokenManager = $this->createTokenManager($authUrl, $credentials);

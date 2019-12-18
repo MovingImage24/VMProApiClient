@@ -6,27 +6,17 @@ use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Factory\AbstractApiClientFactory;
 use MovingImage\Test\Client\VMPro\ApiClient\AbstractApiClientImpl;
 
-/**
- * Class AbstractApiClientFactoryImpl.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class AbstractApiClientFactoryImpl extends AbstractApiClientFactory
 {
     /**
      * Return our impl class for testing.
-     *
-     * @return string
      */
-    protected function getApiClientClass()
+    protected function getApiClientClass(): string
     {
         return AbstractApiClientImpl::class;
     }
 
-    /**
-     * @return string
-     */
-    protected function getGuzzleBaseUriOptionKey()
+    protected function getGuzzleBaseUriOptionKey(): string
     {
         return 'base_uri';
     }

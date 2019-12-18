@@ -5,11 +5,6 @@ namespace MovingImage\Test\Client\VMPro\ApiClient\Methods;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\TestCase\ApiClientTestCase;
 
-/**
- * Class GetUploadVideoUrlTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class GetVideoUploadUrlTest extends ApiClientTestCase
 {
     /**
@@ -31,11 +26,11 @@ class GetVideoUploadUrlTest extends ApiClientTestCase
     /**
      * Assert whether the right exception is thrown when calling ::getVideoUploadUrl
      * with a video ID that does not exist in the video manager.
-     *
-     * @expectedException \Exception
      */
     public function testWithNonExistantVideoId()
     {
+        $this->expectException(\Exception::class);
+
         $httpClient = $this->createMockGuzzleClient(400, [], [
             'message' => 'an error occurred',
         ]);

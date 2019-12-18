@@ -1,16 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
+use DateTime;
 use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 use MovingImage\Meta\Interfaces\VideoInterface;
 
-/**
- * Class Video.
- *
- * @author Omid Rad <omid.rad@movingimage.com>
- */
 class Video implements VideoInterface
 {
     /**
@@ -120,294 +118,209 @@ class Video implements VideoInterface
      */
     private $downloadable;
 
-    /**
-     * @param string $id
-     *
-     * @return Video
-     */
-    public function setId($id)
+    public function setId(string $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return Video
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return Video
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getThumbnail()
+    public function getThumbnail(): ?string
     {
         return $this->thumbnail;
     }
 
-    /**
-     * @param string $thumbnail
-     *
-     * @return Video
-     */
-    public function setThumbnail($thumbnail)
+    public function setThumbnail(string $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLength()
+    public function getLength(): ?int
     {
         return $this->length;
     }
 
-    /**
-     * @param int $length
-     *
-     * @return Video
-     */
-    public function setLength($length)
+    public function setLength(int $length): self
     {
         $this->length = $length;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedDate()
+    public function getCreatedDate(): DateTime
     {
-        $date = new \DateTime();
-        $date->setTimestamp(substr($this->createdDate, 0, 10));
+        $date = new DateTime();
+        $date->setTimestamp(intval($this->createdDate / 1000));
 
         return $date;
     }
 
-    /**
-     * @param int $createdDate
-     *
-     * @return Video
-     */
-    public function setCreatedDate($createdDate)
+    public function setCreatedDate(DateTime $createdDate): Video
     {
-        $this->createdDate = $createdDate;
+        $this->createdDate = $createdDate->getTimestamp() * 1000;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getModifiedDate()
+    public function getModifiedDate(): ?DateTime
     {
-        return $this->modifiedDate;
+        $date = new DateTime();
+        $date->setTimestamp(intval($this->modifiedDate / 1000));
+
+        return $date;
     }
 
-    /**
-     * @param int $modifiedDate
-     *
-     * @return Video
-     */
-    public function setModifiedDate($modifiedDate)
+    public function setModifiedDate(DateTime $modifiedDate): self
     {
-        $this->modifiedDate = $modifiedDate;
+        $this->modifiedDate = $modifiedDate->getTimestamp() * 1000;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getUploadDate()
+    public function getUploadDate(): ?DateTime
     {
-        return $this->uploadDate;
+        $date = new DateTime();
+        $date->setTimestamp(intval($this->uploadDate / 1000));
+
+        return $date;
     }
 
-    /**
-     * @param int $uploadDate
-     *
-     * @return Video
-     */
-    public function setUploadDate($uploadDate)
+    public function setUploadDate(DateTime $uploadDate): self
     {
-        $this->uploadDate = $uploadDate;
+        $this->uploadDate = $uploadDate->getTimestamp() * 1000;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getGeneration()
+    public function getGeneration(): ?int
     {
         return $this->generation;
     }
 
-    /**
-     * @param int $generation
-     *
-     * @return Video
-     */
-    public function setGeneration($generation)
+    public function setGeneration(int $generation): self
     {
         $this->generation = $generation;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPlays()
+    public function getPlays(): int
     {
+        if (!$this->plays) {
+            return 0;
+        }
+
         return $this->plays;
     }
 
-    /**
-     * @param int $plays
-     *
-     * @return Video
-     */
-    public function setPlays($plays)
+    public function setPlays(int $plays): self
     {
         $this->plays = $plays;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getViews()
+    public function getViews(): int
     {
+        if (!$this->views) {
+            return 0;
+        }
+
         return $this->views;
     }
 
-    /**
-     * @param int $views
-     *
-     * @return Video
-     */
-    public function setViews($views)
+    public function setViews(int $views): self
     {
         $this->views = $views;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getAllFormatsAvailable()
+    public function areAllFormatsAvailable(): bool
     {
+        if (!$this->allFormatsAvailable) {
+            return false;
+        }
+
         return $this->allFormatsAvailable;
     }
 
-    /**
-     * @param bool $allFormatsAvailable
-     *
-     * @return Video
-     */
-    public function setAllFormatsAvailable($allFormatsAvailable)
+    public function setAllFormatsAvailable(bool $allFormatsAvailable): self
     {
         $this->allFormatsAvailable = $allFormatsAvailable;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getCustomMetadata()
+    public function getCustomMetadata(): array
     {
+        if (!$this->customMetadata) {
+            return [];
+        }
+
         return $this->customMetadata;
     }
 
-    /**
-     * @param array $customMetadata
-     *
-     * @return Video
-     */
-    public function setCustomMetadata($customMetadata)
+    public function setCustomMetadata(array $customMetadata): self
     {
         $this->customMetadata = $customMetadata;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getKeywords()
+    public function getKeywords(): array
     {
+        if (!$this->keywords) {
+            return [];
+        }
+
         return $this->keywords;
     }
 
-    /**
-     * @param array $keywords
-     *
-     * @return Video
-     */
-    public function setKeywords($keywords)
+    public function setKeywords(array $keywords): self
     {
         $this->keywords = $keywords;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getStills()
+    public function getStills(): array
     {
+        if (!$this->stills) {
+            return [];
+        }
+
         //sorting preview's images from smallest to biggest
         usort($this->stills, function (array $item1, array $item2) {
             if (isset($item1['dimension']['height'], $item2['dimension']['height']) && $item1['dimension']['height'] != $item2['dimension']['height']) {
@@ -420,114 +333,79 @@ class Video implements VideoInterface
         return $this->stills;
     }
 
-    /**
-     * @param array $stills
-     *
-     * @return Video
-     */
-    public function setStills($stills)
+    public function setStills(array $stills): self
     {
         $this->stills = $stills;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPublished()
-    {
-        return $this->published;
-    }
-
-    /**
-     * @param mixed $published
-     *
-     * @return Video
-     */
-    public function setPublished($published)
+    public function setPublished(bool $published): self
     {
         $this->published = $published;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isPublished()
+    public function isPublished(): bool
     {
-        return $this->getPublished();
+        if (!$this->published) {
+            return false;
+        }
+
+        return $this->published;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDownloadable()
-    {
-        return $this->downloadable;
-    }
-
-    /**
-     * @param mixed $downloadable
-     *
-     * @return Video
-     */
-    public function setDownloadable($downloadable)
+    public function setDownloadable(bool $downloadable): self
     {
         $this->downloadable = $downloadable;
 
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isDownloadable()
+    public function isDownloadable(): bool
     {
-        return $this->getDownloadable();
+        if (!$this->downloadable) {
+            return false;
+        }
+
+        return $this->downloadable;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->isPublished()
             ? VideoInterface::STATUS_PUBLISHED
             : VideoInterface::STATUS_NOT_PUBLISHED;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getChannels()
+    public function getChannels(): array
     {
+        if (!$this->channels) {
+            return [];
+        }
+
+
         return $this->channels;
     }
 
-    /**
-     * @param mixed $channels
-     */
-    public function setChannels($channels)
+    public function setChannels(array $channels): self
     {
         $this->channels = $channels;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadFileName()
+    public function getUploadFileName(): string
     {
+        if (!$this->uploadFileName) {
+            return '';
+        }
+
         return $this->uploadFileName;
     }
 
-    /**
-     * @param mixed $uploadFileName
-     *
-     * @return Video
-     */
-    public function setUploadFileName($uploadFileName)
+    public function setUploadFileName(string $uploadFileName): self
     {
         $this->uploadFileName = $uploadFileName;
 

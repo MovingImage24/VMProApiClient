@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Util\Logging\Traits;
 
 use Monolog\Handler\NullHandler;
@@ -9,8 +11,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Trait that abstracts implementing of LoggerAwareInterface setter method
  * as well as logger storage + retrieval within a class.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
  */
 trait LoggerAwareTrait
 {
@@ -21,20 +21,16 @@ trait LoggerAwareTrait
 
     /**
      * Method to inject PSR logger into this class.
-     *
-     * @param LoggerInterface $logger
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
     /**
      * Get the logger instance associated with this instance.
-     *
-     * @return LoggerInterface
      */
-    protected function getLogger()
+    protected function getLogger(): LoggerInterface
     {
         if (!isset($this->logger)) {
             // When no logger is injected, create a new one

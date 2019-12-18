@@ -4,72 +4,49 @@ namespace MovingImage\Client\VMPro\Interfaces;
 
 use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Interface ApiClientFactoryInterface.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 interface ApiClientFactoryInterface
 {
-    const VERSION = '0.2';
+    public const VERSION = '0.2';
 
     /**
      * Instantiate a TokenManager with a set of API credentials.
      * If CacheItemPoolInterface implementation is provided,
      * it will be used to cache the API token.
-     *
-     * @param string                 $baseUri
-     * @param ApiCredentials         $credentials
-     * @param CacheItemPoolInterface $cacheItemPool
-     *
-     * @return TokenManager
      */
     public function createTokenManager(
-        $baseUri,
+        string $baseUri,
         ApiCredentials $credentials,
-        CacheItemPoolInterface $cacheItemPool = null
-    );
+        ?CacheItemPoolInterface $cacheItemPool = null
+    ): TokenManager;
 
     /**
      * Method to instantiate a serializer instance.
-     *
-     * @return \JMS\Serializer\Serializer
      */
-    public function createSerializer();
+    public function createSerializer(): SerializerInterface;
 
     /**
      * Factory method to create a new instance of the VMPro
      * API Client.
-     *
-     * @param ClientInterface             $httpClient
-     * @param Serializer                  $serializer
-     * @param LoggerInterface|null        $logger
-     * @param CacheItemPoolInterface|null $cacheItemPool
-     * @param mixed                       $cacheTtl
-     *
-     * @return ApiClientInterface
      */
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        LoggerInterface $logger = null,
-        CacheItemPoolInterface $cacheItemPool = null,
-        $cacheTtl = null
-    );
+        ?LoggerInterface $logger = null,
+        ?CacheItemPoolInterface $cacheItemPool = null,
+        ?int $cacheTtl = null,
+        ?StopwatchInterface $stopwatch = null
+    ): ApiClientInterface;
 
     /**
      * Abstraction to more simpler instantiate an API client.
      *
-     * @param string         $baseUri
-     * @param ApiCredentials $credentials
-     * @param string         $authUrl
-     *
      * @return mixed
      */
-    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl);
+    public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl);
 }

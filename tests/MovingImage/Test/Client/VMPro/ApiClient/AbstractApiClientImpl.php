@@ -4,12 +4,8 @@ namespace MovingImage\Test\Client\VMPro\ApiClient;
 
 use MovingImage\Client\VMPro\ApiClient\AbstractApiClient;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
-/**
- * Class AbstractApiClientImpl.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
 class AbstractApiClientImpl extends AbstractApiClient
 {
     /**
@@ -33,10 +29,8 @@ class AbstractApiClientImpl extends AbstractApiClient
 
     /**
      * Expose our LoggerInterface instance to do assertions with.
-     *
-     * @return \Psr\Log\LoggerInterface
      */
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         return parent::getLogger();
     }
@@ -49,7 +43,7 @@ class AbstractApiClientImpl extends AbstractApiClient
      *
      * @return array
      */
-    public function buildJsonParameters(array $required, array $optional)
+    public function buildJsonParameters(array $required, array $optional): array
     {
         return parent::buildJsonParameters($required, $optional);
     }

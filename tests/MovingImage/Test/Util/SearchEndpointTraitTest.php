@@ -7,8 +7,9 @@ use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
 use MovingImage\Meta\Enums\PublicationState;
+use PHPUnit\Framework\TestCase;
 
-class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
+class SearchEndpointTraitTest extends TestCase
 {
     /**
      * @var SearchEndpointTraitImpl
@@ -18,7 +19,7 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * Instantiate our SearchEndpointTrait implementation test helper.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->traitObj = new SearchEndpointTraitImpl();
     }

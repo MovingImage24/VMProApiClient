@@ -13,7 +13,7 @@ class Fixture
      */
     public static function getApiResponse($method)
     {
-        return json_decode(self::getFixture('ApiResponse', $method), true);
+        return json_decode(self::getFixture('ApiResponse', $method.'.json'), true);
     }
 
     /**

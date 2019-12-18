@@ -1,0 +1,14 @@
+[
+  {
+    "quality": "480p",
+    "profileKey": "mww1560",
+    "fileExtension": "asf",
+    "transcodingCompleted": true
+  },
+  {
+    "quality": "720p",
+    "profileKey": "mww2420",
+    "fileExtension": "asf",
+    "transcodingCompleted": false
+  }
+]

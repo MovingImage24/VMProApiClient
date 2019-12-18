@@ -1,13 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
 use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\KeywordInterface;
 
-/**
- * Class Keyword.
- */
 class Keyword implements KeywordInterface
 {
     /**
@@ -20,40 +19,24 @@ class Keyword implements KeywordInterface
      */
     private $text;
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param $id
-     *
-     * @return Keyword
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getKeyword()
+    public function getKeyword(): string
     {
         return $this->text;
     }
 
-    /**
-     * @param $keyword
-     *
-     * @return Keyword
-     */
-    public function setKeyword($keyword)
+    public function setKeyword(string $keyword): self
     {
         $this->text = $keyword;
 

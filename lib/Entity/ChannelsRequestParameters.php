@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Entity;
 
 use MovingImage\Client\VMPro\Util\AccessorTrait;
@@ -23,12 +25,7 @@ class ChannelsRequestParameters
 {
     use AccessorTrait;
 
-    /**
-     * @param string $order
-     *
-     * @return ChannelsRequestParameters
-     */
-    public function setOrder($order)
+    public function setOrder(string $order): self
     {
         $pool = ['asc', 'desc'];
 

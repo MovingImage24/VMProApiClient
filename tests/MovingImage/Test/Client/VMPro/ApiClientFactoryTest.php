@@ -4,13 +4,9 @@ namespace MovingImage\Test\Client\VMPro;
 
 use MovingImage\Client\VMPro\ApiClientFactory;
 use MovingImage\Client\VMPro\Factory\Guzzle6ApiClientFactory;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class ApiClientFactoryTest.
- *
- * @author Ruben Knol <ruben.knol@movingimage.com>
- */
-class ApiClientFactoryTest extends \PHPUnit_Framework_TestCase
+class ApiClientFactoryTest extends TestCase
 {
     /**
      * Assert whether the ApiClientFactory stub class in the namespace root
