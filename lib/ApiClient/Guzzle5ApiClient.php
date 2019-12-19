@@ -3,11 +3,11 @@
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use GuzzleHttp\Message\Response;
-use MovingImage\Client\VMPro\ApiClient;
-use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use GuzzleHttp\Message\ResponseInterface;
-use MovingImage\Client\VMPro\Exception;
 use GuzzleHttp\Stream\Stream;
+use MovingImage\Client\VMPro\ApiClient;
+use MovingImage\Client\VMPro\Exception;
+use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 
 /**
  * Class Guzzle5ApiClient.

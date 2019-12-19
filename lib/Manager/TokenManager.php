@@ -55,9 +55,6 @@ class TokenManager implements LoggerAwareInterface
     /**
      * TokenManager constructor.
      *
-     * @param ClientInterface        $httpClient
-     * @param ApiCredentials         $credentials
-     * @param TokenExtractor         $tokenExtractor
      * @param CacheItemPoolInterface $cacheItemPool
      */
     public function __construct(
@@ -111,8 +108,6 @@ class TokenManager implements LoggerAwareInterface
 
     /**
      * Create a new access token for a video manager using a refresh token.
-     *
-     * @param Token $refreshToken
      *
      * @return Token
      */
@@ -201,8 +196,6 @@ class TokenManager implements LoggerAwareInterface
     /**
      * Sends a post request to the OAuth endpoint
      * Supports both guzzle 5 and 6 versions.
-     *
-     * @param array $body
      *
      * @return mixed
      */

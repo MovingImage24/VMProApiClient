@@ -2,10 +2,10 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\HandlerCallback;
-use JMS\Serializer\JsonDeserializationVisitor;
+use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\DeserializationContext;
+use JMS\Serializer\JsonDeserializationVisitor;
 use MovingImage\Meta\Interfaces\AttachmentInterface;
 
 /**

@@ -18,7 +18,6 @@ class Token
      * Token constructor.
      *
      * @param string $tokenString
-     * @param array  $tokenData
      */
     public function __construct($tokenString, array $tokenData)
     {

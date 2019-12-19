@@ -28,8 +28,6 @@ class TokenMiddleware implements LoggerAwareInterface
 
     /**
      * TokenMiddleware constructor.
-     *
-     * @param TokenManager $tokenManager
      */
     public function __construct(TokenManager $tokenManager)
     {
@@ -39,8 +37,6 @@ class TokenMiddleware implements LoggerAwareInterface
     /**
      * Middleware invocation method that actually adds the bearer
      * token to the HTTP request.
-     *
-     * @param callable $handler
      *
      * @return \Closure
      */

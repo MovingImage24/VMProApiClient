@@ -47,8 +47,6 @@ class VideoCollection
     }
 
     /**
-     * @param int $totalCount
-     *
      * @return VideoCollection
      */
     public function setTotalCount(int $totalCount)

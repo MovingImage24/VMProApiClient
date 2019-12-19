@@ -29,8 +29,6 @@ class SearchChannelsTest extends ApiClientTestCase
 
     /**
      * Asserts parent/children relations for the provided channel.
-     *
-     * @param Channel $channel
      */
     private function assertRelations(Channel $channel)
     {

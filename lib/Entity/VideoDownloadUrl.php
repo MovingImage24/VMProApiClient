@@ -2,8 +2,8 @@
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\VideoDownloadUrlInterface;
 
 /**

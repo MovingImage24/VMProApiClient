@@ -24,7 +24,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array  $params
      * @param string $operator
      * @param string $expectedResult
      * @dataProvider dataProviderForTestCreateElasticSearchQuery
@@ -129,7 +128,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
      * @covers \SearchEndpointTrait::getRequestOptionsForSearchVideosEndpoint()
      * @dataProvider dataProviderForTestGetRequestOptionsForSearchVideosEndpoint
      */
@@ -217,7 +215,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
      * @covers \SearchEndpointTrait::testGetRequestOptionsForSearchChannelsEndpoint
      * @dataProvider dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint
      */
@@ -317,8 +314,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * Creates a VideosRequestParameters object from the provided array.
      *
-     * @param array $arrayParams
-     *
      * @return VideosRequestParameters
      */
     private function createVideosRequestParameters(array $arrayParams)
@@ -338,8 +333,6 @@ class SearchEndpointTraitTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Creates a ChannelsRequestParameters object from the provided array.
-     *
-     * @param array $arrayParams
      *
      * @return ChannelsRequestParameters
      */

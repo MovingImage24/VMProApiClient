@@ -15,7 +15,6 @@ trait SearchEndpointTrait
     /**
      * Creates an elastic search query from the provided array od parameters.
      *
-     * @param array  $params
      * @param string $operator
      *
      * @return string
@@ -122,8 +121,7 @@ trait SearchEndpointTrait
     }
 
     /**
-     * @param int                          $videoManagerId
-     * @param VideosRequestParameters|null $parameters
+     * @param int $videoManagerId
      *
      * @return array
      */
@@ -173,8 +171,7 @@ trait SearchEndpointTrait
     }
 
     /**
-     * @param int                            $videoManagerId
-     * @param ChannelsRequestParameters|null $parameters
+     * @param int $videoManagerId
      *
      * @return array
      */
