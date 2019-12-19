@@ -67,7 +67,7 @@ class CreateVideoTest extends ApiClientTestCase
         ]);
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
-        $res = $client->createVideo(5, 'example.mp4', 'Example', 'Description', [6], 5, ['test'], false);
+        $res = $client->createVideo(5, 'example.mp4', 'Example', 'Description', 6, 5, ['test'], false);
         $params = json_decode($this->getLastRequest()->getBody(), true);
 
         $this->assertArrayHasKey('title', $params);
@@ -97,6 +97,6 @@ class CreateVideoTest extends ApiClientTestCase
         ]);
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
-        $client->createVideo(5, 'example.mp4', '', '', [34890534905]);
+        $client->createVideo(5, 'example.mp4', '', '', 34890534905);
     }
 }
