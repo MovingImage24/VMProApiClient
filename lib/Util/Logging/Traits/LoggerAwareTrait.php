@@ -21,8 +21,6 @@ trait LoggerAwareTrait
 
     /**
      * Method to inject PSR logger into this class.
-     *
-     * @param LoggerInterface $logger
      */
     public function setLogger(LoggerInterface $logger)
     {

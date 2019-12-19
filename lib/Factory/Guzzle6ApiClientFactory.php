@@ -35,8 +35,6 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
     /**
      * Instantiate a TokenMiddleware instance with a TokenManager.
      *
-     * @param TokenManager $tokenManager
-     *
      * @return TokenMiddleware
      */
     public function createTokenMiddleware(TokenManager $tokenManager)
@@ -48,8 +46,6 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
      * Method to instantiate a HTTP client.
      *
      * @param string $baseUri
-     * @param array  $middlewares
-     * @param array  $options
      *
      * @return ClientInterface
      */

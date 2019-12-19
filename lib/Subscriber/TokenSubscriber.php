@@ -30,8 +30,6 @@ class TokenSubscriber implements SubscriberInterface, LoggerAwareInterface
 
     /**
      * TokenSubscriber constructor.
-     *
-     * @param TokenManager $tokenManager
      */
     public function __construct(TokenManager $tokenManager)
     {

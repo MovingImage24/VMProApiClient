@@ -14,8 +14,8 @@ use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
-use MovingImage\Meta\Interfaces\VideoInterface;
 use MovingImage\Meta\Interfaces\ThumbnailInterface;
+use MovingImage\Meta\Interfaces\VideoInterface;
 
 /**
  * Interface ApiClientInterface.
@@ -48,7 +48,6 @@ interface ApiClientInterface
      * @param string $description
      * @param null   $channel
      * @param null   $group
-     * @param array  $keywords
      * @param bool   $autoPublish
      *
      * @return string The video ID of the newly created video
@@ -152,8 +151,7 @@ interface ApiClientInterface
     public function getVideo($videoManagerId, $videoId, VideoRequestParameters $parameters = null);
 
     /**
-     * @param                              $videoManagerId
-     * @param VideosRequestParameters|null $parameters
+     * @param $videoManagerId
      *
      * @return mixed
      */

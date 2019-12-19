@@ -44,9 +44,6 @@ class AbstractApiClientImpl extends AbstractApiClient
     /**
      * Expose this method to test it without needing reflections.
      *
-     * @param array $required
-     * @param array $optional
-     *
      * @return array
      */
     public function buildJsonParameters(array $required, array $optional)

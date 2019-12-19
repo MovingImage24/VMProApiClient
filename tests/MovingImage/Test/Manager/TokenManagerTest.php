@@ -317,9 +317,6 @@ class TokenManagerTest extends ApiClientTestCase
     /**
      * Creates an instance of TokenManager, configured to return the provided token.
      *
-     * @param SimpleJWS|null              $token
-     * @param CacheItemPoolInterface|null $cacheItemPool
-     *
      * @return TokenManager
      */
     private function createTokenManager(

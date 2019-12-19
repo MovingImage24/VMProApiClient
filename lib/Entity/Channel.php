@@ -3,8 +3,8 @@
 namespace MovingImage\Client\VMPro\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\ChannelInterface;
 
 /**

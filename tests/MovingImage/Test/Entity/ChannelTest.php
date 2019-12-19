@@ -43,9 +43,6 @@ class ChannelTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Asserts that the provided channel contains all the children specified in $expectedIds argument.
-     *
-     * @param Channel $channel
-     * @param array   $expectedIds
      */
     private function assertChildrenInChannel(Channel $channel, array $expectedIds)
     {

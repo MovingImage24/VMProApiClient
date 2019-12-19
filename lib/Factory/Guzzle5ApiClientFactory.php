@@ -34,8 +34,6 @@ class Guzzle5ApiClientFactory extends AbstractApiClientFactory
     /**
      * Instantiate a TokenSubscriber instance with a TokenManager.
      *
-     * @param TokenManager $tokenManager
-     *
      * @return TokenSubscriber
      */
     public function createTokenSubscriber(TokenManager $tokenManager)
@@ -47,8 +45,6 @@ class Guzzle5ApiClientFactory extends AbstractApiClientFactory
      * Method to instantiate a HTTP client.
      *
      * @param string $baseUri
-     * @param array  $subscribers
-     * @param array  $options
      *
      * @return ClientInterface
      */

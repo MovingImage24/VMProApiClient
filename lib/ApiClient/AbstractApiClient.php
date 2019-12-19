@@ -10,12 +10,12 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\Thumbnail;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
-use MovingImage\Client\VMPro\Entity\Thumbnail;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
@@ -50,8 +50,6 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
 
     /**
      * Since the VMPro API doesn't sort any more the returned channels, we have to do it on our side.
-     *
-     * @param ArrayCollection $channels
      *
      * @return ArrayCollection
      */

@@ -63,8 +63,6 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     /**
      * ApiClient constructor.
      *
-     * @param ClientInterface        $httpClient
-     * @param Serializer             $serializer
      * @param CacheItemPoolInterface $cacheItemPool
      * @param int                    $cacheTtl
      * @param StopwatchInterface     $stopwatch
@@ -83,9 +81,6 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
         $this->stopwatch = $stopwatch ?: new NullStopwatch();
     }
 
-    /**
-     * @param CacheItemPoolInterface $cacheItemPool
-     */
     public function setCacheItemPool(CacheItemPoolInterface $cacheItemPool)
     {
         $this->cacheItemPool = $cacheItemPool;
@@ -191,9 +186,6 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *     'bla' => 'test',
      * ]
      *
-     * @param array $required
-     * @param array $optional
-     *
      * @return array
      */
     protected function buildJsonParameters(array $required, array $optional)
@@ -220,7 +212,6 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *
      * @param string $method
      * @param string $uri
-     * @param array  $options
      *
      * @return string
      */
@@ -234,7 +225,6 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *
      * @param string $method
      * @param string $uri
-     * @param array  $options
      * @param mixed  $response
      *
      * @return bool

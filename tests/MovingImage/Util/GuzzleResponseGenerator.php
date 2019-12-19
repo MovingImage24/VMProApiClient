@@ -9,7 +9,6 @@ trait GuzzleResponseGenerator
 {
     /**
      * @param int    $status
-     * @param array  $headers
      * @param string $body
      *
      * @return \GuzzleHttp\Psr7\Response|\GuzzleHttp\Message\Response

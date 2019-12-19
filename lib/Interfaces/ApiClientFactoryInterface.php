@@ -24,7 +24,6 @@ interface ApiClientFactoryInterface
      * it will be used to cache the API token.
      *
      * @param string                 $baseUri
-     * @param ApiCredentials         $credentials
      * @param CacheItemPoolInterface $cacheItemPool
      *
      * @return TokenManager
@@ -46,11 +45,7 @@ interface ApiClientFactoryInterface
      * Factory method to create a new instance of the VMPro
      * API Client.
      *
-     * @param ClientInterface             $httpClient
-     * @param Serializer                  $serializer
-     * @param LoggerInterface|null        $logger
-     * @param CacheItemPoolInterface|null $cacheItemPool
-     * @param mixed                       $cacheTtl
+     * @param mixed $cacheTtl
      *
      * @return ApiClientInterface
      */
@@ -65,9 +60,8 @@ interface ApiClientFactoryInterface
     /**
      * Abstraction to more simpler instantiate an API client.
      *
-     * @param string         $baseUri
-     * @param ApiCredentials $credentials
-     * @param string         $authUrl
+     * @param string $baseUri
+     * @param string $authUrl
      *
      * @return mixed
      */
