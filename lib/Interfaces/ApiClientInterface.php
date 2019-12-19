@@ -42,7 +42,7 @@ interface ApiClientInterface
         string $fileName,
         ?string $title = '',
         ?string $description = '',
-        ?array $channels = [],
+        ?int $channel = null,
         ?string $group = null,
         ?array $keywords = [],
         ?bool $autoPublish = true
@@ -76,12 +76,12 @@ interface ApiClientInterface
     /**
      * Add a video to a channel.
      */
-    public function addVideoToChannel(int $videoManagerId, string $videoId, string $channelId): void;
+    public function addVideoToChannel(int $videoManagerId, string $videoId, int $channelId): void;
 
     /**
      * Remove a video from a channel.
      */
-    public function removeVideoFromChannel(int $videoManagerId, string $videoId, string $channelId): void;
+    public function removeVideoFromChannel(int $videoManagerId, string $videoId, int $channelId): void;
 
     /**
      * Add/remove/update custom metadata fields to a video.

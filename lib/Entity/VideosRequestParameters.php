@@ -10,8 +10,7 @@ use MovingImage\Meta\Enums\PublicationState;
 /**
  * @method int                     getVideoId()
  * @method VideosRequestParameters setVideoId(int $videoId)
- * @method int                     getChannelId()
- * @method VideosRequestParameters setChannelId(int $channelId)
+ * @method string                  getChannelId() returns a comma separated string for all channels, eg. 34534,333,42
  * @method int                     getOffset()
  * @method VideosRequestParameters setOffset(int $offset)
  * @method int                     getLimit()
@@ -59,5 +58,22 @@ class VideosRequestParameters
         }
 
         return $this;
+    }
+
+    public function getChannelIds(): array
+    {
+        return explode(',', $this->container['channel_id']);
+    }
+
+    public function setChannelIds(array $channelIds): self
+    {
+        $this->container['channel_id'] = implode(',', $channelIds);
+
+        return $this;
+    }
+
+    public function setChannelId(int $channelId): self
+    {
+        return $this->setChannelIds([$channelId]);
     }
 }

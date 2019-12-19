@@ -73,12 +73,11 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         string $fileName,
         ?string $title = '',
         ?string $description = '',
-        ?array $channels = [],
+        ?int $channel = null,
         ?string $group = null,
         ?array $keywords = [],
         ?bool $autoPublish = null
     ): string {
-        $channel = implode(',', $channels);
         $response = $this->makeRequest('POST', 'videos', [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
             'json' => $this->buildJsonParameters(
@@ -149,16 +148,16 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         ]);
     }
 
-    public function addVideoToChannel(int $videoManagerId, string $videoId, string $channelId): void
+    public function addVideoToChannel(int $videoManagerId, string $videoId, int $channelId): void
     {
-        $this->makeRequest('POST', sprintf('channels/%s/videos/%s', $channelId, $videoId), [
+        $this->makeRequest('POST', sprintf('channels/%u/videos/%s', $channelId, $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
 
-    public function removeVideoFromChannel(int $videoManagerId, string $videoId, string $channelId): void
+    public function removeVideoFromChannel(int $videoManagerId, string $videoId, int $channelId): void
     {
-        $this->makeRequest('DELETE', sprintf('channels/%s/videos/%s', $channelId, $videoId), [
+        $this->makeRequest('DELETE', sprintf('channels/%u/videos/%s', $channelId, $videoId), [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
     }
@@ -244,7 +243,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     {
         $response = $this->makeRequest(
             'GET',
-            sprintf('channels/%s/attachments', $channelId),
+            sprintf('channels/%u/attachments', $channelId),
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
