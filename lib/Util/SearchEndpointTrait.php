@@ -147,7 +147,7 @@ trait SearchEndpointTrait
 
         if ($parameters) {
             $queryParams += [
-                'channels' => $parameters->getChannelId(),
+                'channels' => implode(',', $parameters->getChannelIds()),
                 'id' => $parameters->getVideoId(),
                 $parameters->getSearchInField() => $parameters->getSearchTerm(),
             ];
