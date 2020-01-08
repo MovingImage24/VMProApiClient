@@ -46,7 +46,7 @@ interface ApiClientFactoryInterface
     /**
      * Abstraction to more simpler instantiate an API client.
      *
-     * @return mixed
+     * @return ApiClientInterface
      */
-    public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl);
+    public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl): ApiClientInterface;
 }
