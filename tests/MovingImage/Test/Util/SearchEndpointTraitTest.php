@@ -174,7 +174,7 @@ class SearchEndpointTraitTest extends TestCase
             }
 
             $query = [
-                'channels' => $params->getChannelId(),
+                'channels' => implode(',', $params->getChannelIds()),
             ];
 
             switch ($params->getPublicationState()) {

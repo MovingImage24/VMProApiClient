@@ -56,11 +56,7 @@ trait AccessorTrait
      */
     public function get(string $property)
     {
-        if (isset($this->container[$property])) {
-            return $this->container[$property];
-        }
-
-        return null;
+        return $this->container[$property] ?? null;
     }
 
     public function is(string $property): ?bool
