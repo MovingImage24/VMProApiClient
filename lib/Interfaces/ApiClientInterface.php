@@ -10,6 +10,7 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\Player;
 use MovingImage\Client\VMPro\Entity\Transcode;
 use MovingImage\Client\VMPro\Entity\UserInfo;
 use MovingImage\Client\VMPro\Entity\Video;
@@ -191,4 +192,7 @@ interface ApiClientInterface
      * @return ArrayCollection<Transcode>
      */
     public function getTranscodingStatus(int $videoManagerId, string $videoId): ArrayCollection;
+
+    /** @return ArrayCollection<Player> */
+    public function getPlayers(int $videoManagerId): ArrayCollection;
 }

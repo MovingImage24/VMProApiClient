@@ -12,6 +12,7 @@ use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\Player;
 use MovingImage\Client\VMPro\Entity\Thumbnail;
 use MovingImage\Client\VMPro\Entity\Transcode;
 use MovingImage\Client\VMPro\Entity\UserInfo;
@@ -446,5 +447,20 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $response = $response->getBody()->getContents();
 
         return $this->deserialize($response, 'ArrayCollection<'.Transcode::class.'>');
+    }
+
+    public function getPlayers(int $videoManagerId): ArrayCollection
+    {
+        $options = [self::OPT_VIDEO_MANAGER_ID => $videoManagerId];
+
+        $response = $this->makeRequest(
+            'GET',
+            'players',
+            $options
+        );
+
+        $response = $response->getBody()->getContents();
+
+        return $this->deserialize($response, 'ArrayCollection<'.Player::class.'>');
     }
 }
