@@ -10,6 +10,7 @@ use MovingImage\Meta\Enums\PublicationState;
 /**
  * @method int                     getVideoId()
  * @method VideosRequestParameters setVideoId(int $videoId)
+ * @method int                     setChannelId(int $channelId)
  * @method int                     getOffset()
  * @method VideosRequestParameters setOffset(int $offset)
  * @method int                     getLimit()
@@ -61,13 +62,30 @@ class VideosRequestParameters
 
     public function getChannelIds(): array
     {
-        return $this->container['channel_id'] ?? [];
+        if (isset($this->container['channel_id'])) {
+            if (is_array($this->container['channel_id'])) {
+                return $this->container['channel_id'];
+            } else {
+                return [$this->container['channel_id']];
+            }
+        }
+
+        return [];
     }
 
+    /**
+     * Return the first element of channelId if it is an array, otherwise return the only channelId
+     */
     public function getChannelId(): ?int
     {
         if (isset($this->container['channel_id'])) {
-            return $this->container['channel_id'][0];
+            if (is_array($this->container['channel_id']) && isset($this->container['channel_id'][0])) {
+                return $this->container['channel_id'][0];
+            }
+
+            if (!is_array($this->container['channel_id'])) {
+                return $this->container['channel_id'];
+            }
         }
 
         return null;
@@ -78,10 +96,5 @@ class VideosRequestParameters
         $this->container['channel_id'] = $channelIds;
 
         return $this;
-    }
-
-    public function setChannelId(int $channelId): self
-    {
-        return $this->setChannelIds([$channelId]);
     }
 }
