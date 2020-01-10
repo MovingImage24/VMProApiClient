@@ -9,6 +9,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use MovingImage\Client\VMPro\ApiClient;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
+use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
 
@@ -55,7 +56,7 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
         ], $options));
     }
 
-    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl)
+    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl): ApiClientInterface
     {
         $tokenManager = $this->createTokenManager($authUrl, $credentials);
         $tokenMiddleware = $this->createTokenMiddleware($tokenManager);

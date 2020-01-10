@@ -69,5 +69,5 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         return $apiClient;
     }
 
-    abstract public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl);
+    abstract public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl): ApiClientInterface;
 }
