@@ -234,7 +234,21 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
-        return $this->deserialize($response->getBody()->getContents(), 'ArrayCollection<'.Attachment::class.'>');
+        $collection = new ArrayCollection();
+
+        foreach (json_decode($response->getBody()->getContents(), true) as $row) {
+            if (isset($row['data']['id'], $row['data']['fileName'], $row['data']['downloadUrl'], $row['data']['fileSize'], $row['type']['name'])) {
+                $attachment = new Attachment();
+                $attachment->setId($row['data']['id']);
+                $attachment->setFileName($row['data']['fileName']);
+                $attachment->setDownloadUrl($row['data']['downloadUrl']);
+                $attachment->setFileSize($row['data']['fileSize']);
+                $attachment->setType($row['type']['name']);
+                $collection->add($attachment);
+            }
+        }
+
+        return $collection;
     }
 
     /**

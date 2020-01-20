@@ -4,38 +4,23 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
 use MovingImage\Meta\Interfaces\AttachmentInterface;
 
 class Attachment implements AttachmentInterface
 {
-    /**
-     * @Type("string")
-     */
+    /** @var string */
     private $id;
 
-    /**
-     * @Type("string")
-     * @SerializedName("fileName")
-     */
+    /** @var string */
     private $fileName;
 
-    /**
-     * @Type("string")
-     * @SerializedName("downloadUrl")
-     */
+    /** @var string */
     private $downloadUrl;
 
-    /**
-     * @Type("int")
-     * @SerializedName("fileSize")
-     */
+    /** @var int */
     private $fileSize;
 
-    /**
-     * @Type("string")
-     */
+    /** @var string */
     private $type;
 
     public function getId(): string
