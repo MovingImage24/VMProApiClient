@@ -101,7 +101,7 @@ trait SearchEndpointTrait
      *
      * @throws Exception
      */
-    private function normalizeGetChannelAttachmentsResponse(string $response): string
+    private function normalizeGetAttachmentsResponse(string $response): string
     {
         $response = json_decode($response, true);
         if (!is_array($response)) {
