@@ -223,6 +223,22 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), Video::class);
     }
 
+    private function buildAttachment(array $data): ?Attachment
+    {
+        if (isset($data['data']['id'], $data['data']['fileName'], $data['data']['downloadUrl'], $data['data']['fileSize'], $data['type']['name'])) {
+            $attachment = new Attachment();
+            $attachment->setId($data['data']['id']);
+            $attachment->setFileName($data['data']['fileName']);
+            $attachment->setDownloadUrl($data['data']['downloadUrl']);
+            $attachment->setFileSize($data['data']['fileSize']);
+            $attachment->setType($data['type']['name']);
+
+            return $attachment;
+        }
+
+        return null;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -237,13 +253,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $collection = new ArrayCollection();
 
         foreach (json_decode($response->getBody()->getContents(), true) as $row) {
-            if (isset($row['data']['id'], $row['data']['fileName'], $row['data']['downloadUrl'], $row['data']['fileSize'], $row['type']['name'])) {
-                $attachment = new Attachment();
-                $attachment->setId($row['data']['id']);
-                $attachment->setFileName($row['data']['fileName']);
-                $attachment->setDownloadUrl($row['data']['downloadUrl']);
-                $attachment->setFileSize($row['data']['fileSize']);
-                $attachment->setType($row['type']['name']);
+            if ($attachment = $this->buildAttachment($row)) {
                 $collection->add($attachment);
             }
         }
@@ -262,9 +272,15 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]
         );
 
-        $response = $this->normalizeGetChannelAttachmentsResponse($response->getBody()->getContents());
+        $collection = new ArrayCollection();
 
-        return $this->deserialize($response, 'ArrayCollection<'.Attachment::class.'>');
+        foreach (json_decode($response->getBody()->getContents(), true) as $row) {
+            if ($attachment = $this->buildAttachment($row)) {
+                $collection->add($attachment);
+            }
+        }
+
+        return $collection;
     }
 
     /**
