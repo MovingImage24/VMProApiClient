@@ -10,6 +10,7 @@ use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
+use MovingImage\Client\VMPro\Entity\CorporateTubeMetaData;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
 use MovingImage\Client\VMPro\Entity\Player;
@@ -226,7 +227,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttachments(int $videoManagerId, string $videoId): ArrayCollection
     {
@@ -242,7 +243,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getChannelAttachments(int $videoManagerId, int $channelId): ArrayCollection
     {
@@ -258,7 +259,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getKeywords(int $videoManagerId, ?string $videoId): ArrayCollection
     {
@@ -331,7 +332,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getVideoManagers(): ArrayCollection
     {
@@ -341,7 +342,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getVideoDownloadUrls(int $videoManagerId, string $videoId): ArrayCollection
     {
@@ -466,5 +467,41 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $response = $response->getBody()->getContents();
 
         return $this->deserialize($response, 'ArrayCollection<'.Player::class.'>');
+    }
+
+    public function getCorporateTubeMetadata(int $videoManagerId, string $videoId): CorporateTubeMetaData
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        $response = $this->makeRequest(
+            'GET',
+            'videos/'.$videoId.'/metadata/corporate-tube',
+            $options
+        );
+
+        return $this->deserialize($response->getBody()->getContents(), CorporateTubeMetaData::class);
+    }
+
+    public function updateCorporateTubeMetadata(
+        int $videoManagerId,
+        string $videoId,
+        CorporateTubeMetaData $corporateTubeMetaData
+    ): void {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'json' => [
+                'uploadDate' => $corporateTubeMetaData->getUploadDate()->format('c'),
+                'uploaderUserId' => $corporateTubeMetaData->getUploaderUserId(),
+                'inChargeUserId' => $corporateTubeMetaData->getInChargeUserId(),
+            ],
+        ];
+
+        $this->makeRequest(
+            'PATCH',
+            'videos/'.$videoId.'/metadata/corporate-tube',
+            $options
+        );
     }
 }

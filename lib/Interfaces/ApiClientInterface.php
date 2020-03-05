@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MovingImage\Client\VMPro\Interfaces;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,6 +10,7 @@ use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
+use MovingImage\Client\VMPro\Entity\CorporateTubeMetaData;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
 use MovingImage\Client\VMPro\Entity\Player;
@@ -195,4 +198,12 @@ interface ApiClientInterface
 
     /** @return ArrayCollection<Player> */
     public function getPlayers(int $videoManagerId): ArrayCollection;
+
+    public function getCorporateTubeMetadata(int $videoManagerId, string $videoId): CorporateTubeMetaData;
+
+    public function updateCorporateTubeMetadata(
+        int $videoManagerId,
+        string $videoId,
+        CorporateTubeMetaData $corporateTubeMetaData
+    ): void;
 }
