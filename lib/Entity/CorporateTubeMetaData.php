@@ -38,9 +38,11 @@ class CorporateTubeMetaData
         return $this->uploadDate;
     }
 
-    public function setUploadDate(DateTime $uploadDate): void
+    public function setUploadDate(DateTime $uploadDate): self
     {
         $this->uploadDate = $uploadDate;
+
+        return $this;
     }
 
     public function getUploaderUserId(): string
@@ -48,9 +50,11 @@ class CorporateTubeMetaData
         return $this->uploaderUserId;
     }
 
-    public function setUploaderUserId(string $uploaderUserId): void
+    public function setUploaderUserId(string $uploaderUserId): self
     {
         $this->uploaderUserId = $uploaderUserId;
+
+        return $this;
     }
 
     public function getInChargeUserId(): string
@@ -58,9 +62,10 @@ class CorporateTubeMetaData
         return $this->inChargeUserId;
     }
 
-    public function setInChargeUserId(string $inChargeUserId): void
+    public function setInChargeUserId(string $inChargeUserId): self
     {
         $this->inChargeUserId = $inChargeUserId;
-    }
 
+        return $this;
+    }
 }
