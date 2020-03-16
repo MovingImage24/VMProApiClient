@@ -7,9 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class ChannelTest extends TestCase
 {
-    /**
-     * @covers \Channel::setParent()
-     */
     public function testSetParent()
     {
         $channel = new Channel();
@@ -17,10 +14,6 @@ class ChannelTest extends TestCase
         $this->assertSame(42, $channel->getParentId());
     }
 
-    /**
-     * @covers \Channel::addChild()
-     * @covers \Channel::removeChild()
-     */
     public function testAddRemoveChild()
     {
         $channel = new Channel();

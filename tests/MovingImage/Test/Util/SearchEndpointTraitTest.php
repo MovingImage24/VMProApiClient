@@ -29,7 +29,6 @@ class SearchEndpointTraitTest extends TestCase
      * @param string $operator
      * @param string $expectedResult
      * @dataProvider dataProviderForTestCreateElasticSearchQuery
-     * @covers \SearchEndpointTrait::createElasticSearchQuery()
      */
     public function testCreateElasticSearchQuery(array $params, $operator, $expectedResult)
     {
@@ -49,9 +48,6 @@ class SearchEndpointTraitTest extends TestCase
         ];
     }
 
-    /**
-     * @covers \SearchEndpointTrait::normalizeSearchVideosResponse()
-     */
     public function testNormalizeSearchVideosResponse()
     {
         $response = [
@@ -95,18 +91,12 @@ class SearchEndpointTraitTest extends TestCase
         }
     }
 
-    /**
-     * @covers \SearchEndpointTrait::normalizeSearchVideosResponse()
-     */
     public function testNormalizeSearchVideosResponseWithInvalidInput()
     {
         $this->expectException(Exception::class);
         $this->traitObj->normalizeSearchVideosResponse('');
     }
 
-    /**
-     * @covers \SearchEndpointTrait::normalizeSearchChannelsResponse()
-     */
     public function testNormalizeSearchChannelsResponse()
     {
         $response = [
@@ -120,9 +110,6 @@ class SearchEndpointTraitTest extends TestCase
         $this->assertSame('channels', $normalizedResponse['channels']);
     }
 
-    /**
-     * @covers \SearchEndpointTrait::normalizeSearchChannelsResponse()
-     */
     public function testNormalizeSearchChannelsResponseWithInvalidInput()
     {
         $this->expectException(Exception::class);
@@ -131,7 +118,6 @@ class SearchEndpointTraitTest extends TestCase
 
     /**
      * @param array $params
-     * @covers \SearchEndpointTrait::getRequestOptionsForSearchVideosEndpoint()
      * @dataProvider dataProviderForTestGetRequestOptionsForSearchVideosEndpoint
      */
     public function testGetRequestOptionsForSearchVideosEndpoint(array $params)
@@ -219,7 +205,6 @@ class SearchEndpointTraitTest extends TestCase
 
     /**
      * @param array $params
-     * @covers \SearchEndpointTrait::testGetRequestOptionsForSearchChannelsEndpoint
      * @dataProvider dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint
      */
     public function testGetRequestOptionsForSearchChannelsEndpoint(array $params)
@@ -293,9 +278,6 @@ class SearchEndpointTraitTest extends TestCase
         ];
     }
 
-    /**
-     * @covers \SearchEndpointTrait::getTotalCountFromSearchVideosResponse()
-     */
     public function testGetTotalCountFromSearchVideosResponse()
     {
         $response = [
@@ -306,9 +288,6 @@ class SearchEndpointTraitTest extends TestCase
         $this->assertSame(100, $total);
     }
 
-    /**
-     * @covers \SearchEndpointTrait::getTotalCountFromSearchVideosResponse()
-     */
     public function testGetTotalCountFromSearchVideosResponseWithInvalidInput()
     {
         $this->expectException(Exception::class);

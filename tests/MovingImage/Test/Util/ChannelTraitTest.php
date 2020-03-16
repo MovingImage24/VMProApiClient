@@ -21,9 +21,6 @@ class ChannelTraitTest extends TestCase
         $this->traitObj = new ChannelTraitImpl();
     }
 
-    /**
-     * @covers \ChannelTrait::setChannelRelations()
-     */
     public function testSetChannelRelations()
     {
         $channels = new ArrayCollection([

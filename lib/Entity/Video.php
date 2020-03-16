@@ -118,6 +118,12 @@ class Video implements VideoInterface
      */
     private $downloadable;
 
+    /**
+     * @Type("MovingImage\Client\VMPro\Entity\CorporateTubeMetaData")
+     * @SerializedName("corporateTubeMetadata")
+     */
+    private $corporateTubeMetadata;
+
     public function setId(string $id): self
     {
         $this->id = $id;
@@ -410,5 +416,17 @@ class Video implements VideoInterface
         $this->uploadFileName = $uploadFileName;
 
         return $this;
+    }
+
+    public function setCorporateTubeMetadata(CorporateTubeMetaData $corporateTubeMetadata): self
+    {
+        $this->corporateTubeMetadata = $corporateTubeMetadata;
+
+        return $this;
+    }
+
+    public function getCorporateTubeMetadata(): ?CorporateTubeMetaData
+    {
+        return $this->corporateTubeMetadata;
     }
 }

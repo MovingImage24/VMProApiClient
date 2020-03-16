@@ -1,0 +1,78 @@
+{
+  "id": "74WGsUCJ3QJMjN8-LeYFpm",
+  "title": "title",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  "thumbnail": "//i-demo.video-cdn.net/EAqzibqtbDaTXy3pvtTi8D/EbcjYEtQEehG6bzNb91jaQ.5000.jpeg",
+  "length": 600000,
+  "createdDate": 1421740414000,
+  "modifiedDate": 1446376345842,
+  "uploadDate": 1421740414000,
+  "generation": 1,
+  "allFormatsAvailable": true,
+  "published": true,
+  "vrContentType": "2d-equirectangular",
+  "customMetadata": {
+    "field1": "value1",
+    "field2": "value2"
+  },
+  "keywords": [
+    {
+      "id": 4,
+      "text": "keyword1"
+    },
+    {
+      "id": 5,
+      "text": "keyword2"
+    }
+  ],
+  "stills": [
+    {
+      "quality": "thumbnail",
+      "url": "//i.video-cdn.net/5Z65k3h6-2NHR1HCd6EBWb/1UtcnFdZC81ptMzy62UrX1.2766.thumbnail.JPEG",
+      "dimension": {
+        "width": 300,
+        "height": 171
+      }
+    },
+    {
+      "quality": "108p",
+      "url": "//i.video-cdn.net/5Z65k3h6-2NHR1HCd6EBWb/1UtcnFdZC81ptMzy62UrX1.2766.108p.JPEG",
+      "dimension": {
+        "width": 192,
+        "height": 108
+      }
+    },
+    {
+      "quality": "288p",
+      "url": "//i.video-cdn.net/5Z65k3h6-2NHR1HCd6EBWb/1UtcnFdZC81ptMzy62UrX1.2766.288p.JPEG",
+      "dimension": {
+        "width": 512,
+        "height": 288
+      }
+    }
+  ],
+  "channels": [
+    {
+      "id": 3459,
+      "name": "Ads"
+    },
+    {
+      "id": 2189,
+      "name": "New Channel"
+    },
+    {
+      "id": 2197,
+      "name": "International"
+    }
+  ],
+  "downloadable": true,
+  "scheduledTrashDate": "2020-12-12T08:00:00Z",
+  "ownershipGroupId": 27,
+  "owner": "employee@movingimage.com",
+  "uploader": "employee@movingimage.com",
+  "corporateTubeMetadata": {
+    "uploadDate": "2020-12-12T08:00:00Z",
+    "uploaderUserId": "12",
+    "inChargeUserId": "34"
+  }
+}
