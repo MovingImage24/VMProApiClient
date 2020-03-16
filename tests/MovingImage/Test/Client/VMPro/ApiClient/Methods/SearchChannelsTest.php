@@ -9,9 +9,6 @@ use MovingImage\TestCase\ApiClientTestCase;
 
 class SearchChannelsTest extends ApiClientTestCase
 {
-    /**
-     * @covers \AbstractApiClient::searchChannels()
-     */
     public function testSearchChannels()
     {
         $httpClient = $this->createMockGuzzleClient(200, [], Fixture::getApiResponse('searchChannels'));

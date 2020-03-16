@@ -23,8 +23,6 @@ class TokenManagerTest extends ApiClientTestCase
 
     /**
      * Tests the response of the createNewTokens method.
-     *
-     * @covers \TokenManager::createNewTokens()
      */
     public function testCreateNewTokensResponse()
     {
@@ -44,8 +42,6 @@ class TokenManagerTest extends ApiClientTestCase
 
     /**
      * Tests that the correct Guzzle 6 request is sent from the createNewTokens method.
-     *
-     * @covers \TokenManager::createNewTokens()
      */
     public function testCreateNewTokensGuzzle6Request()
     {
@@ -87,8 +83,6 @@ class TokenManagerTest extends ApiClientTestCase
 
     /**
      * Tests the response of the createAccessTokenFromRefreshToken method.
-     *
-     * @covers \TokenManager::createAccessTokenFromRefreshToken()
      */
     public function testCreateAccessTokenFromRefreshTokenResponse()
     {
@@ -105,8 +99,6 @@ class TokenManagerTest extends ApiClientTestCase
 
     /**
      * Tests that the correct Guzzle 6 request is sent from the createAccessTokenFromRefreshToken method.
-     *
-     * @covers \TokenManager::createAccessTokenFromRefreshToken()
      */
     public function testCreateAccessTokenFromRefreshTokenGuzzle6Request()
     {
@@ -149,8 +141,6 @@ class TokenManagerTest extends ApiClientTestCase
 
     /**
      * Test the scenario when getToken is called and there is no token in cache.
-     *
-     * @covers \TokenManager::getToken()
      */
     public function testGetTokenWithoutCachedData()
     {
@@ -187,8 +177,6 @@ class TokenManagerTest extends ApiClientTestCase
 
     /**
      * Test the scenario when getToken is called and there is a token in cache.
-     *
-     * @covers \TokenManager::getToken()
      */
     public function testGetTokenWithCachedData()
     {

@@ -4,6 +4,8 @@ coverage
 composer.lock
 test.php
 .php_cs.cache
+.phpunit.result.cache
+tests/coverage
 
 # IDE stuff
 .idea

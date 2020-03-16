@@ -155,7 +155,6 @@ class AbstractCoreApiClientTest extends TestCase
      * @param string $method
      * @param string $uri
      * @param int    $responseCode
-     * @covers \AbstractApiClient::isCacheable()
      * @dataProvider dataProviderForTestIsCacheable
      */
     public function testIsCachable($method, $uri, $responseCode, $expectedResult)

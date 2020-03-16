@@ -8,21 +8,21 @@ use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Test\Fixtures\Fixture;
 use MovingImage\TestCase\ApiClientTestCase;
 
-class SearchVideosTest extends ApiClientTestCase
+class GetVideosTest extends ApiClientTestCase
 {
-    public function testSearchVideos()
+    public function testGetVideos()
     {
-        $httpClient = $this->createMockGuzzleClient(200, [], Fixture::getApiResponse('searchVideos'));
+        $httpClient = $this->createMockGuzzleClient(200, [], Fixture::getApiResponse('getVideos'));
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
         /** @var VideoCollection $collection */
-        $collection = $client->searchVideos(1);
+        $collection = $client->getVideos(1);
 
-        $this->assertEquals(10, $collection->getTotalCount());
-        $this->assertEquals('1wGJbtN7QPwkAkd8_VcgKH', $collection->getVideos()[0]->getId());
+        $this->assertEquals(10, count($collection));
+        $this->assertEquals('1wGJbtN7QPwkAkd8_VcgKH', $collection[0]->getId());
 
         /** @var Video $videoWithCorporateTubeMetadata */
-        $videoWithCorporateTubeMetadata = $this->getVideoByVideoId($collection->getVideos(), 'E9vyH6FPkRhVNsCeHzxbA1');
+        $videoWithCorporateTubeMetadata = $this->getVideoByVideoId($collection, 'E9vyH6FPkRhVNsCeHzxbA1');
         $this->assertEquals(34, $videoWithCorporateTubeMetadata->getCorporateTubeMetadata()->getInChargeUserId());
     }
 
