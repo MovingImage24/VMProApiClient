@@ -13,7 +13,7 @@ class CorporateTubeMetaData
     /**
      * @Type("DateTime")
      *
-     * @var DateTime
+     * @var DateTime|null
      */
     private $uploadDate;
 
@@ -21,7 +21,7 @@ class CorporateTubeMetaData
      * @Type("string")
      * @SerializedName("uploaderUserId")
      *
-     * @var string
+     * @var string|null
      */
     private $uploaderUserId;
 
@@ -29,11 +29,11 @@ class CorporateTubeMetaData
      * @Type("string")
      * @SerializedName("inChargeUserId")
      *
-     * @var string
+     * @var string|null
      */
     private $inChargeUserId;
 
-    public function getUploadDate(): DateTime
+    public function getUploadDate(): ?DateTime
     {
         return $this->uploadDate;
     }
@@ -45,7 +45,7 @@ class CorporateTubeMetaData
         return $this;
     }
 
-    public function getUploaderUserId(): string
+    public function getUploaderUserId(): ?string
     {
         return $this->uploaderUserId;
     }
@@ -57,7 +57,7 @@ class CorporateTubeMetaData
         return $this;
     }
 
-    public function getInChargeUserId(): string
+    public function getInChargeUserId(): ?string
     {
         return $this->inChargeUserId;
     }
