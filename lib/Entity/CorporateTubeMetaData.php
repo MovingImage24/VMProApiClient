@@ -12,6 +12,7 @@ class CorporateTubeMetaData
 {
     /**
      * @Type("DateTime")
+     * @SerializedName("uploadDate")
      *
      * @var DateTime
      */
