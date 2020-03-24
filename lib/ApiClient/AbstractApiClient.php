@@ -489,13 +489,19 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         string $videoId,
         CorporateTubeMetaData $corporateTubeMetaData
     ): void {
+
+        $fields = [
+            'uploaderUserId' => $corporateTubeMetaData->getUploaderUserId(),
+            'inChargeUserId' => $corporateTubeMetaData->getInChargeUserId(),
+        ];
+
+        if ($corporateTubeMetaData->getUploadDate()) {
+            $fields['uploadDate'] = $corporateTubeMetaData->getUploadDate()->format('c');
+        }
+
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
-            'json' => [
-                'uploadDate' => $corporateTubeMetaData->getUploadDate()->format('c'),
-                'uploaderUserId' => $corporateTubeMetaData->getUploaderUserId(),
-                'inChargeUserId' => $corporateTubeMetaData->getInChargeUserId(),
-            ],
+            'json' => $fields
         ];
 
         $this->makeRequest(
