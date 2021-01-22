@@ -37,6 +37,11 @@ interface ApiClientInterface
     public function getChannels(int $videoManagerId): Channel;
 
     /**
+     * Get a specific channel.
+     */
+    public function getChannel(int $videoManagerId, int $channelId): ?Channel;
+
+    /**
      * Create a new Video entity in the video manager.
      *
      * @return string The video ID of the newly created video

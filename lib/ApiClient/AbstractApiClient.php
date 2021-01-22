@@ -49,6 +49,27 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $rootChannel;
     }
 
+    public function getChannel(int $videoManagerId, int $channelId): ?Channel
+    {
+        return $this->findChannel($this->getChannels($videoManagerId), $channelId);
+    }
+
+    private function findChannel(Channel $rootChannel, int $channelId): ?Channel
+    {
+        if ($rootChannel->getId() === $channelId) {
+            return $rootChannel;
+        }
+
+        foreach ($rootChannel->getChildren() as $child) {
+            $foundChannel = $this->findChannel($child, $channelId);
+            if ($foundChannel instanceof Channel) {
+                return $foundChannel;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Since the VMPro API doesn't sort any more the returned channels, we have to do it on our side.
      *
@@ -78,13 +99,22 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         ?int $channel = null,
         ?string $group = null,
         ?array $keywords = [],
-        ?bool $autoPublish = null
+        ?bool $autoPublish = null,
+        ?int $ownerGroupId = null
     ): string {
         $response = $this->makeRequest('POST', 'videos', [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
             'json' => $this->buildJsonParameters(
                 compact('fileName'), // Required parameters
-                compact('title', 'description', 'channel', 'group', 'keywords', 'autoPublish') // Optional parameters
+                compact(
+                    'title',
+                    'description',
+                    'channel',
+                    'group',
+                    'keywords',
+                    'autoPublish',
+                    'ownerGroupId'
+                ) // Optional parameters
             ),
         ]);
 

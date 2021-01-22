@@ -60,6 +60,13 @@ class Channel implements ChannelInterface
      */
     private $parentId = null;
 
+    /**
+     * @Type("MovingImage\Client\VMPro\Entity\Ownership")
+     *
+     * @var Ownership
+     */
+    private $ownership = null;
+
     public function getName(): string
     {
         return $this->name;
@@ -175,6 +182,18 @@ class Channel implements ChannelInterface
     public function removeChild(ChannelInterface $channel): self
     {
         $this->getChildren()->removeElement($channel);
+
+        return $this;
+    }
+
+    public function getOwnership(): Ownership
+    {
+        return $this->ownership;
+    }
+
+    public function setOwnership(Ownership $ownership): self
+    {
+        $this->ownership = $ownership;
 
         return $this;
     }
