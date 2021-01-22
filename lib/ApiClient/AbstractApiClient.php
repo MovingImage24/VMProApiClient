@@ -22,6 +22,7 @@ use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
+use MovingImage\Client\VMPro\Exception\NotFoundException;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
@@ -49,9 +50,15 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $rootChannel;
     }
 
-    public function getChannel(int $videoManagerId, int $channelId): ?Channel
+    public function getChannel(int $videoManagerId, int $channelId): Channel
     {
-        return $this->findChannel($this->getChannels($videoManagerId), $channelId);
+        $channel = $this->findChannel($this->getChannels($videoManagerId), $channelId);
+
+        if (!$channel instanceof Channel) {
+            throw new NotFoundException('channel not found');
+        }
+
+        return $channel;
     }
 
     private function findChannel(Channel $rootChannel, int $channelId): ?Channel
