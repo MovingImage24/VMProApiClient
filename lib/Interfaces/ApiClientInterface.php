@@ -21,6 +21,7 @@ use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
+use MovingImage\Client\VMPro\Exception\NotFoundException;
 use MovingImage\Meta\Interfaces\ThumbnailInterface;
 use MovingImage\Meta\Interfaces\VideoInterface;
 
@@ -35,6 +36,13 @@ interface ApiClientInterface
      * Get all channels for a specific video manager.
      */
     public function getChannels(int $videoManagerId): Channel;
+
+    /**
+     * Get a specific channel.
+     *
+     * @throws NotFoundException
+     */
+    public function getChannel(int $videoManagerId, int $channelId): Channel;
 
     /**
      * Create a new Video entity in the video manager.

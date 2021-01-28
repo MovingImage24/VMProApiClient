@@ -22,6 +22,7 @@ use MovingImage\Client\VMPro\Entity\VideoDownloadUrl;
 use MovingImage\Client\VMPro\Entity\VideoManager;
 use MovingImage\Client\VMPro\Entity\VideoRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
+use MovingImage\Client\VMPro\Exception\NotFoundException;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Util\ChannelTrait;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
@@ -47,6 +48,33 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $rootChannel->setChildren($this->sortChannels($rootChannel->getChildren()));
 
         return $rootChannel;
+    }
+
+    public function getChannel(int $videoManagerId, int $channelId): Channel
+    {
+        $channel = $this->findChannel($this->getChannels($videoManagerId), $channelId);
+
+        if (!$channel instanceof Channel) {
+            throw new NotFoundException('channel not found');
+        }
+
+        return $channel;
+    }
+
+    private function findChannel(Channel $rootChannel, int $channelId): ?Channel
+    {
+        if ($rootChannel->getId() === $channelId) {
+            return $rootChannel;
+        }
+
+        foreach ($rootChannel->getChildren() as $child) {
+            $foundChannel = $this->findChannel($child, $channelId);
+            if ($foundChannel instanceof Channel) {
+                return $foundChannel;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -84,7 +112,14 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
             'json' => $this->buildJsonParameters(
                 compact('fileName'), // Required parameters
-                compact('title', 'description', 'channel', 'group', 'keywords', 'autoPublish') // Optional parameters
+                compact(
+                    'title',
+                    'description',
+                    'channel',
+                    'group',
+                    'keywords',
+                    'autoPublish'
+                ) // Optional parameters
             ),
         ]);
 
