@@ -106,8 +106,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         ?int $channel = null,
         ?string $group = null,
         ?array $keywords = [],
-        ?bool $autoPublish = null,
-        ?int $ownerGroupId = null
+        ?bool $autoPublish = null
     ): string {
         $response = $this->makeRequest('POST', 'videos', [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -119,8 +118,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
                     'channel',
                     'group',
                     'keywords',
-                    'autoPublish',
-                    'ownerGroupId'
+                    'autoPublish'
                 ) // Optional parameters
             ),
         ]);
