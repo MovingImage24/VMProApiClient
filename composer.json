@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "ext-json": "*",
         "cache/void-adapter": "^1.0",
         "doctrine/collections": "^1.6",
