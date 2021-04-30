@@ -186,7 +186,7 @@ class TokenManager implements LoggerAwareInterface
      */
     private function sendPostRequest(array $body): array
     {
-        $response = $this->httpClient->post('', [
+        $response = $this->httpClient->request('POST', '', [
             'form_params' => $body,
         ]);
 

@@ -57,11 +57,11 @@ class TokenManagerTest extends ApiClientTestCase
         $phpUnit = $this;
 
         $httpClient
-            ->method('__call')
-            ->willReturnCallback(function ($method, $params) use ($phpUnit, $clientResponse) {
-                $phpUnit->assertSame('post', $method);
-                $requestUrl = $params[0];
-                $requestOptions = $params[1];
+            ->method('request')
+            ->willReturnCallback(function ($method, $uri, $params) use ($phpUnit, $clientResponse) {
+                $phpUnit->assertSame('post', strtolower($method));
+                $requestUrl = $uri;
+                $requestOptions = $params;
                 $phpUnit->assertArrayHasKey('form_params', $requestOptions);
                 $body = $requestOptions['form_params'];
                 $phpUnit->assertSame('', $requestUrl);
@@ -118,11 +118,11 @@ class TokenManagerTest extends ApiClientTestCase
         $phpUnit = $this;
 
         $httpClient
-            ->method('__call')
-            ->willReturnCallback(function ($method, $params) use ($phpUnit, $clientResponse, $refreshToken) {
-                $phpUnit->assertSame('post', $method);
-                $requestUrl = $params[0];
-                $requestOptions = $params[1];
+            ->method('request')
+            ->willReturnCallback(function ($method, $uri, $params) use ($phpUnit, $clientResponse, $refreshToken) {
+                $phpUnit->assertSame('post', strtolower($method));
+                $requestUrl = $uri;
+                $requestOptions = $params;
                 $phpUnit->assertArrayHasKey('form_params', $requestOptions);
                 $body = $requestOptions['form_params'];
                 $phpUnit->assertSame('', $requestUrl);
