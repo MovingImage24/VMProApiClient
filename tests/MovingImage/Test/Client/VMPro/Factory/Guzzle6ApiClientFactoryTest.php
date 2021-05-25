@@ -8,9 +8,11 @@ use MovingImage\Client\VMPro\Factory\Guzzle6ApiClientFactory;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Client\VMPro\Middleware\TokenMiddleware;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class Guzzle6ApiClientFactoryTest extends TestCase
 {
+    use ProphecyTrait;
     /**
      * @var Guzzle6ApiClientFactory
      */
@@ -53,7 +55,7 @@ class Guzzle6ApiClientFactoryTest extends TestCase
     public function testGetApiClientClass()
     {
         $method = $this->getMethod('getApiClientClass');
-        $this->assertEquals(ApiClient::class, $method->invoke($this->factory));
+        self::assertEquals(ApiClient::class, $method->invoke($this->factory));
     }
 
     /**
@@ -63,7 +65,7 @@ class Guzzle6ApiClientFactoryTest extends TestCase
     public function testGetGuzzleBaseUriOptionKey()
     {
         $method = $this->getMethod('getGuzzleBaseUriOptionKey');
-        $this->assertEquals('base_uri', $method->invoke($this->factory));
+        self::assertEquals('base_uri', $method->invoke($this->factory));
     }
 
     /**
@@ -72,7 +74,7 @@ class Guzzle6ApiClientFactoryTest extends TestCase
      */
     public function testCreateTokenMiddleware()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TokenMiddleware::class,
             $this->factory->createTokenMiddleware($this->tokenManager)
         );
@@ -90,7 +92,7 @@ class Guzzle6ApiClientFactoryTest extends TestCase
         $middlewares = [$this->factory->createTokenMiddleware($this->tokenManager)];
         $client = $this->factory->createHttpClient($baseUri, $middlewares);
 
-        $this->assertEquals($baseUri, $client->getConfig('base_uri'));
+        self::assertEquals($baseUri, $client->getConfig('base_uri'));
 
         $reflectionClass = new \ReflectionClass(HandlerStack::class);
         $stackProperty = $reflectionClass->getProperty('stack');
@@ -106,6 +108,6 @@ class Guzzle6ApiClientFactoryTest extends TestCase
             }
         }
 
-        $this->assertTrue($inStack, 'TokenMiddleware was not found in Guzzle Client StackHandler');
+        self::assertTrue($inStack, 'TokenMiddleware was not found in Guzzle Client StackHandler');
     }
 }

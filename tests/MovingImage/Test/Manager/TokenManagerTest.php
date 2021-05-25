@@ -3,7 +3,6 @@
 namespace MovingImage\Test\Manager;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
@@ -13,6 +12,7 @@ use MovingImage\VMPro\TestUtil\GuzzleResponseGenerator;
 use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
 use Namshi\JOSE\SimpleJWS;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
@@ -20,6 +20,7 @@ class TokenManagerTest extends ApiClientTestCase
 {
     use PrivateMethodCaller;
     use GuzzleResponseGenerator;
+    use ProphecyTrait;
 
     /**
      * Tests the response of the createNewTokens method.
@@ -28,16 +29,16 @@ class TokenManagerTest extends ApiClientTestCase
     {
         $tokenManager = $this->createTokenManager($this->createSimpleJwsToken());
         $tokens = $this->callMethod($tokenManager, 'createNewTokens', []);
-        $this->assertArrayHasKey('accessToken', $tokens);
-        $this->assertArrayHasKey('refreshToken', $tokens);
+        self::assertArrayHasKey('accessToken', $tokens);
+        self::assertArrayHasKey('refreshToken', $tokens);
         /** @var Token $accessToken */
         $accessToken = $tokens['accessToken'];
         /** @var Token $refreshToken */
         $refreshToken = $tokens['refreshToken'];
-        $this->assertInstanceOf(Token::class, $accessToken);
-        $this->assertInstanceOf(Token::class, $refreshToken);
-        $this->assertNotEmpty($accessToken->getTokenString());
-        $this->assertNotEmpty($refreshToken->getTokenString());
+        self::assertInstanceOf(Token::class, $accessToken);
+        self::assertInstanceOf(Token::class, $refreshToken);
+        self::assertNotEmpty($accessToken->getTokenString());
+        self::assertNotEmpty($refreshToken->getTokenString());
     }
 
     /**
@@ -93,8 +94,8 @@ class TokenManagerTest extends ApiClientTestCase
 
         /** @var Token $accessToken */
         $accessToken = $this->callMethod($tokenManager, 'createAccessTokenFromRefreshToken', [$refreshToken]);
-        $this->assertInstanceOf(Token::class, $accessToken);
-        $this->assertNotEmpty($accessToken->getTokenString());
+        self::assertInstanceOf(Token::class, $accessToken);
+        self::assertNotEmpty($accessToken->getTokenString());
     }
 
     /**
@@ -196,13 +197,13 @@ class TokenManagerTest extends ApiClientTestCase
 
         $cacheItem
             ->method('get')
-            ->willReturn(new Token($simpleJwsToken->getTokenString(), $simpleJwsToken->getPayload(), 1))
+            ->willReturn(new Token($simpleJwsToken->getTokenString(), $simpleJwsToken->getPayload()))
         ;
 
         $tokenManager = $this->createTokenManager(null, $cachePool);
         $returnedToken = $tokenManager->getToken();
 
-        $this->assertSame($simpleJwsToken->getTokenString(), $returnedToken);
+        self::assertSame($simpleJwsToken->getTokenString(), $returnedToken);
     }
 
     /**
