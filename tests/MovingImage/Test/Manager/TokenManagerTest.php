@@ -11,10 +11,7 @@ use MovingImage\TestCase\ApiClientTestCase;
 use MovingImage\VMPro\TestUtil\GuzzleResponseGenerator;
 use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
 use Namshi\JOSE\SimpleJWS;
-use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Psr\Cache\CacheItemInterface;
-use Psr\Cache\CacheItemPoolInterface;
 
 class TokenManagerTest extends ApiClientTestCase
 {
@@ -141,83 +138,10 @@ class TokenManagerTest extends ApiClientTestCase
     }
 
     /**
-     * Test the scenario when getToken is called and there is no token in cache.
-     */
-    public function testGetTokenWithoutCachedData()
-    {
-        $tokenExpirationTimestamp = time() + 300;
-        //cached token is supposed to expire 30 seconds before the token itself expires
-        $expectedCacheExpirationDate = (new \DateTime())->setTimestamp($tokenExpirationTimestamp - 30);
-
-        $cacheItem = $this->prophesize(CacheItemInterface::class);
-        $cachePool = $this->createMock(CacheItemPoolInterface::class);
-        $cachePool
-            ->method('getItem')
-            ->willReturn($cacheItem->reveal())
-        ;
-
-        $cacheItem
-            ->isHit()
-            ->shouldBeCalled()
-            ->willReturn(false)
-        ;
-
-        $cacheItem
-            ->set(Argument::type(Token::class))
-            ->shouldBeCalled()
-        ;
-
-        $cacheItem
-            ->expiresAt($expectedCacheExpirationDate)
-            ->shouldBeCalled()
-        ;
-
-        $tokenManager = $this->createTokenManager($this->createSimpleJwsToken($tokenExpirationTimestamp), $cachePool);
-        $tokenManager->getToken();
-    }
-
-    /**
-     * Test the scenario when getToken is called and there is a token in cache.
-     */
-    public function testGetTokenWithCachedData()
-    {
-        $simpleJwsToken = $this->createSimpleJwsToken();
-
-        $cacheItem = $this->createMock(CacheItemInterface::class);
-        $cachePool = $this->createMock(CacheItemPoolInterface::class);
-        $cachePool
-            ->method('getItem')
-            ->willReturn($cacheItem)
-        ;
-
-        $cacheItem
-            ->method('isHit')
-            ->willReturn(true)
-        ;
-
-        $cacheItem
-            ->method('get')
-            ->willReturn(new Token($simpleJwsToken->getTokenString(), $simpleJwsToken->getPayload()))
-        ;
-
-        $tokenManager = $this->createTokenManager(null, $cachePool);
-        $returnedToken = $tokenManager->getToken();
-
-        self::assertSame($simpleJwsToken->getTokenString(), $returnedToken);
-    }
-
-    /**
      * Creates an instance of TokenManager, configured to return the provided token.
-     *
-     * @param SimpleJWS|null              $token
-     * @param CacheItemPoolInterface|null $cacheItemPool
-     *
-     * @return TokenManager
      */
-    private function createTokenManager(
-        SimpleJWS $token = null,
-        CacheItemPoolInterface $cacheItemPool = null
-    ) {
+    private function createTokenManager(?SimpleJWS $token = null): TokenManager
+    {
         $response = [];
         if ($token) {
             $response = [
@@ -230,7 +154,7 @@ class TokenManagerTest extends ApiClientTestCase
 
         $credentials = new ApiCredentials('user', 'pass');
 
-        return new TokenManager($httpClient, $credentials, new TokenExtractor(), $cacheItemPool);
+        return new TokenManager($httpClient, $credentials, new TokenExtractor());
     }
 
     /**

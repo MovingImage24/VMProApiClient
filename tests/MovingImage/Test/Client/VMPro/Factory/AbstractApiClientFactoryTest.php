@@ -8,12 +8,9 @@ use JMS\Serializer\Serializer;
 use Monolog\Logger;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Channel;
-use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\Test\Client\VMPro\ApiClient\AbstractApiClientImpl;
 use PHPUnit\Framework\TestCase;
-use Psr\Cache\CacheItemInterface;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
 class AbstractApiClientFactoryTest extends TestCase
@@ -71,24 +68,6 @@ class AbstractApiClientFactoryTest extends TestCase
         $tokenManager = $this->factory->createTokenManager('http://google.com', $creds);
 
         $this->assertInstanceOf(TokenManager::class, $tokenManager);
-    }
-
-    /**
-     * Assert that when passing a CacheUtemPoolInterface to the TokenManager factory,
-     * the created TokenManager will use the cache pool to cache the tokens.
-     */
-    public function testCreateTokenManagerWithCachePool()
-    {
-        $creds = new ApiCredentials('example@example.com', 'lkdjfklsdjflkd');
-        $tokenString = 'abc.def.ghi';
-        $tokenObject = new Token($tokenString, ['exp' => time() + 3600]);
-        $cacheItem = $this->createMock(CacheItemInterface::class);
-        $cacheItem->method('isHit')->willReturn(true);
-        $cacheItem->method('get')->willReturn($tokenObject);
-        $cachePool = $this->createMock(CacheItemPoolInterface::class);
-        $cachePool->method('getItem')->willReturn($cacheItem);
-        $tokenManager = $this->factory->createTokenManager('http://google.com', $creds, $cachePool);
-        $this->assertSame($tokenString, $tokenManager->getToken());
     }
 
     /**
