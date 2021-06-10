@@ -37,10 +37,7 @@ interface ApiClientFactoryInterface
     public function create(
         ClientInterface $httpClient,
         Serializer $serializer,
-        ?LoggerInterface $logger = null,
-        ?CacheItemPoolInterface $cacheItemPool = null,
-        ?int $cacheTtl = null,
-        ?StopwatchInterface $stopwatch = null
+        ?LoggerInterface $logger = null
     ): ApiClientInterface;
 
     /**
