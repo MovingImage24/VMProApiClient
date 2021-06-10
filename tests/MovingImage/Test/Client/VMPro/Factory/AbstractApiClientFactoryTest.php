@@ -38,7 +38,7 @@ class AbstractApiClientFactoryTest extends TestCase
      */
     public function testCreateSerializer()
     {
-        $this->assertInstanceOf(Serializer::class, $this->factory->createSerializer());
+        self::assertInstanceOf(Serializer::class, $this->factory->createSerializer());
     }
 
     /**
