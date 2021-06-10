@@ -44,6 +44,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
         ]);
 
+        /** @var Channel $rootChannel */
         $rootChannel = $this->deserialize($response->getBody()->getContents(), Channel::class);
         $rootChannel->setChildren($this->sortChannels($rootChannel->getChildren()));
 
@@ -221,10 +222,6 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $playerDefinitionId,
             $embedType
         );
-
-        if ($this->cacheTtl) {
-            $url = sprintf('%s&token_lifetime_in_seconds=%s', $url, $this->cacheTtl);
-        }
 
         $response = $this->makeRequest('GET', $url, [self::OPT_VIDEO_MANAGER_ID => $videoManagerId]);
 
