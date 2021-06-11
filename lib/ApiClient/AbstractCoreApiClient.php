@@ -55,6 +55,8 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
             $logger->debug('Response JSON was:', [$response->getBody()]);
 
+            $response->getBody()->rewind();
+
             return $response;
         } catch (\Exception $e) {
             throw $e; // Just rethrow for now
