@@ -39,8 +39,7 @@ interface ApiClientFactoryInterface
         Serializer $serializer,
         ?LoggerInterface $logger = null,
         ?CacheItemPoolInterface $cacheItemPool = null,
-        ?int $cacheTtl = null,
-        ?StopwatchInterface $stopwatch = null
+        ?int $cacheTtl = null
     ): ApiClientInterface;
 
     /**

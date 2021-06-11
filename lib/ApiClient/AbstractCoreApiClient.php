@@ -8,8 +8,6 @@ use Cache\Adapter\Void\VoidCachePool;
 use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Exception;
-use MovingImage\Client\VMPro\Interfaces\StopwatchInterface;
-use MovingImage\Client\VMPro\Stopwatch\NullStopwatch;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -49,23 +47,16 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      */
     protected $cacheTtl;
 
-    /**
-     * @var StopwatchInterface
-     */
-    protected $stopwatch;
-
     public function __construct(
         ClientInterface $httpClient,
         Serializer $serializer,
         ?CacheItemPoolInterface $cacheItemPool = null,
-        ?int $cacheTtl = null,
-        ?StopwatchInterface $stopwatch = null
+        ?int $cacheTtl = null
     ) {
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
         $this->cacheItemPool = $cacheItemPool ?: new VoidCachePool();
         $this->cacheTtl = $cacheTtl;
-        $this->stopwatch = $stopwatch ?: new NullStopwatch();
     }
 
     public function setCacheItemPool(CacheItemPoolInterface $cacheItemPool): void
@@ -113,11 +104,8 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 
             $logger->info(sprintf('Making API %s request to %s', $method, $uri), [$uri]);
 
-            $stopwatchEvent = "$method-$uri";
-            $this->stopwatch->start($stopwatchEvent);
             /** @var ResponseInterface $response */
             $response = $this->_doRequest($method, $uri, $options);
-            $this->stopwatch->stop($stopwatchEvent);
 
             if ($this->isCacheable($method, $uri, $options, $response)) {
                 $cacheItem->set($this->serializeResponse($response));
