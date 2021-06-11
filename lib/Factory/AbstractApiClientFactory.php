@@ -54,6 +54,7 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
         $cls = $this->getApiClientClass();
         $apiClient = new $cls($httpClient, $serializer);
 
+
         if (!is_null($logger)) {
             $apiClient->setLogger($logger);
         }
