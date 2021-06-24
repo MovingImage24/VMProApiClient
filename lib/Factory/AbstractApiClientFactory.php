@@ -6,7 +6,6 @@ namespace MovingImage\Client\VMPro\Factory;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
@@ -14,7 +13,6 @@ use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Interfaces\ApiClientFactoryInterface;
 use MovingImage\Client\VMPro\Interfaces\ApiClientInterface;
 use MovingImage\Client\VMPro\Manager\TokenManager;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
@@ -31,14 +29,12 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
 
     public function createTokenManager(
         string $baseUri,
-        ApiCredentials $credentials,
-        ?CacheItemPoolInterface $cacheItemPool = null
+        ApiCredentials $credentials
     ): TokenManager {
         return new TokenManager(
             new Client([$this->getGuzzleBaseUriOptionKey() => $baseUri]),
             $credentials,
-            new TokenExtractor(),
-            $cacheItemPool
+            new TokenExtractor()
         );
     }
 
@@ -52,13 +48,12 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
 
     public function create(
         ClientInterface $httpClient,
-        Serializer $serializer,
-        ?LoggerInterface $logger = null,
-        ?CacheItemPoolInterface $cacheItemPool = null,
-        ?int $cacheTtl = null
+        SerializerInterface $serializer,
+        ?LoggerInterface $logger = null
     ): ApiClientInterface {
         $cls = $this->getApiClientClass();
-        $apiClient = new $cls($httpClient, $serializer, $cacheItemPool, $cacheTtl);
+        $apiClient = new $cls($httpClient, $serializer);
+
 
         if (!is_null($logger)) {
             $apiClient->setLogger($logger);

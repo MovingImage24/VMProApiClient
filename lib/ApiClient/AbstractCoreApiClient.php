@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\ApiClient;
 
-use Cache\Adapter\Void\VoidCachePool;
 use GuzzleHttp\ClientInterface;
 use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 
@@ -19,62 +17,17 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 
     protected const OPT_VIDEO_MANAGER_ID = 'videoManagerId';
 
-    /**
-     * List of endpoints that may be cached, even though they use POST.
-     */
-    protected const CACHEABLE_POST_ENDPOINTS = ['search'];
+    protected ClientInterface $httpClient;
 
-    /**
-     * @var ClientInterface The Guzzle HTTP client
-     */
-    protected $httpClient;
-
-    /**
-     * @var Serializer The JMS Serializer instance
-     */
-    protected $serializer;
-
-    /**
-     * @var CacheItemPoolInterface PSR6 cache pool implementation
-     */
-    protected $cacheItemPool;
-
-    /**
-     * @var mixed time-to-live for cached responses
-     *            The type of this property might be integer, \DateInterval or null
-     *
-     * @see CacheItemInterface::expiresAfter()
-     */
-    protected $cacheTtl;
+    protected Serializer $serializer;
 
     public function __construct(
         ClientInterface $httpClient,
-        Serializer $serializer,
-        ?CacheItemPoolInterface $cacheItemPool = null,
-        ?int $cacheTtl = null
+        Serializer $serializer
     ) {
         $this->httpClient = $httpClient;
         $this->serializer = $serializer;
-        $this->cacheItemPool = $cacheItemPool ?: new VoidCachePool();
-        $this->cacheTtl = $cacheTtl;
     }
-
-    public function setCacheItemPool(CacheItemPoolInterface $cacheItemPool): void
-    {
-        $this->cacheItemPool = $cacheItemPool;
-    }
-
-    public function getCacheItemPool(): CacheItemPoolInterface
-    {
-        return $this->cacheItemPool;
-    }
-
-    /**
-     * Perform the actual request in the implementation classes.
-     *
-     * @return mixed
-     */
-    abstract protected function _doRequest(string $method, string $uri, array $options);
 
     /**
      * Make a request to the API and serialize the result according to our
@@ -94,33 +47,28 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
                 $uri = sprintf('%d/%s', $options[self::OPT_VIDEO_MANAGER_ID], $uri);
             }
 
-            $cacheKey = $this->generateCacheKey($method, $uri, $options);
-            $cacheItem = $this->cacheItemPool->getItem($cacheKey);
-            if ($cacheItem->isHit()) {
-                $logger->info(sprintf('Getting response from cache for %s request to %s', $method, $uri), [$uri]);
-
-                return $this->unserializeResponse($cacheItem->get());
-            }
-
             $logger->info(sprintf('Making API %s request to %s', $method, $uri), [$uri]);
 
             /** @var ResponseInterface $response */
             $response = $this->_doRequest($method, $uri, $options);
 
-            if ($this->isCacheable($method, $uri, $options, $response)) {
-                $cacheItem->set($this->serializeResponse($response));
-                $cacheItem->expiresAfter($this->cacheTtl);
-                $this->cacheItemPool->save($cacheItem);
-            }
-
             $logger->debug('Response from HTTP call was status code:', [$response->getStatusCode()]);
             $logger->debug('Response JSON was:', [$response->getBody()]);
+
+            $response->getBody()->rewind();
 
             return $response;
         } catch (\Exception $e) {
             throw $e; // Just rethrow for now
         }
     }
+
+    /**
+     * Perform the actual request in the implementation classes.
+     *
+     * @return mixed
+     */
+    abstract protected function _doRequest(string $method, string $uri, array $options);
 
     /**
      * Deserialize a response into an instance of it's associated class.
@@ -170,45 +118,10 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     }
 
     /**
-     * Generates the cache key based on the class name, request method, uri and options.
-     */
-    private function generateCacheKey(string $method, string $uri, array $options): string
-    {
-        return sha1(sprintf('%s.%s.%s.%s', get_class($this), $method, $uri, json_encode($options)));
-    }
-
-    /**
-     * Checks if the request may be cached.
-     */
-    private function isCacheable(string $method, string $uri, array $options, $response): bool
-    {
-        /** @var ResponseInterface $statusCode */
-        $statusCode = $response->getStatusCode();
-
-        //cache only 2** responses
-        if ($statusCode < 200 || $statusCode >= 300) {
-            return false;
-        }
-
-        //GET is always safe to cache
-        if ('GET' === $method) {
-            return true;
-        }
-
-        //POST may be cached for certain endpoints only (forgive us Roy Fielding)
-        if ('POST' === $method) {
-            return in_array($uri, self::CACHEABLE_POST_ENDPOINTS);
-        }
-
-        //assume not cacheable in all other cases
-        return false;
-    }
-
-    /**
      * Serializes the provided response to a string, suitable for caching.
      * The type of the $response argument varies depending on the guzzle version.
      *
-     * @param mixed $response
+     * @param  mixed  $response
      *
      * @return string
      */
@@ -218,7 +131,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * Unserializes the serialized response into a response object.
      * The return type varies depending on the guzzle version.
      *
-     * @param string $serialized
+     * @param  string  $serialized
      *
      * @return mixed
      *
