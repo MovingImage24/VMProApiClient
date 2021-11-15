@@ -5,7 +5,6 @@ namespace MovingImage\Test\Util;
 use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
-use MovingImage\Client\VMPro\Util\SearchEndpointTrait;
 use MovingImage\Meta\Enums\PublicationState;
 use PHPUnit\Framework\TestCase;
 

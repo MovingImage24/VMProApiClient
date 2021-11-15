@@ -2,7 +2,6 @@
 
 namespace MovingImage\Test\Client\VMPro\ApiClient\Methods;
 
-use MovingImage\Client\VMPro\Exception;
 use MovingImage\TestCase\ApiClientTestCase;
 
 class GetVideoUploadUrlTest extends ApiClientTestCase
