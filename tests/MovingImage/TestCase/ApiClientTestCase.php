@@ -11,12 +11,12 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
 use PHPUnit\Framework\TestCase;
-use function GuzzleHttp\Psr7\stream_for;
 
 class ApiClientTestCase extends TestCase
 {
@@ -34,9 +34,9 @@ class ApiClientTestCase extends TestCase
      */
     private function createGuzzle6JsonStream($arr)
     {
-        $str = json_encode($arr);
+        $str = json_encode($arr, JSON_THROW_ON_ERROR);
 
-        return stream_for($str);
+        return Utils::streamFor($str);
     }
 
     /**

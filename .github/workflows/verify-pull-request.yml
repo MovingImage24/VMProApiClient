@@ -1,0 +1,37 @@
+name: "Verify pull request"
+
+on:
+  pull_request:
+    branches: []
+
+jobs:
+  tests:
+    name: "Tests"
+
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "7.4"
+          - "8.0"
+        operating-system: [ubuntu-latest]
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+
+      - name: "Install dependencies"
+        run: "composer update --no-interaction --no-progress --no-suggest --ignore-platform-reqs"
+
+      - name: "Tests"
+        run: |
+          composer install --ignore-platform-reqs
+          bin/phpunit
