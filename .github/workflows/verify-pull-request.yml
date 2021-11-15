@@ -34,4 +34,4 @@ jobs:
       - name: "Tests"
         run: |
           composer install --ignore-platform-reqs
-          bin/phpunit
+          ./vendor/bin/phpunit
