@@ -2,7 +2,6 @@
 
 namespace MovingImage\Test\Client\VMPro\ApiClient\Methods;
 
-use MovingImage\Client\VMPro\Entity\Channel;
 use MovingImage\Client\VMPro\Entity\Video;
 use MovingImage\Test\Fixtures\Fixture;
 use MovingImage\TestCase\ApiClientTestCase;
