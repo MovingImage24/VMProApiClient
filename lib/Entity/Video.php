@@ -119,6 +119,11 @@ class Video implements VideoInterface
     private $downloadable;
 
     /**
+     * @Type("boolean")
+     */
+    private $audioOnly;
+
+    /**
      * @Type("MovingImage\Client\VMPro\Entity\CorporateTubeMetaData")
      * @SerializedName("corporateTubeMetadata")
      */
@@ -428,5 +433,21 @@ class Video implements VideoInterface
     public function getCorporateTubeMetadata(): ?CorporateTubeMetaData
     {
         return $this->corporateTubeMetadata;
+    }
+
+    public function setAudioOnly(bool $audioOnly): self
+    {
+        $this->audioOnly = $audioOnly;
+
+        return $this;
+    }
+
+    public function isAudioOnly(): bool
+    {
+        if (!$this->audioOnly) {
+            return false;
+        }
+
+        return $this->audioOnly;
     }
 }
