@@ -444,10 +444,6 @@ class Video implements VideoInterface
 
     public function isAudioOnly(): bool
     {
-        if (!$this->audioOnly) {
-            return false;
-        }
-
-        return $this->audioOnly;
+        return $this->audioOnly ?? false;
     }
 }
