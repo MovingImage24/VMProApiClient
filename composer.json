@@ -17,7 +17,7 @@
         "guzzlehttp/guzzle": "^6.5 || ^7.0",
         "jms/serializer": "^3.12",
         "monolog/monolog": "^1.0 || ^2.0",
-        "movingimage/video-manager-meta": "^3.1",
+        "movingimage/video-manager-meta": "^3.2",
         "namshi/jose": "^6.0 || ^7.0",
         "psr/log": "^1.0"
     },
