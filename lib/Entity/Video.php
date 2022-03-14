@@ -120,6 +120,7 @@ class Video implements VideoInterface
 
     /**
      * @Type("boolean")
+     * @SerializedName("audioOnly")
      */
     private $audioOnly;
 
