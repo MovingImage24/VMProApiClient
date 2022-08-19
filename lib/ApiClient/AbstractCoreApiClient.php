@@ -38,7 +38,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * @return object|ResponseInterface
      * @throws Throwable
      */
-    protected function makeRequest(string $method, string $uri, array $options): ?ResponseInterface
+    protected function makeRequest(string $method, string $uri, array $options): ResponseInterface
     {
         $logger = $this->getLogger();
 
@@ -61,7 +61,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
 
             return $response;
         } catch (ClientException $e) {
-            return $e->getResponse()->getBody()->getContents();
+            return $e->getResponse();
         } catch (Throwable $e) {
             $logger->error($e->getMessage());
             throw $e;
