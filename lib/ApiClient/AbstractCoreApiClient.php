@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace MovingImage\Client\VMPro\ApiClient;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ClientException;
 use JMS\Serializer\Serializer;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
+use Throwable;
 
 abstract class AbstractCoreApiClient implements LoggerAwareInterface
 {
@@ -34,9 +36,9 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * serialization strategy.
      *
      * @return object|ResponseInterface
-     * @throws \Exception
+     * @throws Throwable
      */
-    protected function makeRequest(string $method, string $uri, array $options)
+    protected function makeRequest(string $method, string $uri, array $options): ?ResponseInterface
     {
         $logger = $this->getLogger();
 
@@ -58,8 +60,11 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
             $response->getBody()->rewind();
 
             return $response;
-        } catch (\Exception $e) {
-            throw $e; // Just rethrow for now
+        } catch (ClientException $e) {
+            return $e->getResponse()->getBody()->getContents();
+        } catch (Throwable $e) {
+            $logger->error($e->getMessage());
+            throw $e;
         }
     }
 
@@ -121,7 +126,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * Serializes the provided response to a string, suitable for caching.
      * The type of the $response argument varies depending on the guzzle version.
      *
-     * @param  mixed  $response
+     * @param mixed $response
      *
      * @return string
      */
@@ -131,7 +136,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * Unserializes the serialized response into a response object.
      * The return type varies depending on the guzzle version.
      *
-     * @param  string  $serialized
+     * @param string $serialized
      *
      * @return mixed
      *
