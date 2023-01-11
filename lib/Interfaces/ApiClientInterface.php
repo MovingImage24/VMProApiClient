@@ -6,6 +6,7 @@ namespace MovingImage\Client\VMPro\Interfaces;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
+use MovingImage\Client\VMPro\Collection\MetaDataSetCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
@@ -214,4 +215,6 @@ interface ApiClientInterface
         string $videoId,
         CorporateTubeMetaData $corporateTubeMetaData
     ): void;
+
+    public function getMetaDataSets(int $videoManagerId): MetaDataSetCollection;
 }

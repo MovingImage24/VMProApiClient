@@ -6,6 +6,7 @@ namespace MovingImage\Client\VMPro\ApiClient;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
+use MovingImage\Client\VMPro\Collection\MetaDataSetCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
@@ -541,5 +542,26 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             'videos/'.$videoId.'/metadata/corporate-tube',
             $options
         );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getMetaDataSets(int $videoManagerId): MetaDataSetCollection
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        $response = $this->makeRequest(
+            'GET',
+            'metadata-sets',
+            $options
+        );
+
+        /** @var MetaDataSetCollection $metaDataSetCollection */
+        $metaDataSetCollection = $this->deserialize($response->getBody()->getContents(), MetaDataSetCollection::class);
+
+        return $metaDataSetCollection;
     }
 }
