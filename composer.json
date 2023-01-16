@@ -40,5 +40,8 @@
             "MovingImage\\": "tests/MovingImage/",
             "MovingImage\\VMPro\\TestUtil\\": "tests/MovingImage/Util"
         }
+    },
+    "scripts": {
+        "test": "php ./vendor/bin/phpunit"
     }
 }
