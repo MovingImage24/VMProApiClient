@@ -6,7 +6,6 @@ namespace MovingImage\Client\VMPro\ApiClient;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MovingImage\Client\VMPro\Collection\ChannelCollection;
-use MovingImage\Client\VMPro\Collection\MetaDataSetCollection;
 use MovingImage\Client\VMPro\Collection\VideoCollection;
 use MovingImage\Client\VMPro\Entity\Attachment;
 use MovingImage\Client\VMPro\Entity\Channel;
@@ -14,6 +13,7 @@ use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\CorporateTubeMetaData;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\MetaDataSet;
 use MovingImage\Client\VMPro\Entity\Player;
 use MovingImage\Client\VMPro\Entity\Thumbnail;
 use MovingImage\Client\VMPro\Entity\Transcode;
@@ -547,7 +547,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * @throws \Exception
      */
-    public function getMetaDataSets(int $videoManagerId): MetaDataSetCollection
+    public function getMetaDataSets(int $videoManagerId): ArrayCollection
     {
         $options = [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
@@ -559,9 +559,11 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             $options
         );
 
-        /** @var MetaDataSetCollection $metaDataSetCollection */
-        $metaDataSetCollection = $this->deserialize($response->getBody()->getContents(), MetaDataSetCollection::class);
+        $data = $response->getBody()->getContents();
 
-        return $metaDataSetCollection;
+        /** @var ArrayCollection $metaDataSet */
+        $metaDataSet = $this->deserialize($data, 'ArrayCollection<'.MetaDataSet::class.'>');
+
+        return $metaDataSet;
     }
 }
