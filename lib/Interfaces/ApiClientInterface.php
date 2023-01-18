@@ -214,4 +214,6 @@ interface ApiClientInterface
         string $videoId,
         CorporateTubeMetaData $corporateTubeMetaData
     ): void;
+
+    public function getMetaDataSets(int $videoManagerId): ArrayCollection;
 }

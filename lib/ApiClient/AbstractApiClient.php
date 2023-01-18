@@ -13,6 +13,7 @@ use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\CorporateTubeMetaData;
 use MovingImage\Client\VMPro\Entity\EmbedCode;
 use MovingImage\Client\VMPro\Entity\Keyword;
+use MovingImage\Client\VMPro\Entity\MetaDataSet;
 use MovingImage\Client\VMPro\Entity\Player;
 use MovingImage\Client\VMPro\Entity\Thumbnail;
 use MovingImage\Client\VMPro\Entity\Transcode;
@@ -541,5 +542,28 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
             'videos/'.$videoId.'/metadata/corporate-tube',
             $options
         );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getMetaDataSets(int $videoManagerId): ArrayCollection
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+        ];
+
+        $response = $this->makeRequest(
+            'GET',
+            'metadata-sets',
+            $options
+        );
+
+        $data = $response->getBody()->getContents();
+
+        /** @var ArrayCollection $metaDataSet */
+        $metaDataSet = $this->deserialize($data, 'ArrayCollection<'.MetaDataSet::class.'>');
+
+        return $metaDataSet;
     }
 }
