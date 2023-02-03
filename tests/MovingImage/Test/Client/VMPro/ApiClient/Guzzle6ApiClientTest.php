@@ -58,7 +58,7 @@ class Guzzle6ApiClientTest extends TestCase
 
         $this->assertCount(1, $this->historyContainer);
         $this->assertEquals('GET', $this->historyContainer[0]['request']->getMethod());
-        $this->assertEquals('5/channels', $this->historyContainer[0]['request']->getUri());
+        $this->assertEquals('5/channels?locale=en', $this->historyContainer[0]['request']->getUri());
     }
 
     /**
