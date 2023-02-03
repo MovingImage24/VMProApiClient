@@ -19,7 +19,7 @@ class GetChannelsTest extends ApiClientTestCase
         ]);
 
         $client = $this->createApiClient($httpClient, $this->createSerializer());
-        $res = $client->getChannels(5);
+        $res = $client->getChannels(5, 'en');
 
         $this->assertInstanceOf(Channel::class, $res);
         $this->assertEquals(5, $res->getId());

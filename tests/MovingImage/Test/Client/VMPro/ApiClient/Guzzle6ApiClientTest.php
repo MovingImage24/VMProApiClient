@@ -54,7 +54,7 @@ class Guzzle6ApiClientTest extends TestCase
     public function testDoRequest()
     {
         $client = new Guzzle6ApiClient($this->httpClient, $this->serializer);
-        $client->getChannels(5);
+        $client->getChannels(5, 'en');
 
         $this->assertCount(1, $this->historyContainer);
         $this->assertEquals('GET', $this->historyContainer[0]['request']->getMethod());

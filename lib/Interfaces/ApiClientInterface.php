@@ -35,14 +35,14 @@ interface ApiClientInterface
     /**
      * Get all channels for a specific video manager.
      */
-    public function getChannels(int $videoManagerId): Channel;
+    public function getChannels(int $videoManagerId, string $locale): Channel;
 
     /**
      * Get a specific channel.
      *
      * @throws NotFoundException
      */
-    public function getChannel(int $videoManagerId, int $channelId): Channel;
+    public function getChannel(int $videoManagerId, int $channelId, string $locale): Channel;
 
     /**
      * Create a new Video entity in the video manager.

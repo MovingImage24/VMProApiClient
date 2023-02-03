@@ -39,10 +39,11 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * @throws \Exception
      */
-    public function getChannels(int $videoManagerId): Channel
+    public function getChannels(int $videoManagerId, string $locale): Channel
     {
         $response = $this->makeRequest('GET', 'channels', [
             self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            ['query'][self::LOCALE] => $locale,
         ]);
 
         /** @var Channel $rootChannel */
@@ -52,9 +53,9 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $rootChannel;
     }
 
-    public function getChannel(int $videoManagerId, int $channelId): Channel
+    public function getChannel(int $videoManagerId, int $channelId, string $locale): Channel
     {
-        $channel = $this->findChannel($this->getChannels($videoManagerId), $channelId);
+        $channel = $this->findChannel($this->getChannels($videoManagerId, $locale), $channelId);
 
         if (!$channel instanceof Channel) {
             throw new NotFoundException('channel not found');
