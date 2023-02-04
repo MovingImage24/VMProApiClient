@@ -39,12 +39,15 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
     /**
      * @throws \Exception
      */
-    public function getChannels(int $videoManagerId, string $locale): Channel
+    public function getChannels(int $videoManagerId, ?string $locale = null): Channel
     {
         $options = [self::OPT_VIDEO_MANAGER_ID => $videoManagerId];
-        $options['query'][self::LOCALE] = $locale;
-        $response = $this->makeRequest('GET', 'channels', $options);
 
+        if (null !== $locale) {
+            $options['query'][self::LOCALE] = $locale;
+        }
+
+        $response = $this->makeRequest('GET', 'channels', $options);
         /** @var Channel $rootChannel */
         $rootChannel = $this->deserialize($response->getBody()->getContents(), Channel::class);
         $rootChannel->setChildren($this->sortChannels($rootChannel->getChildren()));
@@ -52,7 +55,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $rootChannel;
     }
 
-    public function getChannel(int $videoManagerId, int $channelId, string $locale): Channel
+    public function getChannel(int $videoManagerId, int $channelId, ?string $locale = null): Channel
     {
         $channel = $this->findChannel($this->getChannels($videoManagerId, $locale), $channelId);
 
