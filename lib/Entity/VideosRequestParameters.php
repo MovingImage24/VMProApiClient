@@ -34,6 +34,8 @@ use MovingImage\Meta\Enums\PublicationState;
  * @method VideosRequestParameters setIncludeSubChannels(bool $includeSubChannels)
  * @method VideosRequestParameters setMetadataSetKey(string $metadataSetKey)
  * @method string                  getMetadataSetKey()
+ * @method string                  getLocale()
+ * @method VideosRequestParameters setLocale(string $locale)
  */
 class VideosRequestParameters
 {
