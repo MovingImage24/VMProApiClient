@@ -11,6 +11,8 @@ use MovingImage\Client\VMPro\Util\AccessorTrait;
  * @method VideoRequestParameters setIncludeCustomMetadata(bool $includeCustomMetadata)
  * @method string                 getCustomMetadataField()
  * @method VideoRequestParameters setCustomMetadataField(string $customMetadataField)
+ * @method VideosRequestParameters setMetadataSetId(int $metadataSetId)
+ * @method VideosRequestParameters setIncludeChannelAssignments(bool $includeChannels)
  * @method bool                   isIncludeKeywords()
  * @method VideoRequestParameters setIncludeKeywords(bool $includeKeywords)
  * @method int                    getRelatedVideosChannelId()
