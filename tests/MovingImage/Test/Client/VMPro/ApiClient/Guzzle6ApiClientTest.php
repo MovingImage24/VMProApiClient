@@ -10,19 +10,21 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
+use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use MovingImage\Client\VMPro\ApiClient\Guzzle6ApiClient;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use ReflectionClass;
 
 class Guzzle6ApiClientTest extends TestCase
 {
-    private $httpClient;
-    private $historyContainer = [];
-    private $serializer;
+    private Client $httpClient;
+    private array $historyContainer = [];
+    private Serializer $serializer;
 
-    private function createJsonStream($arr)
+    private function createJsonStream($arr): StreamInterface
     {
         $str = json_encode($arr);
 
@@ -51,7 +53,17 @@ class Guzzle6ApiClientTest extends TestCase
         $this->serializer = SerializerBuilder::create()->build();
     }
 
-    public function testDoRequest()
+    public function testGetChannelsWithLocaleRequest(): void
+    {
+        $client = new Guzzle6ApiClient($this->httpClient, $this->serializer);
+        $client->getChannels(5, 'en');
+
+        $this->assertCount(1, $this->historyContainer);
+        $this->assertEquals('GET', $this->historyContainer[0]['request']->getMethod());
+        $this->assertEquals('5/channels?locale=en', $this->historyContainer[0]['request']->getUri());
+    }
+
+    public function testGetChannelsWithOutLocaleRequest(): void
     {
         $client = new Guzzle6ApiClient($this->httpClient, $this->serializer);
         $client->getChannels(5);
@@ -65,7 +77,7 @@ class Guzzle6ApiClientTest extends TestCase
      * Tests both serializeResponse and unserializeResponse methods.
      * @throws \ReflectionException
      */
-    public function testSerializeResponse()
+    public function testSerializeResponse(): void
     {
         $status = 200;
         $headers = ['Content-Type' => ['application/json']];

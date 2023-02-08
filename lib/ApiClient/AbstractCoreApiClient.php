@@ -16,6 +16,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     protected const OPT_VIDEO_MANAGER_ID = 'videoManagerId';
+    protected const LOCALE = 'locale';
 
     protected ClientInterface $httpClient;
 

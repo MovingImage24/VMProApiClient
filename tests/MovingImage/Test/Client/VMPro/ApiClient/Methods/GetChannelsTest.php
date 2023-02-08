@@ -11,7 +11,7 @@ class GetChannelsTest extends ApiClientTestCase
      * Assert whether a specific JSON response gets properly
      * de-serialized into an object of the right type.
      */
-    public function testGetChannelsBasic()
+    public function testGetChannelsBasic(): void
     {
         $httpClient = $this->createMockGuzzleClient(200, [], [
             'id' => 5,

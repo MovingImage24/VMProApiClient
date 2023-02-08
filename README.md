@@ -28,7 +28,7 @@ $factory     = new ApiClientFactory();
 
 $apiClient = $factory->createSimple($baseUri, $credentials);
 
-echo $apiClient->getChannels(5)->getName() . PHP_EOL;
+echo $apiClient->getChannels(5, 'en')->getName() . PHP_EOL;
 ```
 
 ## Maintainers
