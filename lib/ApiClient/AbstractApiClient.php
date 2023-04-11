@@ -262,6 +262,25 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         return $this->deserialize($response->getBody()->getContents(), Video::class);
     }
 
+    public function getPlays(int $videoManagerId, string $videoId): int
+    {
+        $options = [
+            self::OPT_VIDEO_MANAGER_ID => $videoManagerId,
+            'videoIds' => [
+                $videoId
+            ]
+        ];
+
+        $response = $this->makeRequest('GET', 'analytics/videos', $options);
+
+        $payload = json_decode($response->getBody()->getContents(), true);
+
+        return array_key_exists('videos', $payload) && !empty($payload['videos'])
+            ? $payload['videos'][0]['plays']
+            : 0
+        ;
+    }
+
     /**
      * {@inheritdoc}
      */
