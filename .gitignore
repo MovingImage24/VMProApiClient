@@ -1,7 +1,6 @@
 # PHP related stuff
 vendor
 coverage
-composer.lock
 test.php
 .php_cs.cache
 .phpunit.result.cache
