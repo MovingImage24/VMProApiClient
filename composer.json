@@ -15,7 +15,7 @@
         "doctrine/collections": "^1.6",
         "doctrine/common": "^3.1 || ^2.13",
         "guzzlehttp/guzzle": "^6.5 || ^7.0",
-        "jms/serializer": "^3.12",
+        "jms/serializer": "3.23",
         "monolog/monolog": "^1.0 || ^2.0",
         "movingimage/video-manager-meta": "^3.2",
         "namshi/jose": "^6.0 || ^7.0",
