@@ -26,9 +26,6 @@
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.0"
     },
-    "conflict": {
-        "jms/serializer": ">3.23"
-    },
     "config": {
         "sort-packages": true
     },
