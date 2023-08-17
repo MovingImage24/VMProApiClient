@@ -28,11 +28,27 @@ class CorporateTubeMetaData
 
     /**
      * @Type("string")
+     * @SerializedName("uploaderKeycloakUserId")
+     *
+     * @var string|null
+     */
+    private $uploaderKeycloakUserId;
+
+    /**
+     * @Type("string")
      * @SerializedName("inChargeUserId")
      *
      * @var string|null
      */
     private $inChargeUserId;
+
+    /**
+     * @Type("string")
+     * @SerializedName("inChargeKeycloakUserId")
+     *
+     * @var string|null
+     */
+    private $inChargeKeycloakUserId;
 
     public function getUploadDate(): ?DateTime
     {
@@ -51,7 +67,7 @@ class CorporateTubeMetaData
         return $this->uploaderUserId;
     }
 
-    public function setUploaderUserId(string $uploaderUserId): self
+    public function setUploaderUserId(?string $uploaderUserId): self
     {
         $this->uploaderUserId = $uploaderUserId;
 
@@ -63,9 +79,33 @@ class CorporateTubeMetaData
         return $this->inChargeUserId;
     }
 
-    public function setInChargeUserId(string $inChargeUserId): self
+    public function setInChargeUserId(?string $inChargeUserId): self
     {
         $this->inChargeUserId = $inChargeUserId;
+
+        return $this;
+    }
+
+    public function getUploaderKeycloakUserId(): ?string
+    {
+        return $this->uploaderKeycloakUserId;
+    }
+
+    public function setUploaderKeycloakUserId(?string $uploaderKeycloakUserId): self
+    {
+        $this->uploaderKeycloakUserId = $uploaderKeycloakUserId;
+
+        return $this;
+    }
+
+    public function getInChargeKeycloakUserId(): ?string
+    {
+        return $this->inChargeKeycloakUserId;
+    }
+
+    public function setInChargeKeycloakUserId(?string $inChargeKeycloakUserId): self
+    {
+        $this->inChargeKeycloakUserId = $inChargeKeycloakUserId;
 
         return $this;
     }

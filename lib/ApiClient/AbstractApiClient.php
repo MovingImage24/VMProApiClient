@@ -529,6 +529,8 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
         $fields = [
             'uploaderUserId' => $corporateTubeMetaData->getUploaderUserId(),
             'inChargeUserId' => $corporateTubeMetaData->getInChargeUserId(),
+            'uploaderKeycloakUserId' => $corporateTubeMetaData->getUploaderKeycloakUserId(),
+            'inChargeKeycloakUserId' => $corporateTubeMetaData->getInChargeKeycloakUserId(),
         ];
 
         if ($corporateTubeMetaData->getUploadDate()) {
