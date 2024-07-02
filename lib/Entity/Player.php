@@ -60,8 +60,10 @@ class Player
         return $this->version;
     }
 
-    public function setVersion(string $version): void
+    public function setVersion(string $version): self
     {
         $this->version = $version;
+
+        return $this;
     }
 }
