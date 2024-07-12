@@ -17,6 +17,8 @@ class Player
     /** @Type("boolean") */
     private $active = false;
 
+    private string $version = 'v1';
+
     public function getId(): ?string
     {
         return $this->id;
@@ -49,6 +51,18 @@ class Player
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): self
+    {
+        $this->version = $version;
 
         return $this;
     }
