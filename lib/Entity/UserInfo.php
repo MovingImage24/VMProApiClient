@@ -4,26 +4,19 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 
 class UserInfo
 {
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $email;
 
-    /**
-     * @Type("string")
-     * @SerializedName("fullName")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('fullName')]
     private $fullName;
 
-    /**
-     * @Type("array")
-     * @SerializedName("videoManagerIds")
-     */
+    #[JMS\Type('array')]
+    #[JMS\SerializedName('videoManagerIds')]
     private $videoManagerIds = [];
 
     public function validate(): void

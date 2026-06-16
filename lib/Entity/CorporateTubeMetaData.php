@@ -5,49 +5,43 @@ declare(strict_types=1);
 namespace MovingImage\Client\VMPro\Entity;
 
 use DateTime;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 
 class CorporateTubeMetaData
 {
     /**
-     * @Type("DateTime")
-     * @SerializedName("uploadDate")
-     *
      * @var DateTime|null
      */
+    #[JMS\Type('DateTime')]
+    #[JMS\SerializedName('uploadDate')]
     private $uploadDate;
 
     /**
-     * @Type("string")
-     * @SerializedName("uploaderUserId")
-     *
      * @var string|null
      */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('uploaderUserId')]
     private $uploaderUserId;
 
     /**
-     * @Type("string")
-     * @SerializedName("uploaderKeycloakUserId")
-     *
      * @var string|null
      */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('uploaderKeycloakUserId')]
     private $uploaderKeycloakUserId;
 
     /**
-     * @Type("string")
-     * @SerializedName("inChargeUserId")
-     *
      * @var string|null
      */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('inChargeUserId')]
     private $inChargeUserId;
 
     /**
-     * @Type("string")
-     * @SerializedName("inChargeKeycloakUserId")
-     *
      * @var string|null
      */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('inChargeKeycloakUserId')]
     private $inChargeKeycloakUserId;
 
     public function getUploadDate(): ?DateTime

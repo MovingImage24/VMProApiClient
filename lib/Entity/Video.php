@@ -5,129 +5,92 @@ declare(strict_types=1);
 namespace MovingImage\Client\VMPro\Entity;
 
 use DateTime;
-use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\VideoInterface;
 
 class Video implements VideoInterface
 {
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $id;
 
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $title;
 
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $description;
 
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $thumbnail;
 
-    /**
-     * @Type("integer")
-     */
+    #[JMS\Type('integer')]
     private $length;
 
-    /**
-     * @Type("integer")
-     * @SerializedName("createdDate")
-     */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('createdDate')]
     private $createdDate;
 
-    /**
-     * @Type("integer")
-     * @SerializedName("modifiedDate")
-     */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('modifiedDate')]
     private $modifiedDate;
 
-    /**
-     * @Type("integer")
-     * @SerializedName("uploadDate")
-     */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('uploadDate')]
     private $uploadDate;
 
-    /**
-     * @Type("integer")
-     */
+    #[JMS\Type('integer')]
     private $generation;
 
-    /**
-     * @Type("integer")
-     */
+    #[JMS\Type('integer')]
     private $plays;
 
-    /**
-     * @Type("integer")
-     */
+    #[JMS\Type('integer')]
     private $views;
 
-    /**
-     * @Type("boolean")
-     * @SerializedName("allFormatsAvailable")
-     */
+    #[JMS\Type('boolean')]
+    #[JMS\SerializedName('allFormatsAvailable')]
     private $allFormatsAvailable;
 
     /**
      * @TODO replace it with array collection
      *
-     * @Type("array")
-     * @SerializedName("customMetadata")
      */
+    #[JMS\Type('array')]
+    #[JMS\SerializedName('customMetadata')]
     private $customMetadata;
 
     /**
      * @TODO replace it with array collection
      *
-     * @Type("array")
      */
+    #[JMS\Type('array')]
     private $keywords;
 
     /**
      * @TODO replace it with array collection
      *
-     * @Type("array")
      */
+    #[JMS\Type('array')]
     private $stills;
 
-    /**
-     * @Type("boolean")
-     */
+    #[JMS\Type('boolean')]
     private $published;
 
-    /**
-     * @Type("array")
-     */
+    #[JMS\Type('array')]
     private $channels;
 
-    /**
-     * @Type("string")
-     * @SerializedName("uploadFileName")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('uploadFileName')]
     private $uploadFileName;
 
-    /**
-     * @Type("boolean")
-     */
+    #[JMS\Type('boolean')]
     private $downloadable;
 
-    /**
-     * @Type("boolean")
-     * @SerializedName("audioOnly")
-     */
+    #[JMS\Type('boolean')]
+    #[JMS\SerializedName('audioOnly')]
     private $audioOnly;
 
-    /**
-     * @Type("MovingImage\Client\VMPro\Entity\CorporateTubeMetaData")
-     * @SerializedName("corporateTubeMetadata")
-     */
+    #[JMS\Type('MovingImage\Client\VMPro\Entity\CorporateTubeMetaData')]
+    #[JMS\SerializedName('corporateTubeMetadata')]
     private $corporateTubeMetadata;
 
     public function setId(string $id): self

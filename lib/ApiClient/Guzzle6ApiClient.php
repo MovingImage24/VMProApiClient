@@ -17,19 +17,15 @@ class Guzzle6ApiClient extends AbstractApiClient implements ApiClientInterface
      *
      * @return mixed
      */
-    protected function _doRequest(string $method, string $uri, array $options)
+    protected function _doRequest(string $method, string $uri, array $options): mixed
     {
         return $this->httpClient->request($method, $uri, $options);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @param ResponseInterface $response
-     *
-     * @return string
      */
-    protected function serializeResponse($response)
+    protected function serializeResponse(mixed $response): string
     {
         /** @var ResponseInterface $response */
         $serialized = serialize([
@@ -46,14 +42,8 @@ class Guzzle6ApiClient extends AbstractApiClient implements ApiClientInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param string $serialized
-     *
-     * @return ResponseInterface
-     *
-     * @throws Exception
      */
-    protected function unserializeResponse($serialized)
+    protected function unserializeResponse(string $serialized): mixed
     {
         $array = unserialize($serialized);
         if (!is_array($array) || 3 !== count($array)) {

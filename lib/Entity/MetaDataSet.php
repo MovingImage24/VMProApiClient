@@ -4,33 +4,24 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 
 class MetaDataSet
 {
-    /**
-     * @Type("integer")
-     * @SerializedName("id")
-     */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('id')]
     private int $id;
 
-    /**
-     * @Type("string")
-     * @SerializedName("keyName")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('keyName')]
     private string $keyName;
 
-    /**
-     * @Type("string")
-     * @SerializedName("type")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('type')]
     private string $type;
 
-    /**
-     * @Type("boolean")
-     * @SerializedName("isDefault")
-     */
+    #[JMS\Type('boolean')]
+    #[JMS\SerializedName('isDefault')]
     private bool $isDefault;
 
     public function getId(): int

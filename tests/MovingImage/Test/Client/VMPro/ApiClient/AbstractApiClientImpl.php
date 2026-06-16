@@ -22,7 +22,7 @@ class AbstractApiClientImpl extends AbstractApiClient
      *
      * @return ResponseInterface|null
      */
-    public function _doRequest($method, $uri, $options)
+    public function _doRequest(string $method, string $uri, array $options): mixed
     {
         return $this->response;
     }
@@ -67,7 +67,7 @@ class AbstractApiClientImpl extends AbstractApiClient
      *
      * @return mixed
      */
-    protected function serializeResponse($response)
+    protected function serializeResponse(mixed $response): string
     {
         return $response;
     }
@@ -81,7 +81,7 @@ class AbstractApiClientImpl extends AbstractApiClient
      *
      * @return mixed
      */
-    protected function unserializeResponse($serialized)
+    protected function unserializeResponse(string $serialized): mixed
     {
         return $serialized;
     }

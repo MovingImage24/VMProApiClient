@@ -4,33 +4,24 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\TranscodeInterface;
 
 class Transcode implements TranscodeInterface
 {
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $quality;
 
-    /**
-     * @Type("string")
-     * @SerializedName("profileKey")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('profileKey')]
     private $profileKey;
 
-    /**
-     * @Type("string")
-     * @SerializedName("fileExtension")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('fileExtension')]
     private $fileExtension;
 
-    /**
-     * @Type("boolean")
-     * @SerializedName("transcodingCompleted")
-     */
+    #[JMS\Type('boolean')]
+    #[JMS\SerializedName('transcodingCompleted')]
     private $completed;
 
     public function getQuality(): string

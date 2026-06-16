@@ -20,7 +20,7 @@ trait AccessorTrait
     /**
      * @return mixed
      */
-    public function __call(string $methodName, array $args)
+    public function __call(string $methodName, array $args): mixed
     {
         // are we getting or setting?
         if (preg_match('~^(set|get|is)([A-Z])(.*)$~', $methodName, $matches)) {
@@ -54,7 +54,7 @@ trait AccessorTrait
     /**
      * @return mixed
      */
-    public function get(string $property)
+    public function get(string $property): mixed
     {
         return $this->container[$property] ?? null;
     }
@@ -68,7 +68,7 @@ trait AccessorTrait
         return null;
     }
 
-    public function set(string $property, $value): self
+    public function set(string $property, mixed $value): self
     {
         // we need to convert booleans into string, because these are query parameters
         if (is_bool($value)) {

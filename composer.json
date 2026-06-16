@@ -10,21 +10,22 @@
         }
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "ext-json": "*",
-        "doctrine/collections": "^1.6",
-        "doctrine/common": "^3.1 || ^2.13",
-        "guzzlehttp/guzzle": "^6.5 || ^7.0",
+        "doctrine/collections": "^1.6 || ^2.0",
+        "doctrine/common": "^3.4",
+        "firebase/php-jwt": "^6.0",
+        "guzzlehttp/guzzle": "^7.0",
         "jms/serializer": "^3.12",
-        "monolog/monolog": "^1.0 || ^2.0",
+        "monolog/monolog": "^2.0 || ^3.0",
         "movingimage/video-manager-meta": "^3.2",
-        "namshi/jose": "^6.0 || ^7.0",
-        "psr/log": "^1.0 || ^3.0.2"
+        "psr/log": "^2.0 || ^3.0",
+        "psr/simple-cache": "^3.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.9",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^10.0 || ^11.0"
     },
     "config": {
         "sort-packages": true

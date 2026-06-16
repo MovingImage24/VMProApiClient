@@ -6,6 +6,7 @@ use MovingImage\Client\VMPro\Entity\ChannelsRequestParameters;
 use MovingImage\Client\VMPro\Entity\VideosRequestParameters;
 use MovingImage\Client\VMPro\Exception;
 use MovingImage\Meta\Enums\PublicationState;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class SearchEndpointTraitTest extends TestCase
@@ -27,8 +28,8 @@ class SearchEndpointTraitTest extends TestCase
      * @param array  $params
      * @param string $operator
      * @param string $expectedResult
-     * @dataProvider dataProviderForTestCreateElasticSearchQuery
      */
+    #[DataProvider('dataProviderForTestCreateElasticSearchQuery')]
     public function testCreateElasticSearchQuery(array $params, $operator, $expectedResult)
     {
         $this->assertSame($expectedResult, $this->traitObj->createElasticSearchQuery($params, $operator));
@@ -39,7 +40,7 @@ class SearchEndpointTraitTest extends TestCase
      *
      * @return array
      */
-    public function dataProviderForTestCreateElasticSearchQuery()
+    public static function dataProviderForTestCreateElasticSearchQuery()
     {
         return [
             [['name' => 'Name', 'desc' => 'Desc'], 'AND', 'name:Name AND desc:Desc'],
@@ -117,8 +118,8 @@ class SearchEndpointTraitTest extends TestCase
 
     /**
      * @param array $params
-     * @dataProvider dataProviderForTestGetRequestOptionsForSearchVideosEndpoint
      */
+    #[DataProvider('dataProviderForTestGetRequestOptionsForSearchVideosEndpoint')]
     public function testGetRequestOptionsForSearchVideosEndpoint(array $params)
     {
         $params = $this->createVideosRequestParameters($params);
@@ -186,7 +187,7 @@ class SearchEndpointTraitTest extends TestCase
      *
      * @return array
      */
-    public function dataProviderForTestGetRequestOptionsForSearchVideosEndpoint()
+    public static function dataProviderForTestGetRequestOptionsForSearchVideosEndpoint()
     {
         return [
             [[]],
@@ -204,8 +205,8 @@ class SearchEndpointTraitTest extends TestCase
 
     /**
      * @param array $params
-     * @dataProvider dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint
      */
+    #[DataProvider('dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint')]
     public function testGetRequestOptionsForSearchChannelsEndpoint(array $params)
     {
         $params = $this->createChannelsRequestParameters($params);
@@ -265,7 +266,7 @@ class SearchEndpointTraitTest extends TestCase
      *
      * @return array
      */
-    public function dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint()
+    public static function dataProviderForTestGetRequestOptionsForSearchChannelsEndpoint()
     {
         return [
             [[]],

@@ -10,6 +10,7 @@ use MovingImage\Client\VMPro\Entity\Token;
 use MovingImage\Client\VMPro\Extractor\TokenExtractor;
 use MovingImage\Client\VMPro\Util\Logging\Traits\LoggerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
+use Psr\SimpleCache\CacheInterface;
 
 class TokenManager implements LoggerAwareInterface
 {
@@ -20,6 +21,10 @@ class TokenManager implements LoggerAwareInterface
     protected ApiCredentials $credentials;
 
     private TokenExtractor $tokenExtractor;
+
+    private ?CacheInterface $cache = null;
+
+    private bool $cacheEnabled = false;
 
     /**
      * @var Token
@@ -34,11 +39,22 @@ class TokenManager implements LoggerAwareInterface
     public function __construct(
         ClientInterface $httpClient,
         ApiCredentials $credentials,
-        TokenExtractor $tokenExtractor
+        TokenExtractor $tokenExtractor,
+        ?CacheInterface $cache = null,
+        bool $cacheEnabled = false
     ) {
         $this->httpClient = $httpClient;
         $this->credentials = $credentials;
         $this->tokenExtractor = $tokenExtractor;
+        $this->cache = $cache;
+        $this->cacheEnabled = $cacheEnabled;
+    }
+
+    private function getCacheKey(): string
+    {
+        $clientUrl = method_exists($this->httpClient, 'getConfig') ? ($this->httpClient->getConfig('base_uri') ?? '') : '';
+        $data = $clientUrl . '|' . $this->credentials->getUsername() . '|' . $this->credentials->getPassword();
+        return 'vmpro_token_' . hash('sha256', $data);
     }
 
     /**
@@ -124,6 +140,16 @@ class TokenManager implements LoggerAwareInterface
         $logger = $this->getLogger();
         $this->logTokenData();
 
+        if ($this->cacheEnabled && $this->cache) {
+            $cacheKey = $this->getCacheKey();
+            $cached = $this->cache->get($cacheKey);
+            if ($cached && is_array($cached) && isset($cached['accessToken'], $cached['refreshToken'])) {
+                $this->accessToken = unserialize($cached['accessToken']);
+                $this->refreshToken = unserialize($cached['refreshToken']);
+                $logger->debug('Loaded tokens from cache');
+            }
+        }
+
         // Access token has expired, but expiration token has not expired.
         // Issue ourselves a new access token for the same video manager.
         if (!is_null($this->accessToken)
@@ -141,6 +167,15 @@ class TokenManager implements LoggerAwareInterface
 
             $this->accessToken = $tokenData['accessToken'];
             $this->refreshToken = $tokenData['refreshToken'];
+        }
+
+        if ($this->cacheEnabled && $this->cache) {
+            $cacheKey = $this->getCacheKey();
+            $this->cache->set($cacheKey, [
+                'accessToken' => serialize($this->accessToken),
+                'refreshToken' => serialize($this->refreshToken),
+            ], $this->accessToken->getTokenData()['exp'] - time());
+            $logger->debug('Tokens saved to cache');
         }
 
         return $this->accessToken->getTokenString();

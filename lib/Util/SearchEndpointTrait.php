@@ -146,11 +146,15 @@ trait SearchEndpointTrait
         $queryParams = [];
 
         if ($parameters) {
+            $searchField = $parameters->getSearchInField();
             $queryParams += [
                 'channels' => implode(',', $parameters->getChannelIds()),
                 'id' => $parameters->getVideoId(),
-                $parameters->getSearchInField() => $parameters->getSearchTerm(),
             ];
+
+            if ($searchField !== null) {
+                $queryParams[$searchField] = $parameters->getSearchTerm();
+            }
 
             switch ($parameters->getPublicationState()) {
                 case PublicationState::PUBLISHED:
@@ -181,7 +185,7 @@ trait SearchEndpointTrait
 
     private function getRequestOptionsForSearchChannelsEndpoint(
         int $videoManagerId,
-        ChannelsRequestParameters $parameters = null
+        ?ChannelsRequestParameters $parameters = null
     ): array {
         $options = [
             'documentType' => 'channel',
@@ -193,9 +197,10 @@ trait SearchEndpointTrait
         ];
 
         if ($parameters) {
-            $queryParams += [
-                $parameters->getSearchInField() => $parameters->getSearchTerm(),
-            ];
+            $searchField = $parameters->getSearchInField();
+            if ($searchField !== null) {
+                $queryParams[$searchField] = $parameters->getSearchTerm();
+            }
 
             $options += [
                 'size' => $parameters->getLimit(),

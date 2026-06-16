@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Extractor;
 
-use Namshi\JOSE\SimpleJWS;
+use Firebase\JWT\JWT;
 
 /**
  * @codeCoverageIgnore - Ignore this as it's just external dependency wrapper
@@ -17,6 +17,14 @@ class TokenExtractor
      */
     public function extract(string $tokenString): array
     {
-        return SimpleJWS::load($tokenString)->getPayload();
+        // Decode without verification - we only need to read the payload claims
+        $parts = explode('.', $tokenString);
+        if (count($parts) !== 3) {
+            throw new \InvalidArgumentException('Invalid JWT token format');
+        }
+
+        $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($parts[1]));
+
+        return (array) $payload;
     }
 }

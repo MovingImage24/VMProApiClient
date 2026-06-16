@@ -2,6 +2,7 @@
 
 namespace MovingImage\Test\Manager;
 
+use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 use MovingImage\Client\VMPro\Entity\ApiCredentials;
 use MovingImage\Client\VMPro\Entity\Token;
@@ -10,7 +11,6 @@ use MovingImage\Client\VMPro\Manager\TokenManager;
 use MovingImage\TestCase\ApiClientTestCase;
 use MovingImage\VMPro\TestUtil\GuzzleResponseGenerator;
 use MovingImage\VMPro\TestUtil\PrivateMethodCaller;
-use Namshi\JOSE\SimpleJWS;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 class TokenManagerTest extends ApiClientTestCase
@@ -24,7 +24,8 @@ class TokenManagerTest extends ApiClientTestCase
      */
     public function testCreateNewTokensResponse()
     {
-        $tokenManager = $this->createTokenManager($this->createSimpleJwsToken());
+        $tokenString = $this->createJwtTokenString();
+        $tokenManager = $this->createTokenManager($tokenString);
         $tokens = $this->callMethod($tokenManager, 'createNewTokens', []);
         self::assertArrayHasKey('accessToken', $tokens);
         self::assertArrayHasKey('refreshToken', $tokens);
@@ -43,10 +44,10 @@ class TokenManagerTest extends ApiClientTestCase
      */
     public function testCreateNewTokensGuzzle6Request()
     {
-        $token = $this->createSimpleJwsToken();
+        $tokenString = $this->createJwtTokenString();
         $oauthResponse = json_encode([
-            'access_token' => $token->getTokenString(),
-            'refresh_token' => $token->getTokenString(),
+            'access_token' => $tokenString,
+            'refresh_token' => $tokenString,
         ]);
 
         $httpClient = $this->createMock(Client::class);
@@ -84,10 +85,10 @@ class TokenManagerTest extends ApiClientTestCase
      */
     public function testCreateAccessTokenFromRefreshTokenResponse()
     {
-        $jwsToken = $this->createSimpleJwsToken();
-        $tokenManager = $this->createTokenManager($jwsToken);
+        $tokenString = $this->createJwtTokenString();
+        $tokenManager = $this->createTokenManager($tokenString);
         $tokenExtractor = new TokenExtractor();
-        $refreshToken = new Token($jwsToken->getTokenString(), $tokenExtractor->extract($jwsToken->getTokenString()));
+        $refreshToken = new Token($tokenString, $tokenExtractor->extract($tokenString));
 
         /** @var Token $accessToken */
         $accessToken = $this->callMethod($tokenManager, 'createAccessTokenFromRefreshToken', [$refreshToken]);
@@ -100,15 +101,14 @@ class TokenManagerTest extends ApiClientTestCase
      */
     public function testCreateAccessTokenFromRefreshTokenGuzzle6Request()
     {
-        $token = $this->createSimpleJwsToken();
+        $tokenString = $this->createJwtTokenString();
         $oauthResponse = json_encode([
-            'access_token' => $token->getTokenString(),
-            'refresh_token' => $token->getTokenString(),
+            'access_token' => $tokenString,
+            'refresh_token' => $tokenString,
         ]);
 
-        $jwsToken = $this->createSimpleJwsToken();
         $tokenExtractor = new TokenExtractor();
-        $refreshToken = new Token($jwsToken->getTokenString(), $tokenExtractor->extract($jwsToken->getTokenString()));
+        $refreshToken = new Token($tokenString, $tokenExtractor->extract($tokenString));
 
         $httpClient = $this->createMock(Client::class);
         $clientResponse = $this->generateGuzzleResponse(200, [], $oauthResponse);
@@ -140,13 +140,13 @@ class TokenManagerTest extends ApiClientTestCase
     /**
      * Creates an instance of TokenManager, configured to return the provided token.
      */
-    private function createTokenManager(?SimpleJWS $token = null): TokenManager
+    private function createTokenManager(?string $tokenString = null): TokenManager
     {
         $response = [];
-        if ($token) {
+        if ($tokenString) {
             $response = [
-                'access_token' => $token->getTokenString(),
-                'refresh_token' => $token->getTokenString(),
+                'access_token' => $tokenString,
+                'refresh_token' => $tokenString,
             ];
         }
 
@@ -158,27 +158,18 @@ class TokenManagerTest extends ApiClientTestCase
     }
 
     /**
-     * Creates a SimpleJWS token, with only 'exp' property set.
-     *
-     * @param null $expirationTimestamp
-     *
-     * @return SimpleJWS
+     * Creates a JWT token string with only 'exp' property set.
      */
-    private function createSimpleJwsToken($expirationTimestamp = null)
+    private function createJwtTokenString(?int $expirationTimestamp = null): string
     {
         if (!$expirationTimestamp) {
             $expirationTimestamp = time() + 300;
         }
 
-        $token = new SimpleJWS([
-            'alg' => 'HS256',
-            'typ' => 'JWT',
-        ]);
+        $header = JWT::urlsafeB64Encode(JWT::jsonEncode(['alg' => 'HS256', 'typ' => 'JWT']));
+        $payload = JWT::urlsafeB64Encode(JWT::jsonEncode(['exp' => $expirationTimestamp]));
+        $signature = JWT::urlsafeB64Encode('test-signature');
 
-        $token->setPayload([
-            'exp' => $expirationTimestamp,
-        ]);
-
-        return $token;
+        return "$header.$payload.$signature";
     }
 }

@@ -35,7 +35,6 @@ class Guzzle6ApiClientFactoryTest extends TestCase
     {
         $class = new \ReflectionClass(Guzzle6ApiClientFactory::class);
         $method = $class->getMethod($methodName);
-        $method->setAccessible(true);
 
         return $method;
     }
@@ -96,7 +95,6 @@ class Guzzle6ApiClientFactoryTest extends TestCase
 
         $reflectionClass = new \ReflectionClass(HandlerStack::class);
         $stackProperty = $reflectionClass->getProperty('stack');
-        $stackProperty->setAccessible(true);
 
         $stackHandler = $client->getConfig('handler');
         $stack = $stackProperty->getValue($stackHandler);
