@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\KeywordInterface;
 
 class Keyword implements KeywordInterface
 {
-    /**
-     * @Type("int")
-     */
+    #[JMS\Type('int')]
     private $id;
 
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $text;
 
     public function getId(): ?int

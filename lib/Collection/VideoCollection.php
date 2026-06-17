@@ -12,15 +12,15 @@ class VideoCollection
 {
     /**
      * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("totalCount")
      */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('totalCount')]
     private $totalCount;
 
     /**
      * @var ArrayCollection<VideoInterface>
-     * @JMS\Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Video>")
      */
+    #[JMS\Type('ArrayCollection<MovingImage\Client\VMPro\Entity\Video>')]
     private $videos;
 
     /**

@@ -40,9 +40,6 @@ abstract class AbstractApiClientFactory implements ApiClientFactoryInterface
 
     public function createSerializer(): SerializerInterface
     {
-        // Set up that JMS annotations can be loaded through autoloader
-        \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
-
         return SerializerBuilder::create()->build();
     }
 

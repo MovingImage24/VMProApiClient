@@ -5,66 +5,56 @@ declare(strict_types=1);
 namespace MovingImage\Client\VMPro\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\ChannelInterface;
 
 class Channel implements ChannelInterface
 {
     /**
-     * @Type("integer")
-     *
      * @var int
      */
+    #[JMS\Type('integer')]
     private $id;
 
     /**
-     * @Type("string")
-     *
      * @var string
      */
+    #[JMS\Type('string')]
     private $name;
 
     /**
-     * @Type("string")
-     *
      * @var string
      */
+    #[JMS\Type('string')]
     private $description;
 
     /**
-     * @Type("array")
-     * @SerializedName("customMetadata")
-     *
      * @var array
      */
+    #[JMS\Type('array')]
+    #[JMS\SerializedName('customMetadata')]
     private $customMetadata = [];
 
     /**
-     * @Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
-     *
      * @var ArrayCollection<ChannelInterface>
      */
+    #[JMS\Type('ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>')]
     private $children;
 
     /**
-     * @Type("MovingImage\Client\VMPro\Entity\Channel")
-     *
      * @var ChannelInterface
      */
+    #[JMS\Type('MovingImage\Client\VMPro\Entity\Channel')]
     private $parent = null;
 
-    /**
-     * @Type("integer")
-     * @SerializedName("parentId")
-     */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('parentId')]
     private $parentId = null;
 
     /**
-     * @Type("MovingImage\Client\VMPro\Entity\Ownership")
-     *
      * @var Ownership
      */
+    #[JMS\Type('MovingImage\Client\VMPro\Entity\Ownership')]
     private $ownership = null;
 
     public function getName(): string
@@ -96,7 +86,7 @@ class Channel implements ChannelInterface
         return $this->customMetadata;
     }
 
-    public function setCustomMetadata($customMetadata): self
+    public function setCustomMetadata(array $customMetadata): self
     {
         $this->customMetadata = $customMetadata;
 
@@ -108,7 +98,7 @@ class Channel implements ChannelInterface
         return $this->id;
     }
 
-    public function setId($id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
 

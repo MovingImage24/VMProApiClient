@@ -12,15 +12,15 @@ class ChannelCollection
 {
     /**
      * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("totalCount")
      */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('totalCount')]
     private $totalCount;
 
     /**
      * @var ArrayCollection<ChannelInterface>
-     * @JMS\Type("ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>")
      */
+    #[JMS\Type('ArrayCollection<MovingImage\Client\VMPro\Entity\Channel>')]
     private $channels;
 
     /**

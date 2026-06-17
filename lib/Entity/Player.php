@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 
 class Player
 {
-    /** @Type("string") */
+    #[JMS\Type('string')]
     private $id;
 
-    /** @Type("string") */
+    #[JMS\Type('string')]
     private $name;
 
-    /** @Type("boolean") */
+    #[JMS\Type('boolean')]
     private $active = false;
 
     private string $version = 'v1';

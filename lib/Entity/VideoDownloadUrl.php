@@ -4,40 +4,29 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\VideoDownloadUrlInterface;
 
 class VideoDownloadUrl implements VideoDownloadUrlInterface
 {
-    /**
-     * @Type("string")
-     * @SerializedName("quality")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('quality')]
     private $quality;
 
-    /**
-     * @Type("string")
-     * @SerializedName("profileKey")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('profileKey')]
     private $profileKey;
 
-    /**
-     * @Type("string")
-     * @SerializedName("fileExtension")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('fileExtension')]
     private $fileExtension;
 
-    /**
-     * @Type("string")
-     * @SerializedName("url")
-     */
+    #[JMS\Type('string')]
+    #[JMS\SerializedName('url')]
     private $url;
 
-    /**
-     * @Type("integer")
-     * @SerializedName("fileSize")
-     */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('fileSize')]
     private $fileSize;
 
     public function getQuality(): string

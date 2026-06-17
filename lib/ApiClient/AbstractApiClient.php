@@ -87,7 +87,7 @@ abstract class AbstractApiClient extends AbstractCoreApiClient implements ApiCli
      *
      * @throws \Exception
      */
-    protected function sortChannels(ArrayCollection $channels)
+    protected function sortChannels(ArrayCollection $channels): ArrayCollection
     {
         $channels->map(function ($channel) {
             $channel->setChildren($this->sortChannels($channel->getChildren()));

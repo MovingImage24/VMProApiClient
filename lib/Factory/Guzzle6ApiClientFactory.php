@@ -56,7 +56,7 @@ class Guzzle6ApiClientFactory extends AbstractApiClientFactory
         ], $options));
     }
 
-    public function createSimple($baseUri, ApiCredentials $credentials, $authUrl): ApiClientInterface
+    public function createSimple(string $baseUri, ApiCredentials $credentials, string $authUrl): ApiClientInterface
     {
         $tokenManager = $this->createTokenManager($authUrl, $credentials);
         $tokenMiddleware = $this->createTokenMiddleware($tokenManager);

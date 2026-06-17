@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use MovingImage\Meta\Interfaces\VideoManagerInterface;
 
 class VideoManager implements VideoManagerInterface
 {
-    /**
-     * @Type("integer")
-     */
+    #[JMS\Type('integer')]
     private $id;
 
-    /**
-     * @Type("string")
-     */
+    #[JMS\Type('string')]
     private $name;
 
     public function getId(): int

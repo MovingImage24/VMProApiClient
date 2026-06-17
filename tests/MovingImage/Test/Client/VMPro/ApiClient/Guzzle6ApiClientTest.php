@@ -2,7 +2,6 @@
 
 namespace MovingImage\Test\Client\VMPro\ApiClient;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Handler\MockHandler;
@@ -33,8 +32,6 @@ class Guzzle6ApiClientTest extends TestCase
 
     public function setUp(): void
     {
-        AnnotationRegistry::registerLoader('class_exists');
-
         $mock = new MockHandler([
             new Response(200, ['X-Foo' => 'Bar'], $this->createJsonStream([
                 'id' => 5,
@@ -89,7 +86,6 @@ class Guzzle6ApiClientTest extends TestCase
 
         $rc = new ReflectionClass($client);
         $serializeMethod = $rc->getMethod('serializeResponse');
-        $serializeMethod->setAccessible(true);
         $serialized = $serializeMethod->invoke($client, $response);
 
         //after serializing, original response must not be modified!
@@ -100,7 +96,6 @@ class Guzzle6ApiClientTest extends TestCase
         $this->assertIsString($serialized);
 
         $unserializeMethod = $rc->getMethod('unserializeResponse');
-        $unserializeMethod->setAccessible(true);
         /** @var ResponseInterface $unserialized */
         $unserialized = $unserializeMethod->invoke($client, $serialized);
 

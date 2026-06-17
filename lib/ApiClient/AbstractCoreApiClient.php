@@ -37,7 +37,7 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      * @return object|ResponseInterface
      * @throws \Exception
      */
-    protected function makeRequest(string $method, string $uri, array $options)
+    protected function makeRequest(string $method, string $uri, array $options): ResponseInterface
     {
         $logger = $this->getLogger();
 
@@ -69,14 +69,12 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *
      * @return mixed
      */
-    abstract protected function _doRequest(string $method, string $uri, array $options);
+    abstract protected function _doRequest(string $method, string $uri, array $options): mixed;
 
     /**
      * Deserialize a response into an instance of it's associated class.
-     *
-     * @return object
      */
-    protected function deserialize(string $data, string $serialisationClass)
+    protected function deserialize(string $data, string $serialisationClass): mixed
     {
         return $this->serializer->deserialize($data, $serialisationClass, 'json');
     }
@@ -126,17 +124,13 @@ abstract class AbstractCoreApiClient implements LoggerAwareInterface
      *
      * @return string
      */
-    abstract protected function serializeResponse($response);
+    abstract protected function serializeResponse(mixed $response): string;
 
     /**
      * Unserializes the serialized response into a response object.
      * The return type varies depending on the guzzle version.
      *
-     * @param  string  $serialized
-     *
-     * @return mixed
-     *
      * @throws Exception
      */
-    abstract protected function unserializeResponse($serialized);
+    abstract protected function unserializeResponse(string $serialized): mixed;
 }

@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace MovingImage\Client\VMPro\Entity;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 
 class Ownership
 {
     /**
-     * @Type("integer")
-     * @SerializedName("ownerGroupId")
-     *
      * @var int
      */
+    #[JMS\Type('integer')]
+    #[JMS\SerializedName('ownerGroupId')]
     private $ownerGroupId;
 
     /**
-     * @Type("boolean")
-     *
      * @var bool
      */
+    #[JMS\Type('boolean')]
     private $visibility;
 
     public function getOwnerGroupId(): int

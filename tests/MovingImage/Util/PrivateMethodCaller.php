@@ -17,7 +17,6 @@ trait PrivateMethodCaller
     {
         $reflector = new \ReflectionObject($obj);
         $method = $reflector->getMethod($methodName);
-        $method->setAccessible(true);
 
         return $method->invoke($obj, ...$arguments);
     }

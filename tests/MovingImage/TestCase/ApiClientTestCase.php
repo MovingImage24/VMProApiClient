@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MovingImage\TestCase;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Handler\MockHandler;
@@ -68,10 +67,8 @@ class ApiClientTestCase extends TestCase
     /**
      * @return SerializerInterface
      */
-    protected function createSerializer()
+    protected function createSerializer(): SerializerInterface
     {
-        AnnotationRegistry::registerLoader('class_exists');
-
         $serializerBuilder = SerializerBuilder::create();
 
         return $serializerBuilder->build();
