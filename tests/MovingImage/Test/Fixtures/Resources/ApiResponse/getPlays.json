@@ -1,0 +1,32 @@
+{
+  "videos": [
+    {
+      "id": "74WGsUCJ3QJMjN8-LeYFpm",
+      "title": "title",
+      "description": "description",
+      "createdDate": "2023-04-11T13:17:18.755Z",
+      "modifiedDate": "2023-04-11T13:17:18.755Z",
+      "duration": 0,
+      "uploadedFile": "string",
+      "published": true,
+      "channels": [
+        {
+          "id": 0,
+          "name": "string"
+        }
+      ],
+      "groups": [
+        {
+          "id": 0,
+          "name": "string"
+        }
+      ],
+      "metadata": {
+        "additionalProp1": {},
+        "additionalProp2": {},
+        "additionalProp3": {}
+      },
+      "plays": 1
+    }
+  ]
+}

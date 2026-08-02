@@ -117,6 +117,8 @@ interface ApiClientInterface
 
     public function getVideo(int $videoManagerId, string $videoId, ?VideoRequestParameters $parameters = null): Video;
 
+    public function getPlays(int $videoManagerId, string $videoId): int;
+
     public function getCount(int $videoManagerId, ?VideosRequestParameters $parameters = null): int;
 
     /**
